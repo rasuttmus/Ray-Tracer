@@ -8,11 +8,12 @@
 #include <cassert>
 #include "glm/glm.hpp"
 
+#include "camera.h"
 
 using namespace std;
+//class Camera;
 
-
-
+/*
 class Camera{
 public:
 	//Instance vairables
@@ -30,7 +31,8 @@ public:
 	void displayImage();
 
 
-};
+};*/
+Camera *cam;
 
 class Pixel{
 public:
@@ -91,6 +93,8 @@ class Light{};
 int main(int argc, char **argv)
 {
 
+	cam = new Camera(3);
+	cam->renderImage();
 	cout << "\n\n>>>---A little render message--->\n\n";
 
 
