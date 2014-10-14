@@ -10,8 +10,8 @@ CPPFLAGS=-g
 endif
 
 MKDIR = mkdir -p bin
-LIBFOLD = -L"/usr/local/lib"
-INCFOLD = -I"/usr/local/include"
+LIBFOLD = -L"/usr/lib"
+INCFOLD = -I"/usr/include"
 
 BINFOLD = bin/
 
@@ -30,7 +30,7 @@ compile: $(FILES)
 .PHONY: all
 
 run:
-	./$(BINFOLD)$(BINNAME) -config "configs/single.xml"
+	./$(BINFOLD)$(BINNAME)
 .PHONY: run
 
 clean:
