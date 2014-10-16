@@ -19,14 +19,15 @@ public:
     glm::vec2 viewPlaneResolution;
     int raysPerPixel;
     std::vector<Pixel*> pixels;
+    //int imageResolutionX;
+    //int imageResolutionY;
 
     //construtor
     //Camera();
-    Camera(float, glm::vec2, glm::vec2, int);
+    Camera(float, glm::vec2, glm::vec2, int, int, int);
     //Instance methods
     void renderImage();
     void mappingFunction();
     void displayImage();
-
-
+    void createPixels(int imgResX, int imgResY);
 };

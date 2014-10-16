@@ -1,16 +1,21 @@
 #include "glm/glm.hpp"
+#include <vector>
+#include <ctime>
 
 #include "ray.h"
 
 class Pixel{
 public:
     //Instance variables
-    //vector<&Ray> rays;
+    std::vector<Ray *> rays;
     glm::vec3 colorOfPixel;
+    float pixelSize;
+    int pixelPosX;
+    int pixelPosY;
+    glm::vec3 cameraPos;
 
     //constructor
-    Pixel();
+    Pixel(int, float, int, int, glm::vec3);
     //Instance methods
-    void shootingRays();
-
+    void shootingRays(int);
 };

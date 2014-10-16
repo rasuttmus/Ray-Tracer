@@ -9,7 +9,7 @@ public:
     float refractiveIndex;
 
     //contructor
-    Sphere();
+    Sphere(glm::vec3, float, bool, float);
 
     //Instance methods
     void calculateIntersections();

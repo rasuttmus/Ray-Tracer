@@ -1,3 +1,4 @@
+#include <iostream>
 #include "glm/glm.hpp"
 
 class Ray{
@@ -8,12 +9,12 @@ public:
     float importance;
     glm::vec3 color;
     bool finalNode;
-    //var *childrenNodes;
     bool insideObject;
 
 
+
     //constructor
-    Ray();
+    Ray(glm::vec3);
     //Instance methods  
     glm::vec3 calculateColor();
     glm::vec3 calculateLocalContribution();
