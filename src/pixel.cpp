@@ -25,7 +25,7 @@ void Pixel::shootingRays(int numOfRays) {
 
         initDirection = glm::normalize(direction - cameraPos);
 
-
+        
 /*  RITADE MED KOD 
         Ray *ray = new Ray(direction);
 

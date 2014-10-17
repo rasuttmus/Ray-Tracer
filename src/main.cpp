@@ -38,19 +38,15 @@ int main(int argc, char **argv)
 
 void createScene() {
 	// Create walls to the room
-	Rectangle *wall1 = new Rectangle(glm::vec3(0.0f, 1.0f, -1.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, -1.0f));
-	Rectangle *wall2 = new Rectangle(glm::vec3(0.0f, 1.0f, -1.0f), glm::vec3(1.0f, 1.0f, -1.0f), glm::vec3(1.0f, 1.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-	Rectangle *wall3 = new Rectangle(glm::vec3(1.0f, 1.0f, 0.0f), glm::vec3(1.0f, 1.0f, -1.0f), glm::vec3(1.0f, 0.0f, -1.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-	Rectangle *wall4 = new Rectangle(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(1.0f, 0.0f, -1.0f), glm::vec3(0.0f, 0.0f, -1.0f));
-	Rectangle *wall5 = new Rectangle(glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(1.0f, 1.0f, 0.0f), glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f));
+	
 
 	// Create room
-	Room *room = new Room(wall1, wall2, wall3, wall4, wall5, glm::vec3(0,0,0), 1.0);
+	Room *room = new Room(glm::vec3(0,0,0), 1.0);
 	
 	// Set up viewDirection
 	glm::vec2 viewDir;
-	viewDir.x = (wall5->corners.at(1).x - wall5->corners.at(0).x) / 2;
-	viewDir.y = (wall5->corners.at(1).y - wall5->corners.at(2).y) / 2;
+	viewDir.x = (room->wall5->corners.at(1).x - room->wall5->corners.at(0).x) / 2;
+	viewDir.y = (room->wall5->corners.at(1).y - room->wall5->corners.at(2).y) / 2;
 
 	glm::vec2 width = glm::vec2(-0.25f, 0.25f);
 	glm::vec2 height = glm::vec2(-0.25f, 0.25f);

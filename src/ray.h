@@ -10,6 +10,8 @@ public:
     glm::vec3 color;
     bool finalNode;
     bool insideObject;
+    Ray *reflectionRay;
+    Ray *refractionRay;
 
 
 
