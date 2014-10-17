@@ -45,8 +45,8 @@ void createScene() {
 	
 	// Set up viewDirection
 	glm::vec2 viewDir;
-	viewDir.x = (room->wall5->corners.at(1).x - room->wall5->corners.at(0).x) / 2;
-	viewDir.y = (room->wall5->corners.at(1).y - room->wall5->corners.at(2).y) / 2;
+	viewDir.x = (room->walls.at(4)->corners.at(1).x - room->walls.at(4)->corners.at(0).x) / 2;
+	viewDir.y = (room->walls.at(4)->corners.at(1).y - room->walls.at(4)->corners.at(2).y) / 2;
 
 	glm::vec2 width = glm::vec2(-0.25f, 0.25f);
 	glm::vec2 height = glm::vec2(-0.25f, 0.25f);

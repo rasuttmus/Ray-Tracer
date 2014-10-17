@@ -13,7 +13,7 @@ public:
     std::vector<Rectangle *> rectangles;
 
     //constructors
-    Cube(Rectangle *, Rectangle *, Rectangle *, Rectangle *, Rectangle *, Rectangle *, glm::vec3, float, bool, float);
+    Cube(glm::vec3, float, bool, float);
 
     //methods
     void initRectangleObjects();

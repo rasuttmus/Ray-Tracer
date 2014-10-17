@@ -12,11 +12,6 @@ public:
     glm::vec3 position;
     float size;
     std::vector<Rectangle *> walls;
-    Rectangle *wall1;
-    Rectangle *wall2;
-    Rectangle *wall3;
-    Rectangle *wall4;
-    Rectangle *wall5;
 
     //constructor
     Room(glm::vec3, float);
