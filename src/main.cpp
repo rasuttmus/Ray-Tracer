@@ -12,6 +12,8 @@
 #include "room.h"
 #include "cube.h"
 #include "light.h"
+#include "sphere.h"
+
 
 //using namespace std;
 
@@ -28,7 +30,7 @@ int main(int argc, char **argv)
 {
 
 	createScene();
-	//cam = new Camera(3);
+	//Camera *cam = new Camera(3);
 	//cam->renderImage();
 	std::cout << "\n\n>>>---A little render message--->\n\n";
 
@@ -54,12 +56,20 @@ void createScene() {
 	int imageResolutionX = 2;
 	int imageResolutionY = 2;
 
+
+
 	// Create camera
 	Camera *camera = new Camera(-2, width, height, imageResolutionX, imageResolutionY, 10);
 
 	// Create light source
 	glm::vec3 lightPos(0.5f, 0.5f, -0.5f);
 	Light *lightSource = new Light(20.0f, lightPos, 1.0f/6.0f);
+
+
+
+	//Create sphere
+	Sphere *sphere = new Sphere(glm::vec3(0.5f,0.5f,-0.5f), 0.25f, false, 1);
+
 
 	//std::cout << "room: " << room << std::endl;
 	//Rectangle *rectange0 = new Rectangle();

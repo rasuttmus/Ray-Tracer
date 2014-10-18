@@ -1,6 +1,9 @@
 #include <iostream>
 #include "glm/glm.hpp"
 
+#ifndef RAY_H
+#define RAY_H
+
 class Ray{
 public:
     //Instance variables
@@ -16,9 +19,11 @@ public:
 
 
     //constructor
-    Ray(glm::vec3);
+    Ray(glm::vec3, glm::vec3);
     //Instance methods  
     glm::vec3 calculateColor();
     glm::vec3 calculateLocalContribution();
 
 };
+
+#endif // RAY_H
