@@ -55,11 +55,13 @@ void createScene() {
 	int imageResolutionY = 2;
 
 	// Create camera
-	Camera *camera = new Camera(-2, width, height, imageResolutionX, imageResolutionY, 10);
+	Camera *camera = new Camera(-2.0, width, height, imageResolutionX, imageResolutionY, 10);
 
 	// Create light source
 	glm::vec3 lightPos(0.5f, 0.5f, -0.5f);
 	Light *lightSource = new Light(20.0f, lightPos, 1.0f/6.0f);
+
+	Cube *cube = new Cube(glm::vec3(0.5f, 0.5f, 0.5f), 0.25f, false);
 
 	//std::cout << "room: " << room << std::endl;
 	//Rectangle *rectange0 = new Rectangle();

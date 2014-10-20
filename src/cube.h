@@ -1,6 +1,7 @@
 #include "glm/glm.hpp"
 #include <vector>
 #include "rectangle.h"
+#include "ray.h"
 
 class Rectangle;
 
@@ -13,10 +14,10 @@ public:
     std::vector<Rectangle *> rectangles;
 
     //constructors
-    Cube(glm::vec3, float, bool, float);
+    Cube(glm::vec3, float, bool, float = 0.0f);
 
     //methods
     void initRectangleObjects();
-    void computeChildrenRays();
+    void computeChildrenRays(Ray *);
     void addRectangle(Rectangle *);
 };
