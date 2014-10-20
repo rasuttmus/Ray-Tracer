@@ -25,10 +25,10 @@ void Pixel::shootingRays(int numOfRays) {
 
         initDirection = glm::normalize(direction - cameraPos);
 
-        Ray *startingRay = new Ray(direction);
+        //Ray *startingRay = new Ray(direction);
 
         /**********   Might be wrong!!! ************/
-        startingRay->setStartingPoint(cameraPos);
+        //startingRay->setStartingPoint(cameraPos);
         
 
 /*  RITADE MED KOD 

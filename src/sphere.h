@@ -1,4 +1,9 @@
 #include "glm/glm.hpp"
+#include "ray.h"
+#include <cmath>
+
+#ifndef SPHERE_H
+#define SPHERE_H
 
 class Sphere{
 public:
@@ -12,7 +17,9 @@ public:
     Sphere(glm::vec3, float, bool, float);
 
     //Instance methods
-    void calculateIntersections();
+    glm::vec3 calculateIntersections(Ray*);
     void calculateChildrenRays();
 
 };
+
+#endif // SPHERE_H

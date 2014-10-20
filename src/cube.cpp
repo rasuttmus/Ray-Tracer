@@ -22,10 +22,8 @@ void Cube::initRectangleObjects(){
         }
     }
 
-    Ray *ray = new Ray(glm::normalize(glm::vec3(0.0f, 0.0f, 1.0f)));
-    ray->setStartingPoint(glm::vec3(0.70f, 0.70f, -2.0f));
-
-    rectangles.at(5)->calculateIntersections(ray);
+    Ray *ray = new Ray(glm::normalize(glm::vec3(0.0f, 0.0f, 1.0f)), glm::vec3(0.70f, 0.70f, -2.0f));
+    //ray->setStartingPoint(glm::vec3(0.70f, 0.70f, -2.0f));
 }
 
 void Cube::computeChildrenRays(Ray *ray){
