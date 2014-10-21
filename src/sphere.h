@@ -18,7 +18,7 @@ public:
 
     //Instance methods
     glm::vec3 calculateIntersections(Ray*);
-    void calculateChildrenRays();
+    void calculateChildrenRays(Ray*);
 
 };
 

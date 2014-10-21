@@ -36,18 +36,41 @@ glm::vec3 Sphere::calculateIntersections(Ray *r) {
 		}
 		else{
 			float t = (-b - sqrt((b * b) - (4 * c)))/2;
-			intersectionPoint.x = startingPoint.x + (normDir.x * (t/2));
-			intersectionPoint.y = startingPoint.y + (normDir.y * (t/2));
-			intersectionPoint.z = startingPoint.z + (normDir.z * (t/2));
+			intersectionPoint.x = startingPoint.x + (normDir.x * t);
+			intersectionPoint.y = startingPoint.y + (normDir.y * t);
+			intersectionPoint.z = startingPoint.z + (normDir.z * t);
 		}
 
 	}
-	std::cout << "(" << intersectionPoint.x <<", " << intersectionPoint.y <<", " << intersectionPoint.z << ")" << std::endl;
+	//std::cout << "(" << intersectionPoint.x <<", " << intersectionPoint.y <<", " << intersectionPoint.z << ")" << std::endl;
 
 	return intersectionPoint;
 	
 }
 
-void Sphere::calculateChildrenRays() {
+void Sphere::calculateChildrenRays(Ray *r) {
 
+	glm::vec3 intersectionAt = calculateIntersections(r);
+	
+	glm::vec3 intersectionNormal = glm::normalize(intersectionAt - position);
+
+	glm::vec3 inDirection = glm::normalize(r->getDirection());
+	glm::vec3 reflectedDirection = -1.0f * (2.0f * (glm::dot(intersectionNormal,inDirection) * intersectionNormal) - inDirection);
+	
+	r->reflectionRay = new Ray(reflectedDirection, intersectionAt);
+
+	if(transparency == true){
+		//Refraction
+		float n1 = 1.0f;
+		float n2 = refractiveIndex;
+		float n = n1/n2;
+		float cosI = glm::dot(intersectionNormal, inDirection);
+		float sinT2 = 1.0f - n * n * (1.0f - cosI * cosI);
+
+		if(sinT2 >= 0.0f){
+			glm::vec3 refractedDirection = n * inDirection - (n * cosI + (float)sqrt(sinT2)) * intersectionNormal;
+			
+			r->refractionRay = new Ray(refractedDirection, intersectionAt);
+		}
+	}
 }
