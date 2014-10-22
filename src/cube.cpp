@@ -18,20 +18,38 @@ void Cube::initRectangleObjects(){
             (*it2).x = ((*it2).x * size) + position.x;
             (*it2).y = ((*it2).y * size) + position.y;
             (*it2).z = ((*it2).z * size) - position.z;
-            std::cout << std::endl << "   cornerPos: " << "x: " << (*it2).x << "   y: " << (*it2).y << "   z: " << (*it2).z << std::endl;
+           // std::cout << std::endl << "   cornerPos: " << "x: " << (*it2).x << "   y: " << (*it2).y << "   z: " << (*it2).z << std::endl;
         }
     }
 
-    Ray *ray = new Ray(glm::normalize(glm::vec3(0.0f, 0.0f, 1.0f)), glm::vec3(0.70f, 0.70f, -2.0f));
+    //Ray *ray = new Ray(glm::normalize(glm::vec3(0.0f, 0.0f, 1.0f)), glm::vec3(0.70f, 0.70f, -2.0f));
     //ray->setStartingPoint(glm::vec3(0.70f, 0.70f, -2.0f));
 }
 
-void Cube::computeChildrenRays(Ray *ray){
-    for(std::vector<Rectangle *>::iterator it = rectangles.begin(); it != rectangles.end(); ++it){
-        (*it)->calculateIntersections(ray);
-    }
+glm::vec3 Cube::calculateIntersections(Ray *ray){
+    glm::vec3 intersection;
+    for(std::vector<Rectangle *>::iterator it = rectangles.begin(); it != rectangles.end(); ++it)
+        intersection = (*it)->calculateIntersections(ray);
+
+     return intersection;
+}
+
+void Cube::computeChildrenRays(Ray *ray, glm::vec3 intersection){
+    
 }
 
 void Cube::addRectangle(Rectangle *r){
     rectangles.push_back(r);
+}
+
+void Cube::setPosition(glm::vec3 p){
+    position = p;
+}
+
+glm::vec3 Cube::getPosition(){
+    return position;
+}
+
+int Cube::getType(){
+    return CUBE_SHAPE;
 }

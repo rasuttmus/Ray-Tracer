@@ -14,6 +14,7 @@ raysPerPixel(r)
 
 void Camera::renderImage() {
     std::cout << "raysPerPixel: " << raysPerPixel << std::endl;
+    // Loop ove all pixels
 }
 
 void Camera::mappingFunction() {
@@ -24,11 +25,17 @@ void Camera::displayImage() {
 
 }
 
-void Camera::createPixels(int imgResX, int imgResY) {
+void Camera::createPixels(int imgResX, int imgResY){
     for(int i = 0; i < imgResX; i++) {
         for (int j = 0; j < imgResY; j++) {
-            pixels.push_back(new Pixel(raysPerPixel, viewPlaneResolution.x/imgResX, i, j, position));
-            std::cout << std::endl;
+            pixels.push_back(new Pixel(raysPerPixel, viewPlaneResolution.x/imgResX, i/* - imgResX/2*/, j/* - imgResX/2*/, position));
+            
         }
+        std::cout << "i - imgResX / 2: " << i - imgResX/2 << std::endl;
     }
+}
+
+void Camera::addShape(Shape *s){
+    for(std::vector<Pixel *>::iterator it = pixels.begin(); it != pixels.end(); ++it)
+        (*it)->shapes.push_back(s);
 }

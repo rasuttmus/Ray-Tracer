@@ -31,12 +31,14 @@ public:
     void setInsideObject(bool);
     bool getInsideObject();
 
+    void setIntersected(bool);
+    bool getIntersected();
+
 private:
     glm::vec3 startingPoint;
     glm::vec3 direction;
     bool insideObject;
-
-
+    bool intersected = false;
 };
 
 #endif // RAY_H

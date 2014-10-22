@@ -15,7 +15,7 @@ INCFOLD = -I"/usr/include"
 
 BINFOLD = bin/
 
-FRAMEWORKS = -stdlib=libstdc++
+FRAMEWORKS = -std=c++11 -stdlib=libc++
 
 BINNAME = main
 

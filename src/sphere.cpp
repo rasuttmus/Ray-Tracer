@@ -9,7 +9,7 @@ position(p), radius(r), transparency(t), refractiveIndex(ref)
 glm::vec3 Sphere::calculateIntersections(Ray *r) {
 	
 
-	glm::vec3 intersectionPoint = glm::vec3(0.0f, 0.0f, 0.0f); 
+	glm::vec3 intersectionPoint = glm::vec3(10000.0f, 10000.0f, 10000.0f); 
 	glm::vec3 normDir = glm::normalize(r->getDirection());
     glm::vec3 startingPoint = r->getStartingPoint();
 
@@ -25,6 +25,7 @@ glm::vec3 Sphere::calculateIntersections(Ray *r) {
 		intersectionPoint.x = startingPoint.x + (normDir.x * (-b/2));
 		intersectionPoint.y = startingPoint.y + (normDir.y * (-b/2));
 		intersectionPoint.z = startingPoint.z + (normDir.z * (-b/2));
+        r->setIntersected(true);
 	}
 	else{
 		//two intersections
@@ -33,21 +34,35 @@ glm::vec3 Sphere::calculateIntersections(Ray *r) {
 			intersectionPoint.x = startingPoint.x + (normDir.x * t);
 			intersectionPoint.y = startingPoint.y + (normDir.y * t);
 			intersectionPoint.z = startingPoint.z + (normDir.z * t);
+            r->setIntersected(true);
 		}
 		else{
 			float t = (-b - sqrt((b * b) - (4 * c)))/2;
 			intersectionPoint.x = startingPoint.x + (normDir.x * (t/2));
 			intersectionPoint.y = startingPoint.y + (normDir.y * (t/2));
 			intersectionPoint.z = startingPoint.z + (normDir.z * (t/2));
+            r->setIntersected(true);
 		}
 
 	}
-	std::cout << "(" << intersectionPoint.x <<", " << intersectionPoint.y <<", " << intersectionPoint.z << ")" << std::endl;
+	//std::cout << "(" << intersectionPoint.x <<", " << intersectionPoint.y <<", " << intersectionPoint.z << ")" << std::endl;
 
 	return intersectionPoint;
 	
 }
 
-void Sphere::calculateChildrenRays() {
+void Sphere::computeChildrenRays(Ray *ray, glm::vec3 intersection) {
 
+}
+
+void Sphere::setPosition(glm::vec3 p){
+    position = p;
+}
+
+glm::vec3 Sphere::getPosition(){
+    return position;
+}
+
+int Sphere::getType(){
+    return SPHERE_SHAPE;
 }

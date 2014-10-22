@@ -36,3 +36,11 @@ void Ray::setInsideObject(bool i) {
 bool Ray::getInsideObject() {
     return insideObject;
 }
+
+void Ray::setIntersected(bool i){
+    intersected = i;
+}
+
+bool Ray::getIntersected(){
+    return intersected;
+}

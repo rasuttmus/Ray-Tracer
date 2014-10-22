@@ -30,4 +30,5 @@ public:
     void mappingFunction();
     void displayImage();
     void createPixels(int imgResX, int imgResY);
+    void addShape(Shape *);
 };
