@@ -16,10 +16,10 @@ public:
     //constructor
     Rectangle(glm::vec3, glm::vec3, glm::vec3, glm::vec3);
     //methods
-    glm::vec3 calculateIntersections(Ray *);
+    glm::vec3 calculateIntersections(glm::vec3, glm::vec3);
     void computeChildrenRays();
     void addCorner(glm::vec3);
-    float calcRectangleEquation();
+    void calcRectangleEquation();
 };
 
 #endif // RECTANGLE_H

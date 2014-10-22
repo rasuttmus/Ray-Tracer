@@ -17,7 +17,7 @@ public:
     Sphere(glm::vec3, float, bool, float);
 
     //Instance methods
-    glm::vec3 calculateIntersections(Ray*);
+    glm::vec3 calculateIntersections(glm::vec3, glm::vec3);
     void calculateChildrenRays(Ray*);
 
 };

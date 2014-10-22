@@ -62,12 +62,12 @@ void createScene() {
 	glm::vec3 lightPos(0.5f, 0.5f, -0.5f);
 	Light *lightSource = new Light(20.0f, lightPos, 1.0f/6.0f);
 
-	Cube *cube = new Cube(glm::vec3(0.5f, 0.5f, 0.5f), 0.25f, false);
+	Cube *cube = new Cube(glm::vec3(0.0f, 0.0f, 0.0f), 0.50f, false);
 
 
 
 	//Create sphere
-	Sphere *sphere = new Sphere(glm::vec3(0.5f,0.5f,-0.5f), 0.25f, false, 1);
+	//Sphere *sphere = new Sphere(glm::vec3(0.5f,0.5f,-0.5f), 0.25f, true, 1.33f);
 
 
 	//std::cout << "room: " << room << std::endl;
