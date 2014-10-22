@@ -8,7 +8,6 @@ raysPerPixel(r)
     position.z = p;
     viewDirection = glm::vec3(viewPlaneResolution.x, viewPlaneResolution.y, 1);
     createPixels(imgResX, imgResY);
-    //std::cout << "xres: " << viewPlaneResolution.x << "   yres: " << viewPlaneResolution.y << std::endl;
 
 }
 

@@ -8,9 +8,7 @@ radiance(r), position(p), size(s)
     glm::vec3 p2(1.0f, 1.0f, 0.0f);
     glm::vec3 p3(0.0f, 1.0f, 0.0f);
 
-
     lightObject = new Rectangle(p0 * size + position, p1 * size + position, p2 * size + position ,p3 * size + position);
-    //std::cout << "p0: " << p1.x * size + position.x << ", " << p1.y << ", " << p1.z * size + position.z << std::endl;
 }
 
 glm::vec3 Light::randomPosition() {

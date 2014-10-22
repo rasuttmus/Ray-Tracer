@@ -1,10 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
-//#include <cmath>
-//#include <fstream>
 #include <vector>
 #include <iostream>
-//#include <cassert>
 #include "glm/glm.hpp"
 #include "pixel.h"
 
@@ -19,11 +16,8 @@ public:
     glm::vec2 viewPlaneResolution;
     int raysPerPixel;
     std::vector<Pixel*> pixels;
-    //int imageResolutionX;
-    //int imageResolutionY;
 
     //construtor
-    //Camera();
     Camera(float, glm::vec2, glm::vec2, int, int, int);
     //Instance methods
     void renderImage();

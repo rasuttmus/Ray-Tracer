@@ -24,15 +24,18 @@ public:
 
     //methods
     void initRectangleObjects();
-    glm::vec3 calculateIntersections(Ray *);
-    void computeChildrenRays(Ray *, glm::vec3);
+    glm::vec3 calculateIntersections(glm::vec3, glm::vec3);
+    void computeChildrenRays(Ray *);
     void addRectangle(Rectangle *);
+
     void setPosition(glm::vec3);
     glm::vec3 getPosition();
     int getType();
+    glm::vec3 getIntersectionNormal();
 
 private:
     glm::vec3 position;
+    glm::vec3 intersectionNormal;
 };
 
 #endif // CUBE_H
