@@ -10,7 +10,7 @@ public:
     //Instance variables
     glm::vec3 position;
     float radius;
-    bool transparency;  
+    bool transparent;  
     float refractiveIndex;
 
     //contructor

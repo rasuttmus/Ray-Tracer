@@ -11,7 +11,7 @@
 class Rectangle {
 public:
     std::vector<glm::vec3> corners;
-    glm::vec3 normal;
+    
 
     //constructor
     Rectangle(glm::vec3, glm::vec3, glm::vec3, glm::vec3);
@@ -19,7 +19,13 @@ public:
     glm::vec3 calculateIntersections(glm::vec3, glm::vec3);
     void computeChildrenRays();
     void addCorner(glm::vec3);
-    void calcRectangleEquation();
+    void calcRectNormal();
+    void setNormal(glm::vec3);
+    glm::vec3 getNormal();
+
+
+private:
+	glm::vec3 normal;
 };
 
 #endif // RECTANGLE_H
