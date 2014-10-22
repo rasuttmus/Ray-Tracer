@@ -90,8 +90,8 @@ void createScene() {
 	glm::vec2 width = glm::vec2(-0.25f, 0.25f);
 	glm::vec2 height = glm::vec2(-0.25f, 0.25f);
 
-	int imageResolutionX = 4;
-	int imageResolutionY = 4;
+	int imageResolutionX = 2;
+	int imageResolutionY = 2;
 
 	// Create camera
 	camera = new Camera(-2.0, width, height, imageResolutionX, imageResolutionY, 10);
