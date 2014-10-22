@@ -34,7 +34,7 @@ void Cube::computeChildrenRays(Ray *ray, glm::vec3 intersection){
     glm::vec3 instersectionPoint;
 
     for(std::vector<Rectangle *>::iterator it = rectangles.begin(); it != rectangles.end(); ++it){
-        instersectionPoint = (*it)->calculateIntersections(ray->getDirection(), ray->getStartingPoint());
+        instersectionPoint = (*it)->calculateIntersections(ray);
         std::cout << std::endl << "  instersectionPoint: " << "(" << instersectionPoint.x << ", " << instersectionPoint.y << "," << instersectionPoint.z << ")" << std::endl << std::endl;
     }
 }

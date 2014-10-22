@@ -7,7 +7,9 @@ Rectangle::Rectangle(glm::vec3 c0, glm::vec3 c1, glm::vec3 c2, glm::vec3 c3) {
     addCorner(c3);
 }
 
-glm::vec3 Rectangle::calculateIntersections(glm::vec3 direction, glm::vec3 startingPoint) {
+glm::vec3 Rectangle::calculateIntersections(Ray *ray) {
+    glm::vec3 direction = ray->getDirection();
+    glm::vec3 startingPoint = ray->getStartingPoint();
     calcRectangleEquation();
 
     glm::vec3 intersectionPoint = glm::vec3(0.0f,0.0f,0.0f);

@@ -43,8 +43,8 @@ void Pixel::shootingRays(int numOfRays) {
                         intersection = (*shapeIt)->calculateIntersections((*rayIt));
                         type = (*shapeIt)->getType();
                         id = counter;
-                        std::cout << std::endl << "intersection: " << "x: " << intersection.x << "  y: " << intersection.y << "  z: " << intersection.z << std::endl;
-                        std::cout << std::endl << "counter: " << counter << " Cube" << std::endl;
+                        //std::cout << std::endl << "intersection: " << "x: " << intersection.x << "  y: " << intersection.y << "  z: " << intersection.z << std::endl;
+                        //std::cout << std::endl << "counter: " << counter << " Cube" << std::endl;
                     }
                 }
             } 
@@ -57,8 +57,8 @@ void Pixel::shootingRays(int numOfRays) {
                         intersection = (*shapeIt)->calculateIntersections((*rayIt));
                         type = (*shapeIt)->getType();
                         id = counter;
-                        std::cout << std::endl << "intersection: " << "x: " << intersection.x << "  y: " << intersection.y << "  z: " << intersection.z << std::endl;
-                        std::cout << std::endl << "counter: " << counter << " Sphere" << std::endl;
+                        //std::cout << std::endl << "intersection: " << "x: " << intersection.x << "  y: " << intersection.y << "  z: " << intersection.z << std::endl;
+                        //std::cout << std::endl << "counter: " << counter << " Sphere" << std::endl;
                     }
                 }
             }

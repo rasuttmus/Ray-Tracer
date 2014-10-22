@@ -101,7 +101,7 @@ void createScene() {
 	Light *lightSource = new Light(20.0f, lightPos, 1.0f/6.0f);
 
 	Shape *cube = new Cube(glm::vec3(0.1f, 0.1f, -0.25f), 0.25f, false, 1);
-	camera->addShape(cube);
+	//camera->addShape(cube);
 	//cubes.push_back(cube);
 
 	//Create sphere

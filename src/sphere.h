@@ -21,8 +21,8 @@ public:
     Sphere(glm::vec3, float, bool, float);
 
     //Instance methods
-    glm::vec3 calculateIntersections(glm::vec3, glm::vec3);
-    void computeChildrenRays(Ray *);
+    glm::vec3 calculateIntersections(Ray *);
+    void computeChildrenRays(Ray *, glm::vec3);
     void setPosition(glm::vec3);
     glm::vec3 getPosition();
     int getType();

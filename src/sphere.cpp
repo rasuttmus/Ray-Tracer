@@ -6,8 +6,11 @@ position(p), radius(r), transparency(t), refractiveIndex(ref)
 { 
 }
 
-glm::vec3 Sphere::calculateIntersections(glm::vec3 startingPoint, glm::vec3 direction) {
+glm::vec3 Sphere::calculateIntersections(Ray *ray) {
 	
+    glm::vec3 startingPoint = ray->getStartingPoint();
+    glm::vec3 direction = ray->getDirection();
+
 	glm::vec3 intersectionPoint = glm::vec3(0.0f, 0.0f, 0.0f); 
 
 	float b = 2 * (direction.x * (startingPoint.x - position.x) + direction.y * (startingPoint.y - position.y) + direction.z * (startingPoint.z - position.z));
@@ -49,13 +52,13 @@ glm::vec3 Sphere::calculateIntersections(glm::vec3 startingPoint, glm::vec3 dire
 	
 }
 
-void Sphere::computeChildrenRays(Ray *r) {
+void Sphere::computeChildrenRays(Ray *r, glm::vec3) {
 
 	glm::vec3 inDirection = glm::normalize(r->getDirection());
 	glm::vec3 parentPos = r->getStartingPoint();
 	glm::vec3 refractedDirection = glm::vec3(0.0f, 0.0f, 0.0f);
 
-	glm::vec3 intersectionAt = calculateIntersections(parentPos, inDirection);
+	glm::vec3 intersectionAt = calculateIntersections(r);
 	
 	glm::vec3 intersectionNormal = glm::normalize(intersectionAt - position);
 	glm::vec3 reflectedDirection = -1.0f * (2.0f * (glm::dot(intersectionNormal,inDirection) * intersectionNormal) - inDirection);
