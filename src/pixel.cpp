@@ -25,21 +25,5 @@ void Pixel::shootingRays(int numOfRays) {
 
         initDirection = glm::normalize(direction - cameraPos);
 
-        //Ray *startingRay = new Ray(direction);
-
-        /**********   Might be wrong!!! ************/
-        //startingRay->setStartingPoint(cameraPos);
-        
-
-/*  RITADE MED KOD 
-        Ray *ray = new Ray(direction);
-
-
-        ray->reflectionRay = new Ray(direction);
-
-        rays.push_back(ray);
-        */
-
-
     }
 }

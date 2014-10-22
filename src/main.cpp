@@ -1,4 +1,6 @@
-//Classes for Ray tracing project in TNCG15
+//Ray tracer by Rasmus Haapaoja och Tim Brodin
+//TNCG015, October 2014
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <cmath>
@@ -7,40 +9,26 @@
 #include <iostream>
 #include <cassert>
 #include "glm/glm.hpp"
-
 #include "camera.h"
 #include "room.h"
 #include "cube.h"
 #include "light.h"
 #include "sphere.h"
 
-//using namespace std;
 
 void createScene();
-//class Camera;
-
-
-//Camera *cam;
-
-
-
 
 int main(int argc, char **argv)
 {
 
 	createScene();
-	//Camera *cam = new Camera(3);
-	//cam->renderImage();
 	std::cout << "\n\n>>>---A little render message--->\n\n";
-
 
 	return 0;
 }
 
 void createScene() {
-	// Create walls to the room
 	
-
 	// Create room
 	Room *room = new Room(glm::vec3(0,0,0), 1.0);
 	
@@ -64,14 +52,7 @@ void createScene() {
 
 	Cube *cube = new Cube(glm::vec3(0.0f, 0.0f, 0.0f), 0.50f, false);
 
-
-
 	//Create sphere
-	//Sphere *sphere = new Sphere(glm::vec3(0.5f,0.5f,-0.5f), 0.25f, true, 1.33f);
+	Sphere *sphere = new Sphere(glm::vec3(0.5f,0.5f,-0.5f), 0.25f, true, 1.33f);
 
-
-	//std::cout << "room: " << room << std::endl;
-	//Rectangle *rectange0 = new Rectangle();
-
-	//Cube *cube = new Cube();
 }
