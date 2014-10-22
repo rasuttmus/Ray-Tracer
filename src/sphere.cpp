@@ -2,7 +2,7 @@
 
 
 Sphere::Sphere(glm::vec3 p, float r, bool t, float ref): 
-position(p), radius(r), transparency(t), refractiveIndex(ref)
+position(p), radius(r), transparent(t), refractiveIndex(ref)
 { 
 }
 
@@ -19,17 +19,14 @@ glm::vec3 Sphere::calculateIntersections(Ray *ray) {
 
 	if((b * b) - (4 * c) < 0.0){
 		//no intersections
-		std::cout << "0 intersection:" << std::endl;
 	}
 	else if((b * b) - (4 * c) == 0.0){
-		std::cout << "1 intersection:" << std::endl;
 		//one tangential intersection
 		intersectionPoint.x = startingPoint.x + (direction.x * (-b/2));
 		intersectionPoint.y = startingPoint.y + (direction.y * (-b/2));
 		intersectionPoint.z = startingPoint.z + (direction.z * (-b/2));
 	}
 	else{
-		std::cout << "2 intersections:" << std::endl;
 		//two intersections
 		if( -b + sqrt((b * b) - (4 * c)) < 0){
 			float t = (-b + sqrt((b * b) - (4 * c)))/2;
@@ -45,8 +42,6 @@ glm::vec3 Sphere::calculateIntersections(Ray *ray) {
 		}
 
 	}
-	std::cout << "intersection Point:" << std::endl;
-	std::cout << "(" << intersectionPoint.x <<", " << intersectionPoint.y <<", " << intersectionPoint.z << ")" << std::endl;
 
 	return intersectionPoint;
 	
@@ -65,10 +60,16 @@ void Sphere::computeChildrenRays(Ray *r, glm::vec3) {
 	
 	r->reflectionRay = new Ray(reflectedDirection, intersectionAt);
 
-	if(transparency == true){
+	if(transparent == true){
 		//Refraction
 		float n1 = 1.0f;
-		float n2 = refractiveIndex;
+        float n2 = refractiveIndex;
+        
+        if(r->getInsideObject() == true){
+            n1 = refractiveIndex;
+            n2 = 1.0f;
+        }
+
 		float n = n1/n2;
 		float cosI = glm::dot(intersectionNormal, inDirection);
 		float sinT2 = 1.0f - n * n * (1.0f - cosI * cosI);
@@ -76,6 +77,11 @@ void Sphere::computeChildrenRays(Ray *r, glm::vec3) {
 		if(sinT2 >= 0.0f){
 			refractedDirection = n * inDirection - (n * cosI + (float)sqrt(sinT2)) * intersectionNormal;
 			r->refractionRay = new Ray(refractedDirection, intersectionAt);
+			if(r->getInsideObject() == false){
+                r->refractionRay->setInsideObject(true);
+            }else{
+                r->refractionRay->setInsideObject(false);
+            }
 		}
 	}
 }

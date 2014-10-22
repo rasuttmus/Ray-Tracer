@@ -14,7 +14,7 @@ class Sphere: public Shape{
 public:
     //Instance variables
     float radius;
-    bool transparency;  
+    bool transparent;  
     float refractiveIndex;
 
     //contructor
