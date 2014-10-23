@@ -12,6 +12,7 @@ void Cube::initRectangleObjects(){
     addRectangle(new Rectangle(glm::dvec3(1.0, 1.0, 0.0), glm::dvec3(1.0, 1.0, -1.0), glm::dvec3(1.0, 0.0, -1.0), glm::dvec3(1.0, 0.0, 0.0)));
     addRectangle(new Rectangle(glm::dvec3(0.0, 0.0, 0.0), glm::dvec3(1.0, 0.0, 0.0), glm::dvec3(1.0, 0.0, -1.0), glm::dvec3(0.0, 0.0, -1.0)));
     addRectangle(new Rectangle(glm::dvec3(0.0, 1.0, 0.0), glm::dvec3(1.0, 1.0, 0.0), glm::dvec3(1.0, 0.0, 0.0), glm::dvec3(0.0, 0.0, 0.0)));
+    //addRectangle(new Rectangle(glm::dvec3(0.0, 1.0, -1.0), glm::dvec3(1.0, 1.0, -1.0), glm::dvec3(1.0, 0.0, -1.0), glm::dvec3(0.0, 0.0, -1.0)));
     addRectangle(new Rectangle(glm::dvec3(1.0, 1.0, -1.0), glm::dvec3(0.0, 1.0, -1.0), glm::dvec3(0.0, 0.0, -1.0), glm::dvec3(1.0, 0.0, -1.0)));
     
     for(std::vector<Rectangle *>::iterator it = rectangles.begin(); it != rectangles.end(); ++it){
@@ -26,13 +27,18 @@ void Cube::initRectangleObjects(){
 glm::dvec3 Cube::calculateIntersections(glm::dvec3 direction, glm::dvec3 startingPoint){
     direction = glm::normalize(direction);
     glm::dvec3 intersectionPoint(-2.0, -2.0, 2.0);
+    //int counter = 0;
+    //int id = 0;
     for(std::vector<Rectangle *>::iterator it = rectangles.begin(); it != rectangles.end(); ++it){
 
         if(glm::length(intersectionPoint - startingPoint) > glm::length((*it)->calculateIntersections(direction, startingPoint) - startingPoint)){
             intersectionPoint = (*it)->calculateIntersections(direction, startingPoint);
-            //intersectionNormal = (*it)->getNormal();
+            intersectionNormal = (*it)->getNormal();
+            //id = counter;
         }
+        //counter++;
     }
+    //intersectionNormal = rectangles
     //std::cout << std::endl << "Cube Hit!" << "   x: " << intersectionPoint.x << "   y: " << intersectionPoint.y << "   z: " << intersectionPoint.z << std::endl;
 
     return intersectionPoint;
@@ -48,7 +54,9 @@ void Cube::computeChildrenRays(Ray *r){
     
     glm::dvec3 reflectedDirection = -1.0 * (2.0 * (glm::dot(intersectionNormal,inDirection) * intersectionNormal) - inDirection);
     
-    r->reflectionRay = new Ray(reflectedDirection, intersectionAt);
+    std::cout << std::endl << "normal dir: " << "(" << intersectionNormal.x << ", "<< intersectionNormal.y << ", "<< intersectionNormal.z << ")"<< std::endl;
+    
+    r->reflectionRay = new Ray(reflectedDirection, intersectionAt + (intersectionNormal * 0.001));
 
     if(transparent == true){
         //Refraction

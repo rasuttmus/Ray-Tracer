@@ -18,10 +18,15 @@ void Pixel::shootingRays(int numOfRays) {
 
         initDirection.x = direction.x - cameraPos.x;
         initDirection.y = direction.y - cameraPos.y;
-        addRay(new Ray(glm::dvec3(0.0, 0.0, 1.0), cameraPos));
+
+        glm::dvec3 tmpDir = glm::dvec3(1.0, 0.0, 1.0);
+        glm::dvec3 tmpPos = glm::dvec3(0.4, 0.5, -0.4);
+
+                                        // dir                      // start pos
+        addRay(new Ray(glm::normalize(tmpDir), tmpPos));
         //addRay(new Ray(glm::normalize(initDirection), cameraPos));
 
-        std::cout << std::endl << "init direction: " << "x:" << direction.x << "   y:" << direction.y << "   z:" << direction.z << std::endl;
+        std::cout << std::endl << "Ray direction: " << "x:" << tmpDir.x << "   y:" << tmpDir.y << "   z:" << tmpDir.z << std::endl;
     }
     
     //int counter = 0;
@@ -62,17 +67,21 @@ void Pixel::shootingRays(int numOfRays) {
         //std::cout << std::endl << std::endl << std::endl << std::endl << std::endl;
 
         std::cout << std::endl << "type: " << type << std::endl;
+        
         if(type != 2){
             shapes.at(id)->computeChildrenRays((*rayIt));
             std::cout << std::endl << "startpos reflection: " << "(" << (*rayIt)->reflectionRay->getStartingPoint().x << ", " << (*rayIt)->reflectionRay->getStartingPoint().y << ", " << (*rayIt)->reflectionRay->getStartingPoint().z << ")" << std::endl;
             std::cout << std::endl << "reflection direction: " << "(" << (*rayIt)->reflectionRay->getDirection().x << ", " << (*rayIt)->reflectionRay->getDirection().y << ", " << (*rayIt)->reflectionRay->getDirection().z << ")" << std::endl;
-            shootChildrenRays((*rayIt)->reflectionRay, 1);
+            if((*rayIt)->reflectionRay != NULL)
+                shootChildrenRays((*rayIt)->reflectionRay, 1);
 
             if((*rayIt)->refractionRay != NULL)
                 shootChildrenRays((*rayIt)->refractionRay, 1);
         }
+        
         if(type == 2)
             (*rayIt)->setFinalNode(true);
+            
     }
 }
 
@@ -95,20 +104,19 @@ void Pixel::shootChildrenRays(Ray *r, int numOfChildren) {
         counter++;
     }
     std::cout << std::endl << "Hit!" << "x: " << intersectionPoint.x << "   y: " << intersectionPoint.y << "   z: " << intersectionPoint.z << std::endl;
-    if(type != 2){
+    if(type != 2 && intersectionPoint.x != -2){
         shapes.at(index)->computeChildrenRays(r);
         std::cout << std::endl << "startpos reflection: " << "(" << r->reflectionRay->getStartingPoint().x << ", " << r->reflectionRay->getStartingPoint().y << ", " << r->reflectionRay->getStartingPoint().z << ")" << std::endl;
         std::cout << std::endl << "reflection direction: " << "(" << r->reflectionRay->getDirection().x << ", " << r->reflectionRay->getDirection().y << ", " << r->reflectionRay->getDirection().z << ")" << std::endl;
     }
 
     std::cout << std::endl << "       type: " << type << std::endl;
-    if(numOfChildren < 10 && type != 2){
-        //if(type != 2){
-            shootChildrenRays(r->reflectionRay, numOfChildren);
-            if(r->refractionRay != NULL){
-                shootChildrenRays(r->refractionRay, numOfChildren);
-            }
-       //}
+    if(numOfChildren < 10 && type != 2 && intersectionPoint.x != -2){
+
+        shootChildrenRays(r->reflectionRay, numOfChildren);
+        if(r->refractionRay != NULL){
+            shootChildrenRays(r->refractionRay, numOfChildren);
+        }
     }
     if(type == 2 || numOfChildren == 9)
             (r)->setFinalNode(true);

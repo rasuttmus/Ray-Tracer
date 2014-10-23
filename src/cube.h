@@ -1,4 +1,5 @@
 #include "glm/glm.hpp"
+#include "glm/gtx/rotate_vector.hpp"
 #include <vector>
 #include "rectangle.h"
 #include "ray.h"
@@ -10,6 +11,8 @@
 #define CUBE_SHAPE 0
 #define SPHERE_SHAPE 1
 #define ROOM_SHAPE 2
+
+//# define M_PI 3.14159265358979323846  /* pi */
 
 class Rectangle;
 
