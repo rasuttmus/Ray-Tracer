@@ -10,22 +10,22 @@
 
 class Rectangle {
 public:
-    std::vector<glm::vec3> corners;
+    std::vector<glm::dvec3> corners;
     
 
     //constructor
-    Rectangle(glm::vec3, glm::vec3, glm::vec3, glm::vec3);
+    Rectangle(glm::dvec3, glm::dvec3, glm::dvec3, glm::dvec3);
     //methods
-    glm::vec3 calculateIntersections(glm::vec3, glm::vec3);
-    void computeChildrenRays(Ray *, glm::vec3);
-    void addCorner(glm::vec3);
+    glm::dvec3 calculateIntersections(glm::dvec3, glm::dvec3);
+    void computeChildrenRays(Ray *, glm::dvec3);
+    void addCorner(glm::dvec3);
     void calcRectNormal();
-    void setNormal(glm::vec3);
-    glm::vec3 getNormal();
+    void setNormal(glm::dvec3);
+    glm::dvec3 getNormal();
 
 
 private:
-	glm::vec3 normal;
+	glm::dvec3 normal;
 };
 
 #endif // RECTANGLE_H

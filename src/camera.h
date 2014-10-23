@@ -10,15 +10,15 @@ class Pixel;
 class Camera{
 public:
     //Instance vairables
-    glm::vec3 position;
-    glm::vec3 viewDirection;
-    float viewPlaneDistance;
-    glm::vec2 viewPlaneResolution;
+    glm::dvec3 position;
+    glm::dvec3 viewDirection;
+    double viewPlaneDistance;
+    glm::dvec2 viewPlaneResolution;
     int raysPerPixel;
     std::vector<Pixel*> pixels;
 
     //construtor
-    Camera(float, glm::vec2, glm::vec2, int, int, int);
+    Camera(glm::dvec3, glm::dvec2, glm::dvec2, int, int, int);
     //Instance methods
     void renderImage();
     void mappingFunction();

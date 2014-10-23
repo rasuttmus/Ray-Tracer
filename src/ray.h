@@ -7,24 +7,23 @@
 class Ray{
 public:
 
-    float importance;
-    glm::vec3 color;
-    bool finalNode;
+    double importance;
+    glm::dvec3 color;
     Ray *reflectionRay;
     Ray *refractionRay;
 
     //constructor
-    Ray(glm::vec3, glm::vec3);
+    Ray(glm::dvec3, glm::dvec3);
     
     //Instance methods  
-    glm::vec3 calculateColor();
-    glm::vec3 calculateLocalContribution();
+    glm::dvec3 calculateColor();
+    glm::dvec3 calculateLocalContribution();
 
-    void setStartingPoint(glm::vec3);
-    glm::vec3 getStartingPoint();
+    void setStartingPoint(glm::dvec3);
+    glm::dvec3 getStartingPoint();
 
-    void setDirection(glm::vec3);
-    glm::vec3 getDirection();
+    void setDirection(glm::dvec3);
+    glm::dvec3 getDirection();
 
     void setInsideObject(bool);
     bool getInsideObject();
@@ -32,11 +31,15 @@ public:
     void setIntersected(bool);
     bool getIntersected();
 
+    void setFinalNode(bool);
+    bool getFinalNode();
+
 private:
-    glm::vec3 startingPoint;
-    glm::vec3 direction;
+    glm::dvec3 startingPoint;
+    glm::dvec3 direction;
     bool insideObject;
     bool intersected = false;
+    bool finalNode = false;
 };
 
 #endif // RAY_H

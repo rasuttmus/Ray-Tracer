@@ -41,32 +41,34 @@ void calcRays(){
 void createScene() {
 	
 	// Create room
-	Room *room = new Room(glm::vec3(0,0,0), 1.0);
-	
+	Shape *room = new Room(glm::dvec3(0.0,0.0,0.0), 1.0);
+
 	// Set up viewDirection
-	glm::vec2 viewDir;
-	viewDir.x = (room->walls.at(4)->corners.at(1).x - room->walls.at(4)->corners.at(0).x) / 2;
-	viewDir.y = (room->walls.at(4)->corners.at(1).y - room->walls.at(4)->corners.at(2).y) / 2;
+	//glm::dvec2 viewDir;
+	//viewDir.x = (room->walls.at(4)->corners.at(1).x - room->walls.at(4)->corners.at(0).x) / 2;
+	//viewDir.y = (room->walls.at(4)->corners.at(1).y - room->walls.at(4)->corners.at(2).y) / 2;
 
-	glm::vec2 width = glm::vec2(-0.25f, 0.25f);
-	glm::vec2 height = glm::vec2(-0.25f, 0.25f);
+	glm::dvec2 width = glm::dvec2(-0.25, 0.25);
+	glm::dvec2 height = glm::dvec2(-0.25, 0.25);
 
-	int imageResolutionX = 2;
-	int imageResolutionY = 2;
+	int imageResolutionX = 1;
+	int imageResolutionY = 1;
 
 	// Create camera
-	camera = new Camera(-2.0, width, height, imageResolutionX, imageResolutionY, 10);
+	camera = new Camera(glm::dvec3(0.5, 0.5, -2.0), width, height, imageResolutionX, imageResolutionY, 10);
 
 	// Create light source
-	glm::vec3 lightPos(0.5f, 0.5f, -0.5f);
-	Light *lightSource = new Light(20.0f, lightPos, 1.0f/6.0f);
+	glm::dvec3 lightPos(0.5, 0.5, -0.5);
+	Light *lightSource = new Light(20.0, lightPos, 1.0/6.0);
 
-	Shape *cube = new Cube(glm::vec3(0.1f, 0.1f, -0.25f), 0.25f, false, 1);
+	camera->addShape(room);
+
+	Shape *cube = new Cube(glm::dvec3(0.25, 0.25, 0.0), 0.5, false, 1);
 	//camera->addShape(cube);
 	//cubes.push_back(cube);
 
 	//Create sphere
-	Shape *sphere = new Sphere(glm::vec3(0.5f,0.1f,-0.25f), 0.45f, false, 1);
+	Shape *sphere = new Sphere(glm::dvec3(0.5,0.5, -0.25), 0.25, false, 1);
 	camera->addShape(sphere);
 	//spheres.push_back(sphere);
 

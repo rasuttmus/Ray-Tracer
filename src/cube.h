@@ -9,33 +9,34 @@
 
 #define CUBE_SHAPE 0
 #define SPHERE_SHAPE 1
+#define ROOM_SHAPE 2
 
 class Rectangle;
 
 class Cube: public Shape{
 public:
-    float size;
+    double size;
     bool transparent;
-    float refractiveIndex;
+    double refractiveIndex;
     std::vector<Rectangle *> rectangles;
 
     //constructors
-    Cube(glm::vec3, float, bool, float = 0.0f);
+    Cube(glm::dvec3, double, bool, double = 0.0);
 
     //methods
     void initRectangleObjects();
-    glm::vec3 calculateIntersections(glm::vec3, glm::vec3);
+    glm::dvec3 calculateIntersections(glm::dvec3, glm::dvec3);
     void computeChildrenRays(Ray *);
     void addRectangle(Rectangle *);
 
-    void setPosition(glm::vec3);
-    glm::vec3 getPosition();
+    void setPosition(glm::dvec3);
+    glm::dvec3 getPosition();
     int getType();
-    glm::vec3 getIntersectionNormal();
+   // glm::dvec3 getIntersectionNormal();
 
 private:
-    glm::vec3 position;
-    glm::vec3 intersectionNormal;
+    glm::dvec3 position;
+    glm::dvec3 intersectionNormal;
 };
 
 #endif // CUBE_H

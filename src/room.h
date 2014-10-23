@@ -1,25 +1,32 @@
 #include "glm/glm.hpp"
 #include <vector>
 #include "rectangle.h"
+#include "shape.h"
 
 #ifndef ROOM_H
 #define ROOM_H
 
+#define ROOM_SHAPE 2
+
 class Rectangle;
 
-class Room{
+class Room: public Shape{
 public:
-    glm::vec3 position;
-    float size;
+    glm::dvec3 position;
+    double size;
     std::vector<Rectangle *> walls;
 
     //constructor
-    Room(glm::vec3, float);
+    Room(glm::dvec3, double);
 
     //methods
     void initRectangles();
-    void computeIntersections();
+    glm::dvec3 calculateIntersections(glm::dvec3 direction, glm::dvec3 startingPoint);
+    void computeChildrenRays(Ray *);
     void addWall(Rectangle *);
+   // glm::dvec3 getIntersectionNormal();
+
+    int getType();
 };
 
 #endif // ROOM_H

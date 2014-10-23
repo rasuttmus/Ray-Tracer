@@ -1,30 +1,30 @@
 #include "ray.h"
 
-Ray::Ray(glm::vec3 d, glm::vec3 s):
+Ray::Ray(glm::dvec3 d, glm::dvec3 s):
 		 direction(d), startingPoint(s)  {
 }
 
-glm::vec3 Ray::calculateColor() {
-    return glm::vec3(0,0,0);
+glm::dvec3 Ray::calculateColor() {
+    return glm::dvec3(0.0, 0.0, 0.0);
 }
 
-glm::vec3 Ray::calculateLocalContribution() {
-    return glm::vec3(0,0,0);
+glm::dvec3 Ray::calculateLocalContribution() {
+    return glm::dvec3(0.0, 0.0, 0.0);
 }
 
-void Ray::setStartingPoint(glm::vec3 s) {
+void Ray::setStartingPoint(glm::dvec3 s) {
     startingPoint = s;
 }
 
-glm::vec3 Ray::getStartingPoint() {
+glm::dvec3 Ray::getStartingPoint() {
     return startingPoint;
 }
 
-void Ray::setDirection(glm::vec3 d) {
+void Ray::setDirection(glm::dvec3 d) {
     direction = d;
 }
 
-glm::vec3 Ray::getDirection() {
+glm::dvec3 Ray::getDirection() {
     return direction;
 }
 
@@ -42,4 +42,12 @@ void Ray::setIntersected(bool i){
 
 bool Ray::getIntersected(){
     return intersected;
+}
+
+void Ray::setFinalNode(bool f){
+    finalNode = f;
+}
+
+bool Ray::getFinalNode(){
+    return finalNode;
 }

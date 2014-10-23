@@ -13,24 +13,24 @@ class Sphere: public Shape{
 
 public:
     //Instance variables
-    float radius;
+    double radius;
     bool transparent;  
-    float refractiveIndex;
+    double refractiveIndex;
 
     //contructor
-    Sphere(glm::vec3, float, bool, float);
+    Sphere(glm::dvec3, double, bool, double);
 
     //Instance methods
-    glm::vec3 calculateIntersections(glm::vec3, glm::vec3);
+    glm::dvec3 calculateIntersections(glm::dvec3, glm::dvec3);
     void computeChildrenRays(Ray *);
-    void setPosition(glm::vec3);
-    glm::vec3 getPosition();
+    void setPosition(glm::dvec3);
+    glm::dvec3 getPosition();
     int getType();
-    glm::vec3 getIntersectionNormal();
+    //glm::dvec3 getIntersectionNormal();
 
 private:
-    glm::vec3 position;
-    glm::vec3 intersectionNormal;
+    glm::dvec3 position;
+   // glm::dvec3 intersectionNormal;
 
 };
 

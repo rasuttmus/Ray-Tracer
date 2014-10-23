@@ -5,15 +5,15 @@
 
 class Light{
     public:
-    float radiance;
-    glm::vec3 position;
-    float size;
+    double radiance;
+    glm::dvec3 position;
+    double size;
     Rectangle *lightObject;
 
     //constructor
-    Light(float, glm::vec3, float);
+    Light(double, glm::dvec3, double);
 
     //methods
-    glm::vec3 randomPosition();
+    glm::dvec3 randomPosition();
 
 };

@@ -12,16 +12,17 @@ public:
     std::vector<Ray *> rays;
     std::vector<Shape *> shapes;
     //std::vector<Sphere *> spheres;
-    glm::vec3 colorOfPixel;
-    float pixelSize;
+    glm::dvec3 colorOfPixel;
+    double pixelSize;
     int pixelPosX;
     int pixelPosY;
-    glm::vec3 cameraPos;
+    glm::dvec3 cameraPos;
 
     //constructor
-    Pixel(int, float, int, int, glm::vec3);
+    Pixel(int, double, int, int, glm::dvec3);
     //Instance methods
     void shootingRays(int);
+    void shootChildrenRays(Ray *, int);
     void addRay(Ray *);
 
     int getNumberOfRays();
