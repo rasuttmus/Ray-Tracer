@@ -5,7 +5,23 @@ Ray::Ray(glm::dvec3 d, glm::dvec3 s):
 }
 
 glm::dvec3 Ray::calculateColor() {
-    return glm::dvec3(0.0, 0.0, 0.0);
+
+//recursive function thats goes through all child rays. 
+color = glm::dvec3(0.0, 0.0, 0.0);
+
+    /*if(finalNode){
+
+    }
+
+    if(!finalNode){
+        color1 * importance = reflectionRay->calculateColor();
+        color2 * importance = refractionRay->calculateColor();  
+        color = color1 + color2;
+        calculateLocalContribution();
+    }
+        
+*/
+    return color;
 }
 
 glm::dvec3 Ray::calculateLocalContribution() {

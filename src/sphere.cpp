@@ -4,6 +4,8 @@
 Sphere::Sphere(glm::dvec3 p, double r, bool t, double ref): 
 position(p), radius(r), transparent(t), refractiveIndex(ref)
 { 
+	Ray *roy = new Ray(glm::dvec3(0.0,0.0,1.0), glm::dvec3(0.0,0.0,-1.0));
+	computeChildrenRays(roy);
 }
 
 glm::dvec3 Sphere::calculateIntersections(glm::dvec3 direction, glm::dvec3 startingPoint) {
@@ -13,33 +15,27 @@ glm::dvec3 Sphere::calculateIntersections(glm::dvec3 direction, glm::dvec3 start
 	double b = 2 * (direction.x * (startingPoint.x - position.x) + direction.y * (startingPoint.y - position.y) + direction.z * (startingPoint.z - position.z));
 	double c = pow((startingPoint.x - position.x),2) + pow((startingPoint.y - position.y),2) + pow((startingPoint.z - position.z),2) - pow(radius,2);
 	double t = 0.0;
-
+	
 	if((b * b) - (4 * c) < 0.0){
 		//no intersections
 	}
 	else if((b * b) - (4 * c) == 0.0){
 		//one tangential intersection
-		intersectionPoint.x = startingPoint.x + (direction.x * (-b/2));
-		intersectionPoint.y = startingPoint.y + (direction.y * (-b/2));
-		intersectionPoint.z = startingPoint.z + (direction.z * (-b/2));
+		intersectionPoint = startingPoint + (direction * (-b/2));
 	}
 	else{
 		//two intersections
-		if( -b + sqrt((b * b) - (4 * c)) < 0){
-			double t = (-b + sqrt((b * b) - (4 * c)))/2;
-			intersectionPoint.x = startingPoint.x + (direction.x * t);
-			intersectionPoint.y = startingPoint.y + (direction.y * t);
-			intersectionPoint.z = startingPoint.z + (direction.z * t);
-		}
-		else{
-			double t = (-b - sqrt((b * b) - (4 * c)))/2;
-			intersectionPoint.x = startingPoint.x + (direction.x * t);
-			intersectionPoint.y = startingPoint.y + (direction.y * t);
-			intersectionPoint.z = startingPoint.z + (direction.z * t);
-		}
-
+			t = (-b + sqrt((b * b) - (4 * c)))/2;
+			if(t > 0){
+				intersectionPoint = startingPoint + (direction * t);
+			}
+			
+			t = (-b - sqrt((b * b) - (4 * c)))/2;
+			if(t > 0){
+			intersectionPoint = startingPoint + (direction * t);
+			}
 	}
-    //std::cout << std::endl << "Sphere Hit!" << "x: " << intersectionPoint.x << "   y: " << intersectionPoint.y << "   z: " << intersectionPoint.z << std::endl;
+    std::cout << std::endl << "Sphere Hit!" << "x: " << intersectionPoint.x << "   y: " << intersectionPoint.y << "   z: " << intersectionPoint.z << std::endl;
 	return intersectionPoint;
 	
 }

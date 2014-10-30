@@ -25,7 +25,7 @@ int main(int argc, char **argv)
 {
 
 	createScene();
-	calcRays();
+	//calcRays();
 	
 	std::cout << "\n\n>>>---A little render message--->\n\n";
 
@@ -41,7 +41,7 @@ void calcRays(){
 void createScene() {
 	
 	// Create room
-	Shape *room = new Room(glm::dvec3(0.0,0.0,0.0), 1.0);
+	//Shape *room = new Room(glm::dvec3(0.0,0.0,0.0), 1.0);
 
 	// Set up viewDirection
 	//glm::dvec2 viewDir;
@@ -58,18 +58,18 @@ void createScene() {
 	camera = new Camera(glm::dvec3(0.5, 0.5, -2.0), width, height, imageResolutionX, imageResolutionY, 10);
 
 	// Create light source
-	glm::dvec3 lightPos(0.5, 0.5, -0.5);
-	Light *lightSource = new Light(20.0, lightPos, 1.0/6.0);
+	//glm::dvec3 lightPos(0.5, 0.5, -0.5);
+	//Light *lightSource = new Light(20.0, lightPos, 1.0/6.0);
 
-	camera->addShape(room);
+	//camera->addShape(room);
 
-	Shape *cube = new Cube(glm::dvec3(0.25, 0.25, 0.0), 0.5, false, 1);
+	//Shape *cube = new Cube(glm::dvec3(0.25, 0.25, 0.0), 0.5, false, 1);
 	//camera->addShape(cube);
 	//cubes.push_back(cube);
 
 	//Create sphere
-	Shape *sphere = new Sphere(glm::dvec3(0.5,0.5, -0.25), 0.25, false, 1);
-	camera->addShape(sphere);
+	//Shape *sphere = new Sphere(glm::dvec3(0.0,0.0,0.0), 0.5, false, 1);
+	//camera->addShape(sphere);
 	//spheres.push_back(sphere);
 
 }
