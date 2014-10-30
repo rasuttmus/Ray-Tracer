@@ -31,6 +31,8 @@ public:
     glm::dvec3 getColor(int);
 
     int getWallIntersectionIndex();
+
+    glm::dvec3 randomPosition();
     //glm::dvec3 getIntersectionNormal();
 
 private:

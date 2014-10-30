@@ -33,6 +33,8 @@ public:
 
     int getWallIntersectionIndex();
 
+    glm::dvec3 randomPosition();
+
 private:
     int wallIntersectionIndex;
 };

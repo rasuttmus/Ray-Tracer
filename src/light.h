@@ -2,8 +2,11 @@
 #include <stdlib.h>
 #include <iostream>
 #include "rectangle.h"
+#include "shape.h"
 
-class Light{
+#define LIGHT_SHAPE 3
+
+class Light: public Shape{
     public:
     double radiance;
     glm::dvec3 position;
@@ -15,5 +18,11 @@ class Light{
 
     //methods
     glm::dvec3 randomPosition();
+
+    glm::dvec3 calculateIntersections(glm::dvec3, glm::dvec3);
+    void computeChildrenRays(Ray *);
+    int getType();
+    glm::dvec3 getColor(int);
+    int getWallIntersectionIndex();
 
 };

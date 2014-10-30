@@ -14,8 +14,8 @@ public:
     Ray(glm::dvec3, glm::dvec3);
     
     //Instance methods  
-    void calculateColor();
-    glm::dvec3 calculateLocalContribution();
+    void calculateColor(glm::dvec3, glm::dvec3);
+    glm::dvec3 calculateLocalContribution(glm::dvec3, glm::dvec3);
 
     void setStartingPoint(glm::dvec3);
     glm::dvec3 getStartingPoint();
@@ -45,7 +45,7 @@ private:
     bool intersected = false;
     bool finalNode = false;
     double importance;
-    glm::dvec3 color;
+    glm::dvec3 color = glm::dvec3(0.0, 0.0, 0.0);
 };
 
 #endif // RAY_H

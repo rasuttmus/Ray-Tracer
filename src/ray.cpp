@@ -4,7 +4,7 @@ Ray::Ray(glm::dvec3 d, glm::dvec3 s):
 		 direction(d), startingPoint(s){
 }
 
-void Ray::calculateColor() {
+void Ray::calculateColor(glm::dvec3 intersectionPoint, glm::dvec3 lightPos) {
 
 //recursive function thats goes through all child rays. 
 color = glm::dvec3(0.0, 0.0, 0.0);
@@ -22,8 +22,8 @@ color = glm::dvec3(0.0, 0.0, 0.0);
      */
 }
 
-glm::dvec3 Ray::calculateLocalContribution(){
-    return glm::dvec3(0.0, 0.0, 0.0);
+glm::dvec3 Ray::calculateLocalContribution(glm::dvec3 intersectionPoint, glm::dvec3 lightPos){
+    return lightPos - intersectionPoint;
 }
 
 void Ray::setStartingPoint(glm::dvec3 s){

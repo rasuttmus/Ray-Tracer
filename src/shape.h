@@ -14,6 +14,7 @@ public:
     virtual int getType() = 0;
     virtual glm::dvec3 getColor(int) = 0;
     virtual int getWallIntersectionIndex() = 0;
+    virtual glm::dvec3 randomPosition() = 0;
     //virtual glm::vec3 getIntersectionNormal() = 0;
 };
 

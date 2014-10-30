@@ -10,7 +10,7 @@ position(p), radius(r), transparent(t), refractiveIndex(ref), color(c)
 
 glm::dvec3 Sphere::calculateIntersections(glm::dvec3 direction, glm::dvec3 startingPoint) {
 	direction = glm::normalize(direction);
-	glm::dvec3 intersectionPoint = glm::dvec3(0.0, 0.0, 0.0); 
+	glm::dvec3 intersectionPoint = glm::dvec3(-2.0, -2.0, 2.0); 
 
 	double b = 2 * (direction.x * (startingPoint.x - position.x) + direction.y * (startingPoint.y - position.y) + direction.z * (startingPoint.z - position.z));
 	double c = pow((startingPoint.x - position.x),2) + pow((startingPoint.y - position.y),2) + pow((startingPoint.z - position.z),2) - pow(radius,2);
@@ -35,8 +35,15 @@ glm::dvec3 Sphere::calculateIntersections(glm::dvec3 direction, glm::dvec3 start
 			intersectionPoint = startingPoint + (direction * t);
 			}
 	}
-    std::cout << std::endl << "Sphere Hit!" << "x: " << intersectionPoint.x << "   y: " << intersectionPoint.y << "   z: " << intersectionPoint.z << std::endl;
-	return intersectionPoint;
+
+    glm::dvec3 intersectionNormal = glm::normalize(intersectionPoint - position);
+
+    intersectionNormal.x = std::floor(intersectionNormal.x * 100000000.0) / 100000000.0;
+    intersectionNormal.y = std::floor(intersectionNormal.y * 100000000.0) / 100000000.0;
+    intersectionNormal.z = std::floor(intersectionNormal.z * 100000000.0) / 100000000.0;
+
+    //std::cout << std::endl << "Sphere Hit!" << "x: " << intersectionPoint.x << "   y: " << intersectionPoint.y << "   z: " << intersectionPoint.z << std::endl;
+	return intersectionPoint + (glm::normalize(intersectionNormal) * 0.00000001);
 	
 }
 
@@ -107,6 +114,10 @@ glm::dvec3 Sphere::getColor(int wallIntersectionIndex){
 
 int Sphere::getWallIntersectionIndex(){
     return 0;
+}
+
+glm::dvec3 Sphere::randomPosition(){
+    return glm::dvec3(0.0, 0.0, 0.0);
 }
 
 /*glm::dvec3 Sphere::getIntersectionNormal(){

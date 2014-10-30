@@ -51,18 +51,19 @@ void createScene() {
 	glm::dvec2 width = glm::dvec2(-0.5, 0.5);
 	glm::dvec2 height = glm::dvec2(-0.5, 0.5);
 
-	int imageResolutionX = 128;
-	int imageResolutionY = 128;
+	int imageResolutionX = 256;
+	int imageResolutionY = 256;
 
 	// Create camera
 	camera = new Camera(glm::dvec3(0.5, 0.5, -2.0), width, height, imageResolutionX, imageResolutionY, 10);
 
 	// Create light source
-	Light *lightSource = new Light(20.0, glm::dvec3(0.4, 1.0, -0.4), 0.2);
+	Light *lightSource = new Light(20.0, glm::dvec3(0.4, 0.9999, -0.4), 0.2);
+	camera->addShape(lightSource);
 
 	camera->addShape(room);
 
-	Shape *cube1 = new Cube(glm::dvec3(0.0, 0.0, 0.0), 0.4, false, glm::dvec3(0.0, 0.0, 1.0), 1);
+	Shape *cube1 = new Cube(glm::dvec3(0.5, 0.1, -0.3), 0.2, false, glm::dvec3(0.0, 0.0, 1.0), 1);
 	camera->addShape(cube1);
 
 	//Shape *cube2 = new Cube(glm::dvec3(0.4, 0.4, -0.5), 0.2, false, 1);
@@ -72,7 +73,7 @@ void createScene() {
 	//camera->addShape(cube3);
 
 	//Create sphere
-	Shape *sphere = new Sphere(glm::dvec3(0.5, 0.3, -0.7), 0.2, false, 1, glm::dvec3(1.0, 0.0, 0.7));
+	Shape *sphere = new Sphere(glm::dvec3(0.5, 0.6, -0.3), 0.05, false, 1, glm::dvec3(1.0, 0.0, 0.7));
 	camera->addShape(sphere);
 
 }
