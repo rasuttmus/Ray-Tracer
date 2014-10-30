@@ -1,8 +1,8 @@
 #include "sphere.h"
 
 
-Sphere::Sphere(glm::dvec3 p, double r, bool t, double ref): 
-position(p), radius(r), transparent(t), refractiveIndex(ref)
+Sphere::Sphere(glm::dvec3 p, double r, bool t, double ref, glm::dvec3 c): 
+position(p), radius(r), transparent(t), refractiveIndex(ref), color(c)
 { 
 	Ray *roy = new Ray(glm::dvec3(0.0,0.0,1.0), glm::dvec3(0.0,0.0,-1.0));
 	computeChildrenRays(roy);
@@ -95,6 +95,18 @@ glm::dvec3 Sphere::getPosition(){
 
 int Sphere::getType(){
     return SPHERE_SHAPE;
+}
+
+void Sphere::setColor(glm::dvec3 c){
+    color = c;
+}
+
+glm::dvec3 Sphere::getColor(int wallIntersectionIndex){
+    return color;
+}
+
+int Sphere::getWallIntersectionIndex(){
+    return 0;
 }
 
 /*glm::dvec3 Sphere::getIntersectionNormal(){

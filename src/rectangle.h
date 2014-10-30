@@ -20,12 +20,16 @@ public:
     void computeChildrenRays(Ray *, glm::dvec3);
     void addCorner(glm::dvec3);
     void calcRectNormal();
+
     void setNormal(glm::dvec3);
     glm::dvec3 getNormal();
 
+    void setColor(glm::dvec3);
+    glm::dvec3 getColor();
 
 private:
 	glm::dvec3 normal;
+    glm::dvec3 color;
 };
 
 #endif // RECTANGLE_H

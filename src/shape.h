@@ -12,6 +12,8 @@ public:
     virtual glm::dvec3 calculateIntersections(glm::dvec3, glm::dvec3) = 0;
     virtual void computeChildrenRays(Ray *) = 0;
     virtual int getType() = 0;
+    virtual glm::dvec3 getColor(int) = 0;
+    virtual int getWallIntersectionIndex() = 0;
     //virtual glm::vec3 getIntersectionNormal() = 0;
 };
 

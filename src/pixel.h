@@ -4,15 +4,13 @@
 
 #include "ray.h"
 #include "shape.h"
-//#include "camera.h"
+#include "debug.h"
 
 class Pixel{
 public:
     //Instance variables
     std::vector<Ray *> rays;
     std::vector<Shape *> shapes;
-    //std::vector<Sphere *> spheres;
-    glm::dvec3 colorOfPixel;
     double pixelSize;
     int pixelPosX;
     int pixelPosY;
@@ -27,6 +25,10 @@ public:
 
     int getNumberOfRays();
 
+    void setColorOfPixel(glm::dvec3);
+    glm::dvec3 getColorOfPixel();
+
 private:
     int numberOfRays;
+    glm::dvec3 colorOfPixel;
 };

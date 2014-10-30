@@ -1,9 +1,25 @@
 #include "cube.h"
 
-Cube::Cube(glm::dvec3 p, double s, bool t, double ref): 
+Cube::Cube(glm::dvec3 p, double s, bool t, glm::dvec3 c, double ref): 
 position(p), size(s), transparent(t), refractiveIndex(ref)
 { 
     initRectangleObjects();
+
+    for(int i = 0; i < 6; i++)
+        rectangleColors.push_back(c);
+}
+
+Cube::Cube(glm::dvec3 p, double s, bool t, glm::dvec3 c0, glm::dvec3 c1, glm::dvec3 c2, glm::dvec3 c3, glm::dvec3 c4, glm::dvec3 c5, double ref): 
+position(p), size(s), transparent(t), refractiveIndex(ref)
+{ 
+    initRectangleObjects();
+
+    rectangleColors.push_back(c0);
+    rectangleColors.push_back(c1);
+    rectangleColors.push_back(c2);
+    rectangleColors.push_back(c3);
+    rectangleColors.push_back(c4);
+    rectangleColors.push_back(c5);
 }
 
 void Cube::initRectangleObjects(){
@@ -32,16 +48,18 @@ void Cube::initRectangleObjects(){
 glm::dvec3 Cube::calculateIntersections(glm::dvec3 direction, glm::dvec3 startingPoint){
     direction = glm::normalize(direction);
     glm::dvec3 intersectionPoint(-2.0, -2.0, 2.0);
-    //int counter = 0;
+
+    wallIntersectionIndex = 0;
+    int counter = 0;
     //int id = 0;
     for(std::vector<Rectangle *>::iterator it = rectangles.begin(); it != rectangles.end(); ++it){
 
         if(glm::length(intersectionPoint - startingPoint) > glm::length((*it)->calculateIntersections(direction, startingPoint, size) - startingPoint)){
             intersectionPoint = (*it)->calculateIntersections(direction, startingPoint, size);
             intersectionNormal = (*it)->getNormal();
-            //id = counter;
+            wallIntersectionIndex = counter;
         }
-        //counter++;
+        counter++;
     }
     //intersectionNormal = rectangles
     //std::cout << std::endl << "Cube Hit!" << "   x: " << intersectionPoint.x << "   y: " << intersectionPoint.y << "   z: " << intersectionPoint.z << std::endl;
@@ -105,6 +123,13 @@ int Cube::getType(){
     return CUBE_SHAPE;
 }
 
+int Cube::getWallIntersectionIndex(){
+    return wallIntersectionIndex;
+}
+
+glm::dvec3 Cube::getColor(int wallIntersectionIndex){
+    return rectangleColors.at(wallIntersectionIndex);
+}
 /*glm::dvec3 Cube::getIntersectionNormal(){
     return intersectionNormal;
 }*/

@@ -136,3 +136,11 @@ void Rectangle::calcRectNormal() {
     normal.z = (int)round(normal.z);
 
 }
+
+void Rectangle::setColor(glm::dvec3 c){
+    color = c;
+}
+
+glm::dvec3 Rectangle::getColor(){
+    return color;
+}

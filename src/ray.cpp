@@ -4,12 +4,12 @@ Ray::Ray(glm::dvec3 d, glm::dvec3 s):
 		 direction(d), startingPoint(s){
 }
 
-glm::dvec3 Ray::calculateColor() {
+void Ray::calculateColor() {
 
 //recursive function thats goes through all child rays. 
 color = glm::dvec3(0.0, 0.0, 0.0);
-
-    /*if(finalNode){
+/*
+    if(finalNode){
 
     }
 
@@ -19,9 +19,7 @@ color = glm::dvec3(0.0, 0.0, 0.0);
         color = color1 + color2;
         calculateLocalContribution();
     }
-        
-*/
-    return color;
+     */
 }
 
 glm::dvec3 Ray::calculateLocalContribution(){
@@ -75,4 +73,12 @@ void Ray::setImportance(double i){
 
 double Ray::getImportance(){
     return importance;
+}
+
+void Ray::setColor(glm::dvec3 c){
+    color = c;
+}
+
+glm::dvec3 Ray::getColor(){
+    return color;
 }

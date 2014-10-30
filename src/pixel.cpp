@@ -11,7 +11,7 @@ void Pixel::shootingRays(int numOfRays) {
 
     srand(static_cast <unsigned int> (time(0)));
 
-    for(int i = 0; i < 1; i++) {
+    for(int i = 0; i < 10; i++) {
         
         direction.x = pixelSize * pixelPosX + static_cast<double>(rand()) / (static_cast<double>(RAND_MAX / (pixelSize * (pixelPosX + 1) - pixelSize * pixelPosX)));
         direction.y = pixelSize * pixelPosY + static_cast<double>(rand()) / (static_cast<double>(RAND_MAX / (pixelSize * (pixelPosY + 1) - pixelSize * pixelPosY)));
@@ -24,13 +24,13 @@ void Pixel::shootingRays(int numOfRays) {
         glm::dvec3 tmpDir = glm::dvec3(0.0, 0.0, 1.0);
         glm::dvec3 tmpPos = glm::dvec3(0.3, 0.5, -0.5);
 
-        r = new Ray(glm::normalize(tmpDir), tmpPos);
+        r = new Ray(glm::normalize(direction), cameraPos);
         r->setImportance(1 / numberOfRays);
         addRay(r);
         //addRay(new Ray(glm::normalize(initDirection), cameraPos));
         //sätt ray importance
 
-        std::cout << std::endl << "Ray direction: " << "x:" << tmpDir.x << "   y:" << tmpDir.y << "   z:" << tmpDir.z << std::endl;
+        //std::cout << std::endl << "Ray direction: " << "x:" << tmpDir.x << "   y:" << tmpDir.y << "   z:" << tmpDir.z << std::endl;
     }
     
     //int counter = 0;
@@ -40,6 +40,7 @@ void Pixel::shootingRays(int numOfRays) {
 
     glm::dvec3 intersectionPoint = glm::dvec3(-2.0, -2.0, 2.0);
     glm::dvec3 intersectionNormal(0.0, 0.0, 0.0);
+    int wallIntersectionIndex = 0;
 
     
 
@@ -48,30 +49,31 @@ void Pixel::shootingRays(int numOfRays) {
         for(std::vector<Shape *>::iterator shapeIt = shapes.begin(); shapeIt != shapes.end(); ++shapeIt){
 
             // if distance from this collision is the shortest so far, then use it instead
-            std::cout << std::endl << std::endl << std::endl << std::endl << std::endl;
+            //std::cout << std::endl << std::endl << std::endl << std::endl << std::endl;
             //std::cout << std::endl << "intersection: " << "(" << intersectionPoint.x << "," << intersectionPoint.y << "," << intersectionPoint.z << ")" <<std::endl;
             //std::cout << std::endl << "starting point: " << "(" << (*rayIt)->getStartingPoint().x << "," << (*rayIt)->getStartingPoint().y << "," << (*rayIt)->getStartingPoint().z << ")" <<std::endl;
-            std::cout << std::endl << "lengthSTD: " << glm::length(glm::dvec3(-2.0, -2.0, 2.0) - (*rayIt)->getStartingPoint()) << std::endl;
+            //std::cout << std::endl << "lengthSTD: " << glm::length(glm::dvec3(-2.0, -2.0, 2.0) - (*rayIt)->getStartingPoint()) << std::endl;
             
 
             if(glm::length(intersectionPoint - (*rayIt)->getStartingPoint()) > glm::length((*shapeIt)->calculateIntersections((*rayIt)->getDirection(), (*rayIt)->getStartingPoint()) - (*rayIt)->getStartingPoint())){
                 intersectionPoint = (*shapeIt)->calculateIntersections((*rayIt)->getDirection(), (*rayIt)->getStartingPoint());
-                std::cout << std::endl << "lengthNEW: " << glm::length(intersectionPoint - (*rayIt)->getStartingPoint()) << std::endl;
-                //intersectionNormal = (*shapeIt)->getIntersectionNormal();
+                //std::cout << std::endl << "lengthNEW: " << glm::length(intersectionPoint - (*rayIt)->getStartingPoint()) << std::endl;
                 type = (*shapeIt)->getType();
                 id = counter;
+                if(type != 1)
+                    wallIntersectionIndex = (*shapeIt)->getWallIntersectionIndex();
             }
             counter++;
         }
         
-        std::cout << std::endl << "Hit!" << "   x: " << intersectionPoint.x << "   y: " << intersectionPoint.y << "   z: " << intersectionPoint.z << std::endl;
+        //std::cout << std::endl << "Hit!" << "   x: " << intersectionPoint.x << "   y: " << intersectionPoint.y << "   z: " << intersectionPoint.z << std::endl;
         
         counter = 0;
-        std::cout <<"num: 0" << std::endl;
+        //std::cout <<"num: 0" << std::endl;
         //std::cout << std::endl << std::endl << std::endl << std::endl << std::endl;
 
-        std::cout << std::endl << "type: " << type << std::endl;
-       
+        //std::cout << std::endl << "type: " << type << std::endl;
+       /*
         if(type != 2){
             shapes.at(id)->computeChildrenRays((*rayIt));
             std::cout << std::endl << "id: " << id << std::endl;
@@ -91,18 +93,18 @@ void Pixel::shootingRays(int numOfRays) {
         
         if(type == 2)
             (*rayIt)->setFinalNode(true);
-
-
+*/
+        std::cout << std::endl << "id: " << id << std::endl;
+        std::cout << std::endl << "wallIndex: " << wallIntersectionIndex << std::endl;
+        debug
         //Here we must calculate the intersections contribution to the image
-        //glm::dvec3 RayColor = (*rayIt)->calculateColor();
+        
+        (*rayIt)->setColor(shapes.at(id)->getColor(wallIntersectionIndex));
 
-
-
-    } 
-
-    
-
-
+        debug
+        colorOfPixel += (*rayIt)->getColor();
+    }
+    colorOfPixel /= 10.0;
 }
 
 void Pixel::shootChildrenRays(Ray *r, int numOfChildren) {
@@ -150,4 +152,12 @@ void Pixel::addRay(Ray *r){
 
 int Pixel::getNumberOfRays(){
     return numberOfRays;
+}
+
+void Pixel::setColorOfPixel(glm::dvec3 c){
+    colorOfPixel = c;
+}
+
+glm::dvec3 Pixel::getColorOfPixel(){
+    return colorOfPixel;
 }

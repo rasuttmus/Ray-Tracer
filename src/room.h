@@ -15,9 +15,11 @@ public:
     glm::dvec3 position;
     double size;
     std::vector<Rectangle *> walls;
+    std::vector<glm::dvec3> wallColors;
 
     //constructor
-    Room(glm::dvec3, double);
+    Room(glm::dvec3, double, glm::dvec3);
+    Room(glm::dvec3, double, glm::dvec3, glm::dvec3, glm::dvec3, glm::dvec3, glm::dvec3);
 
     //methods
     void initRectangles();
@@ -27,6 +29,12 @@ public:
    // glm::dvec3 getIntersectionNormal();
 
     int getType();
+    glm::dvec3 getColor(int);
+
+    int getWallIntersectionIndex();
+
+private:
+    int wallIntersectionIndex;
 };
 
 #endif // ROOM_H

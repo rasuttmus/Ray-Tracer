@@ -2,8 +2,11 @@
 #include <stdio.h>
 #include <vector>
 #include <iostream>
+#include <fstream>
+#include <algorithm>
 #include "glm/glm.hpp"
 #include "pixel.h"
+#include "debug.h"
 
 class Pixel;
 
@@ -16,6 +19,8 @@ public:
     glm::dvec2 viewPlaneResolution;
     int raysPerPixel;
     std::vector<Pixel*> pixels;
+    int imageResolutionX;
+    int imageResolutionY;
 
     //construtor
     Camera(glm::dvec3, glm::dvec2, glm::dvec2, int, int, int);
@@ -23,7 +28,7 @@ public:
     void renderImage();
     void mappingFunction();
     void displayImage();
-    void createPixels(int imgResX, int imgResY);
+    void createPixels(int, int);
     void addShape(Shape *);
     double getRaysPerPixel();
 };

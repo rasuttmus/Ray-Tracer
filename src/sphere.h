@@ -18,7 +18,7 @@ public:
     double refractiveIndex;
 
     //contructor
-    Sphere(glm::dvec3, double, bool, double);
+    Sphere(glm::dvec3, double, bool, double, glm::dvec3);
 
     //Instance methods
     glm::dvec3 calculateIntersections(glm::dvec3, glm::dvec3);
@@ -26,10 +26,16 @@ public:
     void setPosition(glm::dvec3);
     glm::dvec3 getPosition();
     int getType();
+
+    void setColor(glm::dvec3);
+    glm::dvec3 getColor(int);
+
+    int getWallIntersectionIndex();
     //glm::dvec3 getIntersectionNormal();
 
 private:
     glm::dvec3 position;
+    glm::dvec3 color;
    // glm::dvec3 intersectionNormal;
 
 };

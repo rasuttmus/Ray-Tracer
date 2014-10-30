@@ -22,9 +22,11 @@ public:
     bool transparent;
     double refractiveIndex;
     std::vector<Rectangle *> rectangles;
+    std::vector<glm::dvec3> rectangleColors;
 
     //constructors
-    Cube(glm::dvec3, double, bool, double = 0.0);
+    Cube(glm::dvec3, double, bool, glm::dvec3, double = 0.0);
+    Cube(glm::dvec3, double, bool, glm::dvec3, glm::dvec3, glm::dvec3, glm::dvec3, glm::dvec3, glm::dvec3, double = 0.0);
 
     //methods
     void initRectangleObjects();
@@ -35,11 +37,13 @@ public:
     void setPosition(glm::dvec3);
     glm::dvec3 getPosition();
     int getType();
-   // glm::dvec3 getIntersectionNormal();
+    int getWallIntersectionIndex();
+    glm::dvec3 getColor(int);
 
 private:
     glm::dvec3 position;
     glm::dvec3 intersectionNormal;
+    int wallIntersectionIndex;
 };
 
 #endif // CUBE_H
