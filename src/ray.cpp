@@ -1,38 +1,38 @@
 #include "ray.h"
 
 Ray::Ray(glm::dvec3 d, glm::dvec3 s):
-		 direction(d), startingPoint(s)  {
+		 direction(d), startingPoint(s){
 }
 
-glm::dvec3 Ray::calculateColor() {
+glm::dvec3 Ray::calculateColor(){
     return glm::dvec3(0.0, 0.0, 0.0);
 }
 
-glm::dvec3 Ray::calculateLocalContribution() {
+glm::dvec3 Ray::calculateLocalContribution(){
     return glm::dvec3(0.0, 0.0, 0.0);
 }
 
-void Ray::setStartingPoint(glm::dvec3 s) {
+void Ray::setStartingPoint(glm::dvec3 s){
     startingPoint = s;
 }
 
-glm::dvec3 Ray::getStartingPoint() {
+glm::dvec3 Ray::getStartingPoint(){
     return startingPoint;
 }
 
-void Ray::setDirection(glm::dvec3 d) {
+void Ray::setDirection(glm::dvec3 d){
     direction = d;
 }
 
-glm::dvec3 Ray::getDirection() {
+glm::dvec3 Ray::getDirection(){
     return direction;
 }
 
-void Ray::setInsideObject(bool i) {
+void Ray::setInsideObject(bool i){
     insideObject = i;
 }
 
-bool Ray::getInsideObject() {
+bool Ray::getInsideObject(){
     return insideObject;
 }
 
@@ -50,4 +50,13 @@ void Ray::setFinalNode(bool f){
 
 bool Ray::getFinalNode(){
     return finalNode;
+}
+
+void Ray::setImportance(double i){
+    importance = i;
+}
+
+
+double Ray::getImportance(){
+    return importance;
 }

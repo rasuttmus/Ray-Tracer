@@ -24,8 +24,8 @@ glm::dvec3 Room::calculateIntersections(glm::dvec3 direction, glm::dvec3 startin
     direction = glm::normalize(direction);
     glm::dvec3 intersectionPoint(-2.0, -2.0, 2.0);
     for(std::vector<Rectangle *>::iterator it = walls.begin(); it != walls.end(); ++it){
-        if(glm::length(intersectionPoint - startingPoint) > glm::length((*it)->calculateIntersections(direction, startingPoint) - startingPoint)){
-            intersectionPoint = (*it)->calculateIntersections(direction, startingPoint);
+        if(glm::length(intersectionPoint - startingPoint) > glm::length((*it)->calculateIntersections(direction, startingPoint, size) - startingPoint)){
+            intersectionPoint = (*it)->calculateIntersections(direction, startingPoint, size);
             //intersectionNormal = (*it)->getNormal();
         }
     }

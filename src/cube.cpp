@@ -22,6 +22,11 @@ void Cube::initRectangleObjects(){
             (*it2).z = ((*it2).z * size) + position.z;
         }
     }
+
+    std::cout << std::endl << "wall6 pos: " << "(" << rectangles.at(5)->corners.at(0).x << ", " << rectangles.at(5)->corners.at(0).y << ", " << rectangles.at(5)->corners.at(0).z << ")" << std::endl;
+    std::cout << std::endl << "wall6 pos: " << "(" << rectangles.at(5)->corners.at(1).x << ", " << rectangles.at(5)->corners.at(1).y << ", " << rectangles.at(5)->corners.at(1).z << ")" << std::endl;
+    std::cout << std::endl << "wall6 pos: " << "(" << rectangles.at(5)->corners.at(2).x << ", " << rectangles.at(5)->corners.at(2).y << ", " << rectangles.at(5)->corners.at(2).z << ")" << std::endl;
+    std::cout << std::endl << "wall6 pos: " << "(" << rectangles.at(5)->corners.at(3).x << ", " << rectangles.at(5)->corners.at(3).y << ", " << rectangles.at(5)->corners.at(3).z << ")" << std::endl;
 }
 
 glm::dvec3 Cube::calculateIntersections(glm::dvec3 direction, glm::dvec3 startingPoint){
@@ -31,8 +36,8 @@ glm::dvec3 Cube::calculateIntersections(glm::dvec3 direction, glm::dvec3 startin
     //int id = 0;
     for(std::vector<Rectangle *>::iterator it = rectangles.begin(); it != rectangles.end(); ++it){
 
-        if(glm::length(intersectionPoint - startingPoint) > glm::length((*it)->calculateIntersections(direction, startingPoint) - startingPoint)){
-            intersectionPoint = (*it)->calculateIntersections(direction, startingPoint);
+        if(glm::length(intersectionPoint - startingPoint) > glm::length((*it)->calculateIntersections(direction, startingPoint, size) - startingPoint)){
+            intersectionPoint = (*it)->calculateIntersections(direction, startingPoint, size);
             intersectionNormal = (*it)->getNormal();
             //id = counter;
         }

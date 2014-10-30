@@ -7,6 +7,8 @@ void Pixel::shootingRays(int numOfRays) {
     glm::dvec3 direction;
     double randX, randY, diffX, diffY;
     glm::dvec3 initDirection;
+    Ray *r;
+
     srand(static_cast <unsigned int> (time(0)));
 
     for(int i = 0; i < 1; i++) {
@@ -19,11 +21,12 @@ void Pixel::shootingRays(int numOfRays) {
         initDirection.x = direction.x - cameraPos.x;
         initDirection.y = direction.y - cameraPos.y;
 
-        glm::dvec3 tmpDir = glm::dvec3(1.0, 0.0, 1.0);
-        glm::dvec3 tmpPos = glm::dvec3(0.4, 0.5, -0.4);
+        glm::dvec3 tmpDir = glm::dvec3(0.0, 0.0, 1.0);
+        glm::dvec3 tmpPos = glm::dvec3(0.3, 0.5, -0.5);
 
-                                        // dir                      // start pos
-        addRay(new Ray(glm::normalize(tmpDir), tmpPos));
+        r = new Ray(glm::normalize(tmpDir), tmpPos);
+        r->setImportance(1 / numberOfRays);
+        addRay(r);
         //addRay(new Ray(glm::normalize(initDirection), cameraPos));
 
         std::cout << std::endl << "Ray direction: " << "x:" << tmpDir.x << "   y:" << tmpDir.y << "   z:" << tmpDir.z << std::endl;
@@ -67,21 +70,26 @@ void Pixel::shootingRays(int numOfRays) {
         //std::cout << std::endl << std::endl << std::endl << std::endl << std::endl;
 
         std::cout << std::endl << "type: " << type << std::endl;
-        
+       
         if(type != 2){
             shapes.at(id)->computeChildrenRays((*rayIt));
+            std::cout << std::endl << "id: " << id << std::endl;
             std::cout << std::endl << "startpos reflection: " << "(" << (*rayIt)->reflectionRay->getStartingPoint().x << ", " << (*rayIt)->reflectionRay->getStartingPoint().y << ", " << (*rayIt)->reflectionRay->getStartingPoint().z << ")" << std::endl;
             std::cout << std::endl << "reflection direction: " << "(" << (*rayIt)->reflectionRay->getDirection().x << ", " << (*rayIt)->reflectionRay->getDirection().y << ", " << (*rayIt)->reflectionRay->getDirection().z << ")" << std::endl;
-            if((*rayIt)->reflectionRay != NULL)
-                shootChildrenRays((*rayIt)->reflectionRay, 1);
 
-            if((*rayIt)->refractionRay != NULL)
+            if((*rayIt)->reflectionRay != NULL && (*rayIt)->refractionRay != NULL){
+                //RÄKNA NÅNTING
+                shootChildrenRays((*rayIt)->reflectionRay, 1);
                 shootChildrenRays((*rayIt)->refractionRay, 1);
+            }
+            else if((*rayIt)->reflectionRay != NULL){
+                (*rayIt)->reflectionRay->setImportance((*rayIt)->getImportance());
+                shootChildrenRays((*rayIt)->reflectionRay, 1);
+            }
         }
         
         if(type == 2)
             (*rayIt)->setFinalNode(true);
-            
     }
 }
 
@@ -105,12 +113,14 @@ void Pixel::shootChildrenRays(Ray *r, int numOfChildren) {
     }
     std::cout << std::endl << "Hit!" << "x: " << intersectionPoint.x << "   y: " << intersectionPoint.y << "   z: " << intersectionPoint.z << std::endl;
     if(type != 2 && intersectionPoint.x != -2){
+        std::cout << std::endl << "id: " << index << std::endl;
         shapes.at(index)->computeChildrenRays(r);
         std::cout << std::endl << "startpos reflection: " << "(" << r->reflectionRay->getStartingPoint().x << ", " << r->reflectionRay->getStartingPoint().y << ", " << r->reflectionRay->getStartingPoint().z << ")" << std::endl;
         std::cout << std::endl << "reflection direction: " << "(" << r->reflectionRay->getDirection().x << ", " << r->reflectionRay->getDirection().y << ", " << r->reflectionRay->getDirection().z << ")" << std::endl;
     }
 
     std::cout << std::endl << "       type: " << type << std::endl;
+    
     if(numOfChildren < 10 && type != 2 && intersectionPoint.x != -2){
 
         shootChildrenRays(r->reflectionRay, numOfChildren);

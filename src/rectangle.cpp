@@ -17,7 +17,7 @@ glm::dvec3 Rectangle::getNormal(){
     return glm::dvec3(normal.x, normal.y, normal.z);
 }
 
-glm::dvec3 Rectangle::calculateIntersections(glm::dvec3 direction, glm::dvec3 startingPoint) {
+glm::dvec3 Rectangle::calculateIntersections(glm::dvec3 direction, glm::dvec3 startingPoint, double size) {
     calcRectNormal();
     direction = glm::normalize(direction);
 
@@ -26,63 +26,78 @@ glm::dvec3 Rectangle::calculateIntersections(glm::dvec3 direction, glm::dvec3 st
 
     double d = glm::dot(corners.at(0) - startingPoint, normal)/glm::dot(direction, normal);
 
-    if(glm::dot(direction, normal) != 0.0){
+    //std::cout << std::endl << "normal: (" << normal.x << ", " << normal.y << ", " << normal.z << ")" << std::endl;
+    //std::cout << std::endl << "dot(dir, normal): " << glm::dot(direction, normal) << std::endl;
+
+
+    if(glm::dot(direction, normal) > 0.00001 || glm::dot(direction, normal) < -0.00001){
 
         possibleIntersection = d * direction + startingPoint;
 
         // Round the intersection to 8 decimals to avoid precision errors
-        /*possibleIntersection.x = std::floor(possibleIntersection.x * 100000000.0) / 100000000.0;
+        possibleIntersection.x = std::floor(possibleIntersection.x * 100000000.0) / 100000000.0;
         possibleIntersection.y = std::floor(possibleIntersection.y * 100000000.0) / 100000000.0;
-        possibleIntersection.z = std::floor(possibleIntersection.z * 100000000.0) / 100000000.0;*/
-        possibleIntersection.x = std::floor(possibleIntersection.x * 100000.0 + 0.5) / 100000.0;
-        possibleIntersection.y = std::floor(possibleIntersection.y * 100000.0 + 0.5) / 100000.0;
-        possibleIntersection.z = std::floor(possibleIntersection.z * 100000.0 + 0.5) / 100000.0;
+        possibleIntersection.z = std::floor(possibleIntersection.z * 100000000.0) / 100000000.0;
+        //possibleIntersection.x = std::floor(possibleIntersection.x * 100000.0 + 0.5) / 100000.0;
+        //possibleIntersection.y = std::floor(possibleIntersection.y * 100000.0 + 0.5) / 100000.0;
+        //possibleIntersection.z = std::floor(possibleIntersection.z * 100000.0 + 0.5) / 100000.0;
         //std::cout << std::endl << "possibleIntersection: " << "(" << possibleIntersection.x << ", " << possibleIntersection.y << ", " << possibleIntersection.z << ")" << std::endl;
         
+        /**
+         *
+         *  IT FUCKING WORKS
+         *
+         **/
+
         if(possibleIntersection.x * direction.x >= startingPoint.x * direction.x && possibleIntersection.y * direction.y >= startingPoint.y * direction.y && possibleIntersection.z * direction.z >= startingPoint.z * direction.z){
-            // TA BORT 3 FÖRSTA KANSKE YOO
-            if(possibleIntersection.x >= corners.at(0).x && possibleIntersection.y >= corners.at(0).y && possibleIntersection.z <= corners.at(0).z && possibleIntersection.x <= corners.at(2).x && possibleIntersection.y >= corners.at(2).y && possibleIntersection.z >= corners.at(2).z){
-                 //one intersection
-                //std::cout << std::endl << "if1" << std::endl;
-                intersectionPoint = possibleIntersection;
-            }
-            if(possibleIntersection.x <= corners.at(1).x && possibleIntersection.y <= corners.at(1).y && possibleIntersection.z >= corners.at(1).z && possibleIntersection.x >= corners.at(3).x && possibleIntersection.y >= corners.at(3).y && possibleIntersection.z <= corners.at(3).z){
-                 //one intersection
-                //std::cout << std::endl << "if2" << std::endl;
-                intersectionPoint = possibleIntersection;
-            }
-            if(possibleIntersection.x >= corners.at(1).x && possibleIntersection.y <= corners.at(1).y && possibleIntersection.z >= corners.at(1).z && possibleIntersection.x <= corners.at(3).x && possibleIntersection.y >= corners.at(3).y && possibleIntersection.z <= corners.at(3).z){
-                //one intersection
-                //std::cout << std::endl << "if3" << std::endl;
-                intersectionPoint = possibleIntersection;
-            }
-            if(possibleIntersection.x >= corners.at(0).x && possibleIntersection.y <= corners.at(0).y && possibleIntersection.z >= corners.at(0).z && possibleIntersection.x <= corners.at(2).x && possibleIntersection.y >= corners.at(2).y && possibleIntersection.z <= corners.at(2).z){
-                //one intersection
-                //std::cout << std::endl << "if4" << std::endl;
-                intersectionPoint = possibleIntersection;
-            }
-            if(possibleIntersection.x <= corners.at(0).x && possibleIntersection.y <= corners.at(0).y && possibleIntersection.z >= corners.at(0).z && possibleIntersection.x >= corners.at(2).x && possibleIntersection.y >= corners.at(2).y && possibleIntersection.z >= corners.at(2).z){
-                //one intersection
-                //std::cout << std::endl << "if5" << std::endl;
-                intersectionPoint = possibleIntersection;
-            }
-            if(possibleIntersection.x <= corners.at(0).x && possibleIntersection.y <= corners.at(0).y && possibleIntersection.z <= corners.at(0).z && possibleIntersection.x <= corners.at(2).x && possibleIntersection.y >= corners.at(2).y && possibleIntersection.z >= corners.at(2).z){
-                //one intersection
-                //std::cout << std::endl << "if5" << std::endl;
-                intersectionPoint = possibleIntersection;
-            }
-            if(possibleIntersection.x >= corners.at(0).x && possibleIntersection.y <= corners.at(0).y && possibleIntersection.z >= corners.at(0).z && possibleIntersection.x <= corners.at(2).x && possibleIntersection.y <= corners.at(2).y && possibleIntersection.z <= corners.at(2).z){
-                //one intersection
-                //std::cout << std::endl << "if5" << std::endl;
-                intersectionPoint = possibleIntersection;
+            
+            // FÖR VÄGG 1
+            if(possibleIntersection.x >= corners.at(0).x && possibleIntersection.y <= corners.at(0).y && possibleIntersection.z >= corners.at(0).z && possibleIntersection.x >= corners.at(2).x && possibleIntersection.y >= corners.at(2).y && possibleIntersection.z <= corners.at(2).z){
+                if(possibleIntersection.x <= corners.at(0).x + size && possibleIntersection.x <= corners.at(2).x + size){
+                    //std::cout << std::endl << "if1" << std::endl;
+                    intersectionPoint = possibleIntersection;
+                }
             }
 
-            //std::cout << std::endl << "intersection point: " << "(" << intersectionPoint.x << "," << intersectionPoint.y << "," << intersectionPoint.z << ")" << std::endl;
-            //std::cout << std::endl << "corner1-z: " << corners.at(0).z << "   corner2-z: " << corners.at(1).z << "   corner3-z: " << corners.at(2).z << "   corner4-z: " << corners.at(3).z << std::endl;
-            //std::cout << std::endl << "(" << corners.at(0).x << ", " << corners.at(0).y << ", " << corners.at(0).z << ")" << std::endl;
-            //std::cout << std::endl << "(" << corners.at(1).x << ", " << corners.at(1).y << ", " << corners.at(1).z << ")" << std::endl;
-            //std::cout << std::endl << "(" << corners.at(2).x << ", " << corners.at(2).y << ", " << corners.at(2).z << ")" << std::endl;
-            //std::cout << std::endl << "(" << corners.at(3).x << ", " << corners.at(3).y << ", " << corners.at(3).z << ")" << std::endl;
+            // FÖR VÄGG 2
+            if(possibleIntersection.x >= corners.at(0).x && possibleIntersection.y <= corners.at(0).y && possibleIntersection.z >= corners.at(0).z && possibleIntersection.x <= corners.at(2).x && possibleIntersection.y <= corners.at(2).y && possibleIntersection.z <= corners.at(2).z){
+                if(possibleIntersection.y >= corners.at(0).y - size && possibleIntersection.y >= corners.at(2).y - size){
+                    //std::cout << std::endl << "if2" << std::endl;
+                    intersectionPoint = possibleIntersection;
+                }
+            }
+
+            // FÖR VÄGG 3
+            if(possibleIntersection.x <= corners.at(0).x && possibleIntersection.y <= corners.at(0).y && possibleIntersection.z <= corners.at(0).z && possibleIntersection.x <= corners.at(2).x && possibleIntersection.y >= corners.at(2).y && possibleIntersection.z >= corners.at(2).z){
+                if(possibleIntersection.x >= corners.at(0).x - size && possibleIntersection.x >= corners.at(2).x - size){
+                    //std::cout << std::endl << "if3" << std::endl;
+                    intersectionPoint = possibleIntersection;
+                }
+            }
+
+            // FÖR VÄGG 4
+            if(possibleIntersection.x >= corners.at(0).x && possibleIntersection.y >= corners.at(0).y && possibleIntersection.z <= corners.at(0).z && possibleIntersection.x <= corners.at(2).x && possibleIntersection.y >= corners.at(2).y && possibleIntersection.z >= corners.at(2).z){
+                if(possibleIntersection.y <= corners.at(0).y + size && possibleIntersection.y <= corners.at(2).y + size){
+                    //std::cout << std::endl << "if4" << std::endl;
+                    intersectionPoint = possibleIntersection;
+                }
+            }
+
+            // FÖR VÄGG 5
+            if(possibleIntersection.x >= corners.at(0).x && possibleIntersection.y <= corners.at(0).y && possibleIntersection.z <= corners.at(0).z && possibleIntersection.x <= corners.at(2).x && possibleIntersection.y >= corners.at(2).y && possibleIntersection.z <= corners.at(2).z){
+                if(possibleIntersection.z >= corners.at(0).z - size && possibleIntersection.z >= corners.at(2).z - size){
+                    intersectionPoint = possibleIntersection;
+                    //std::cout << std::endl << "if5" << std::endl;
+                }
+            }
+
+            // FÖR VÄGG 6
+            if(possibleIntersection.x <= corners.at(0).x && possibleIntersection.y <= corners.at(0).y && possibleIntersection.z >= corners.at(0).z-0.00001 && possibleIntersection.x >= corners.at(2).x && possibleIntersection.y >= corners.at(2).y && possibleIntersection.z >= corners.at(2).z-0.00001){
+                if(possibleIntersection.z <= corners.at(0).z + size && possibleIntersection.z <= corners.at(2).z + size){
+                    intersectionPoint = possibleIntersection;
+                    //std::cout << std::endl << "if6" << std::endl;
+                }
+            }
         }
     }
     else{
@@ -116,8 +131,8 @@ void Rectangle::calcRectNormal() {
     normal = -1.0*glm::normalize((glm::cross(AB, AC)));
 
     //Fixing double decimal problem for normal
-    normal.x = (int)normal.x;
-    normal.y = (int)normal.y;
-    normal.z = (int)normal.z;
+    normal.x = (int)round(normal.x);
+    normal.y = (int)round(normal.y);
+    normal.z = (int)round(normal.z);
 
 }

@@ -7,7 +7,6 @@
 class Ray{
 public:
 
-    double importance;
     glm::dvec3 color;
     Ray *reflectionRay;
     Ray *refractionRay;
@@ -34,12 +33,16 @@ public:
     void setFinalNode(bool);
     bool getFinalNode();
 
+    void setImportance(double);
+    double getImportance();
+
 private:
     glm::dvec3 startingPoint;
     glm::dvec3 direction;
     bool insideObject;
     bool intersected = false;
     bool finalNode = false;
+    double importance;
 };
 
 #endif // RAY_H

@@ -16,7 +16,7 @@ public:
     //constructor
     Rectangle(glm::dvec3, glm::dvec3, glm::dvec3, glm::dvec3);
     //methods
-    glm::dvec3 calculateIntersections(glm::dvec3, glm::dvec3);
+    glm::dvec3 calculateIntersections(glm::dvec3, glm::dvec3, double);
     void computeChildrenRays(Ray *, glm::dvec3);
     void addCorner(glm::dvec3);
     void calcRectNormal();
