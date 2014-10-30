@@ -28,6 +28,7 @@ void Pixel::shootingRays(int numOfRays) {
         r->setImportance(1 / numberOfRays);
         addRay(r);
         //addRay(new Ray(glm::normalize(initDirection), cameraPos));
+        //sätt ray importance
 
         std::cout << std::endl << "Ray direction: " << "x:" << tmpDir.x << "   y:" << tmpDir.y << "   z:" << tmpDir.z << std::endl;
     }
@@ -90,7 +91,18 @@ void Pixel::shootingRays(int numOfRays) {
         
         if(type == 2)
             (*rayIt)->setFinalNode(true);
-    }
+
+
+        //Here we must calculate the intersections contribution to the image
+        //glm::dvec3 RayColor = (*rayIt)->calculateColor();
+
+
+
+    } 
+
+    
+
+
 }
 
 void Pixel::shootChildrenRays(Ray *r, int numOfChildren) {

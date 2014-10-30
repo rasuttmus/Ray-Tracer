@@ -25,4 +25,5 @@ public:
     void displayImage();
     void createPixels(int imgResX, int imgResY);
     void addShape(Shape *);
+    double getRaysPerPixel();
 };
