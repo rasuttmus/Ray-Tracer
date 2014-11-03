@@ -15,7 +15,6 @@ public:
     //Instance variables
     double radius;
     bool transparent;  
-    double refractiveIndex;
 
     //contructor
     Sphere(glm::dvec3, double, bool, double, glm::dvec3);
@@ -33,12 +32,16 @@ public:
     int getWallIntersectionIndex();
 
     glm::dvec3 randomPosition();
-    //glm::dvec3 getIntersectionNormal();
+
+    double getRefractiveIndex();
+    
+    glm::dvec3 getIntersectionNormal();
 
 private:
     glm::dvec3 position;
     glm::dvec3 color;
-   // glm::dvec3 intersectionNormal;
+    double refractiveIndex;
+    glm::dvec3 intersectionNormal;
 
 };
 

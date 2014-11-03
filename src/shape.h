@@ -15,7 +15,8 @@ public:
     virtual glm::dvec3 getColor(int) = 0;
     virtual int getWallIntersectionIndex() = 0;
     virtual glm::dvec3 randomPosition() = 0;
-    //virtual glm::vec3 getIntersectionNormal() = 0;
+    virtual double getRefractiveIndex() = 0;
+    virtual glm::dvec3 getIntersectionNormal() = 0;
 };
 
 #endif // SHAPE_H

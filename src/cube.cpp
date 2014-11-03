@@ -63,8 +63,7 @@ glm::dvec3 Cube::calculateIntersections(glm::dvec3 direction, glm::dvec3 startin
     }
     //intersectionNormal = rectangles
     //std::cout << std::endl << "Cube Hit!" << "   x: " << intersectionPoint.x << "   y: " << intersectionPoint.y << "   z: " << intersectionPoint.z << std::endl;
-
-    return intersectionPoint + (glm::normalize(rectangles.at(wallIntersectionIndex)->getNormal()) * 0.00000001);
+    return intersectionPoint + intersectionNormal * 0.00000001;
 }
 
 void Cube::computeChildrenRays(Ray *r){
@@ -77,7 +76,7 @@ void Cube::computeChildrenRays(Ray *r){
     
     glm::dvec3 reflectedDirection = -1.0 * (2.0 * (glm::dot(intersectionNormal,inDirection) * intersectionNormal) - inDirection);
     
-    std::cout << std::endl << "normal dir: " << "(" << intersectionNormal.x << ", "<< intersectionNormal.y << ", "<< intersectionNormal.z << ")"<< std::endl;
+    //std::cout << std::endl << "normal dir: " << "(" << intersectionNormal.x << ", "<< intersectionNormal.y << ", "<< intersectionNormal.z << ")"<< std::endl;
     
     r->reflectionRay = new Ray(reflectedDirection, intersectionAt + (intersectionNormal * 0.001));
 
@@ -133,6 +132,14 @@ glm::dvec3 Cube::getColor(int wallIntersectionIndex){
 
 glm::dvec3 Cube::randomPosition(){
     return glm::dvec3(0.0, 0.0, 0.0);
+}
+
+double Cube::getRefractiveIndex(){
+    return refractiveIndex;
+}
+
+glm::dvec3 Cube::getIntersectionNormal(){
+    return intersectionNormal;
 }
 /*glm::dvec3 Cube::getIntersectionNormal(){
     return intersectionNormal;

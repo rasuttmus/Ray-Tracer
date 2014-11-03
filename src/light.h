@@ -24,5 +24,7 @@ class Light: public Shape{
     int getType();
     glm::dvec3 getColor(int);
     int getWallIntersectionIndex();
+    double getRefractiveIndex();
+    glm::dvec3 getIntersectionNormal();
 
 };

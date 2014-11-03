@@ -44,13 +44,14 @@ glm::dvec3 Room::calculateIntersections(glm::dvec3 direction, glm::dvec3 startin
     for(std::vector<Rectangle *>::iterator it = walls.begin(); it != walls.end(); ++it){
         if(glm::length(intersectionPoint - startingPoint) > glm::length((*it)->calculateIntersections(direction, startingPoint, size) - startingPoint)){
             intersectionPoint = (*it)->calculateIntersections(direction, startingPoint, size);
+            intersectionNormal = (*it)->getNormal();
             wallIntersectionIndex = counter;
         }
         counter++;
     }
     //std::cout << std::endl << "Room Hit!" << "  x: " << intersectionPoint.x << "   y: " << intersectionPoint.y << "   z: " << intersectionPoint.z << std::endl;
 
-    return intersectionPoint + (glm::normalize(walls.at(wallIntersectionIndex)->getNormal()) * -0.00000001);
+    return intersectionPoint + intersectionNormal * -0.00000001;
 }
 
 void Room::addWall(Rectangle *r) {
@@ -77,6 +78,13 @@ glm::dvec3 Room::randomPosition(){
     return glm::dvec3(0.0, 0.0, 0.0);
 }
 
+double Room::getRefractiveIndex(){
+    return 1.0;
+}
+
+glm::dvec3 Room::getIntersectionNormal(){
+    return intersectionNormal;
+}
 /*glm::dvec3 getIntersectionNormal(){
     return glm::dvec3(0.0f, 0.0f, 0.0f);
 }*/

@@ -21,7 +21,7 @@ radiance(r), position(p), size(s)
 glm::dvec3 Light::randomPosition() {
 
     glm::dvec3 randPos(0.0, 0.0, 0.0);
-    //srand(static_cast <double> (time(0)));
+    srand(static_cast <double> (time(0)));
 
     randPos.x = lightObject->corners.at(0).x + static_cast<double>(rand()) / (static_cast<double>(RAND_MAX / ((lightObject->corners.at(1).x) - lightObject->corners.at(0).x)));
     randPos.y = 1.0;
@@ -29,7 +29,8 @@ glm::dvec3 Light::randomPosition() {
 
     //std::cout << "random pos on light source: (" << randPos.x << ", " << randPos.y << ", " << randPos.z << ")" << std::endl;
 
-    return randPos;
+    return glm::dvec3(0.5, 1.0, -0.5);
+    //return randPos;
 }
 
 glm::dvec3 Light::calculateIntersections(glm::dvec3 direction, glm::dvec3 startingPoint){
@@ -55,3 +56,12 @@ glm::dvec3 Light::getColor(int c){
 int Light::getWallIntersectionIndex(){
     return 1;
 }
+
+double Light::getRefractiveIndex(){
+    return 1.0;
+}
+
+glm::dvec3 Light::getIntersectionNormal(){
+    return glm::dvec3(0.0, 0.0, 0.0);
+}
+

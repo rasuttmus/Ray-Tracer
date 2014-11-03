@@ -35,8 +35,13 @@ public:
 
     glm::dvec3 randomPosition();
 
+    double getRefractiveIndex();
+
+    glm::dvec3 getIntersectionNormal();
+
 private:
     int wallIntersectionIndex;
+    glm::dvec3 intersectionNormal;
 };
 
 #endif // ROOM_H

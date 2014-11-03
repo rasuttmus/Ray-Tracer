@@ -55,7 +55,7 @@ void Sphere::computeChildrenRays(Ray *r) {
 
 	glm::dvec3 intersectionAt = calculateIntersections(r->getDirection(), r->getStartingPoint());
 	
-	glm::dvec3 intersectionNormal = glm::normalize(intersectionAt - position);
+	intersectionNormal = glm::normalize(intersectionAt - position);
 
     intersectionNormal.x = std::floor(intersectionNormal.x * 100000000.0) / 100000000.0;
     intersectionNormal.y = std::floor(intersectionNormal.y * 100000000.0) / 100000000.0;
@@ -118,6 +118,14 @@ int Sphere::getWallIntersectionIndex(){
 
 glm::dvec3 Sphere::randomPosition(){
     return glm::dvec3(0.0, 0.0, 0.0);
+}
+
+double Sphere::getRefractiveIndex(){
+    return refractiveIndex;
+}
+
+glm::dvec3 Sphere::getIntersectionNormal(){
+    return intersectionNormal;
 }
 
 /*glm::dvec3 Sphere::getIntersectionNormal(){
