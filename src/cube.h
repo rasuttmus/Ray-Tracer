@@ -19,7 +19,6 @@ class Rectangle;
 class Cube: public Shape{
 public:
     double size;
-    bool transparent;
     std::vector<Rectangle *> rectangles;
     std::vector<glm::dvec3> rectangleColors;
 
@@ -29,7 +28,7 @@ public:
 
     //methods
     void initRectangleObjects();
-    glm::dvec3 calculateIntersections(glm::dvec3, glm::dvec3);
+    glm::dvec3 calculateIntersections(Ray *);
     void computeChildrenRays(Ray *);
     void addRectangle(Rectangle *);
 
@@ -48,11 +47,14 @@ public:
 
     glm::dvec3 getIntersectionNormal();
 
+    bool getTransparency();
+
 private:
     glm::dvec3 position;
     glm::dvec3 intersectionNormal;
     int wallIntersectionIndex;
     double refractiveIndex;
+    bool transparent;
 };
 
 #endif // CUBE_H

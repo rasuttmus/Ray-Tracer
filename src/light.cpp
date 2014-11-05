@@ -33,10 +33,9 @@ glm::dvec3 Light::randomPosition() {
     //return randPos;
 }
 
-glm::dvec3 Light::calculateIntersections(glm::dvec3 direction, glm::dvec3 startingPoint){
+glm::dvec3 Light::calculateIntersections(Ray *r){
     
-    direction = glm::normalize(direction);
-    glm::dvec3 intersectionPoint = lightObject->calculateIntersections(direction, startingPoint, size);
+    glm::dvec3 intersectionPoint = lightObject->calculateIntersections(glm::normalize(r->getDirection()), r->getStartingPoint(), size);
 
     return intersectionPoint;
 }
@@ -63,5 +62,9 @@ double Light::getRefractiveIndex(){
 
 glm::dvec3 Light::getIntersectionNormal(){
     return glm::dvec3(0.0, 0.0, 0.0);
+}
+
+bool Light::getTransparency(){
+    return false;
 }
 

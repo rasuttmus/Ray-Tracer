@@ -16,9 +16,9 @@ public:
     Ray(glm::dvec3, glm::dvec3);
     
     //Instance methods  
-    glm::dvec3 calculateColor(glm::dvec3);
-    glm::dvec3 calculateLocalContribution(glm::dvec3);
-    void calculateImportance(double);
+    glm::dvec3 calculateColor(glm::dvec3, int);
+    glm::dvec3 calculateLocalContribution(glm::dvec3, int);
+    void calculateImportance(double, bool);
     glm::dvec3 calculateShadowRay(glm::dvec3, glm::dvec3);
 
     void setStartingPoint(glm::dvec3);

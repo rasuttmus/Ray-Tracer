@@ -13,14 +13,13 @@ class Sphere: public Shape{
 
 public:
     //Instance variables
-    double radius;
-    bool transparent;  
+    double radius;  
 
     //contructor
     Sphere(glm::dvec3, double, bool, double, glm::dvec3);
 
     //Instance methods
-    glm::dvec3 calculateIntersections(glm::dvec3, glm::dvec3);
+    glm::dvec3 calculateIntersections(Ray *);
     void computeChildrenRays(Ray *);
     void setPosition(glm::dvec3);
     glm::dvec3 getPosition();
@@ -37,11 +36,14 @@ public:
     
     glm::dvec3 getIntersectionNormal();
 
+    bool getTransparency();
+
 private:
     glm::dvec3 position;
     glm::dvec3 color;
     double refractiveIndex;
     glm::dvec3 intersectionNormal;
+    bool transparent;
 
 };
 

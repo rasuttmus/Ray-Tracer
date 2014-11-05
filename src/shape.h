@@ -9,7 +9,7 @@
 
 class Shape {
 public:
-    virtual glm::dvec3 calculateIntersections(glm::dvec3, glm::dvec3) = 0;
+    virtual glm::dvec3 calculateIntersections(Ray *r) = 0;
     virtual void computeChildrenRays(Ray *) = 0;
     virtual int getType() = 0;
     virtual glm::dvec3 getColor(int) = 0;
@@ -17,6 +17,7 @@ public:
     virtual glm::dvec3 randomPosition() = 0;
     virtual double getRefractiveIndex() = 0;
     virtual glm::dvec3 getIntersectionNormal() = 0;
+    virtual bool getTransparency() = 0;
 };
 
 #endif // SHAPE_H

@@ -45,9 +45,10 @@ void Cube::initRectangleObjects(){
     std::cout << std::endl << "wall6 pos: " << "(" << rectangles.at(5)->corners.at(3).x << ", " << rectangles.at(5)->corners.at(3).y << ", " << rectangles.at(5)->corners.at(3).z << ")" << std::endl;
 }
 
-glm::dvec3 Cube::calculateIntersections(glm::dvec3 direction, glm::dvec3 startingPoint){
-    direction = glm::normalize(direction);
+glm::dvec3 Cube::calculateIntersections(Ray *r){
     glm::dvec3 intersectionPoint(-2.0, -2.0, 2.0);
+    glm::dvec3 direction = glm::normalize(r->getDirection());
+    glm::dvec3 startingPoint = r->getStartingPoint();
 
     wallIntersectionIndex = 0;
     int counter = 0;
@@ -68,7 +69,7 @@ glm::dvec3 Cube::calculateIntersections(glm::dvec3 direction, glm::dvec3 startin
 
 void Cube::computeChildrenRays(Ray *r){
         
-    glm::dvec3 intersectionAt = calculateIntersections(r->getDirection(), r->getStartingPoint());
+    glm::dvec3 intersectionAt = calculateIntersections(r);
 
     glm::dvec3 inDirection = glm::normalize(r->getDirection());
     glm::dvec3 parentPos = r->getStartingPoint();
@@ -140,6 +141,10 @@ double Cube::getRefractiveIndex(){
 
 glm::dvec3 Cube::getIntersectionNormal(){
     return intersectionNormal;
+}
+
+bool Cube::getTransparency(){
+    return transparent;
 }
 /*glm::dvec3 Cube::getIntersectionNormal(){
     return intersectionNormal;

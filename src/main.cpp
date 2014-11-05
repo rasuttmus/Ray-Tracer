@@ -51,8 +51,8 @@ void createScene() {
 	glm::dvec2 width = glm::dvec2(-0.5, 0.5);
 	glm::dvec2 height = glm::dvec2(-0.5, 0.5);
 
-	int imageResolutionX = 512;
-	int imageResolutionY = 512;
+	int imageResolutionX = 256;
+	int imageResolutionY = 256;
 
 	// Create camera
 	camera = new Camera(glm::dvec3(0.5, 0.5, -2.0), width, height, imageResolutionX, imageResolutionY, 10);
@@ -63,7 +63,7 @@ void createScene() {
 
 	camera->addShape(room);
 
-	Shape *cube1 = new Cube(glm::dvec3(0.2, 0.1, -0.4), 0.2, false, glm::dvec3(0.0, 0.0, 1.0), 1);
+	Shape *cube1 = new Cube(glm::dvec3(0.2, 0.1, -0.4), 0.2, false, glm::dvec3(0.0, 0.4, 0.8), 1.5);
 	//camera->addShape(cube1);
 
 	//Shape *cube2 = new Cube(glm::dvec3(0.4, 0.4, -0.5), 0.2, false, 1);
@@ -73,10 +73,13 @@ void createScene() {
 	//camera->addShape(cube3);
 
 	//Create sphere
-	Shape *sphere = new Sphere(glm::dvec3(0.5, 0.6, -0.3), 0.1, false, 1, glm::dvec3(1.0, 0.0, 0.7));
+	Shape *sphere = new Sphere(glm::dvec3(0.5, 0.5, -0.5), 0.1, true, 1.5, glm::dvec3(1.0, 0.0, 0.7));
 	camera->addShape(sphere);
 
-	Shape *sphere2 = new Sphere(glm::dvec3(0.75, 0.2, -0.2), 0.4, false, 1, glm::dvec3(0.0, 0.0, 0.0));
-	camera->addShape(sphere2);
+	Shape *sphere2 = new Sphere(glm::dvec3(0.75, 0.3, -0.2), 0.15, true, 1.5, glm::dvec3(0.2, 1.0, 1.0));
+	//camera->addShape(sphere2);
+
+	Shape *sphere3 = new Sphere(glm::dvec3(0.2, 0.45, -0.2), 0.12, false, 1.5, glm::dvec3(0.3, 0.6, 0.4));
+	//camera->addShape(sphere3);
 
 }

@@ -35,8 +35,9 @@ void Room::initRectangles() {
     addWall(new Rectangle(glm::dvec3(0.0, 1.0, 0.0), glm::dvec3(1.0, 1.0, 0.0), glm::dvec3(1.0, 0.0, 0.0), glm::dvec3(0.0, 0.0, 0.0)));
 }
 
-glm::dvec3 Room::calculateIntersections(glm::dvec3 direction, glm::dvec3 startingPoint) {
-    direction = glm::normalize(direction);
+glm::dvec3 Room::calculateIntersections(Ray *r) {
+    glm::dvec3 direction = glm::normalize(r->getDirection());
+    glm::dvec3 startingPoint = r->getStartingPoint();
     glm::dvec3 intersectionPoint(-2.0, -2.0, 2.0);
     wallIntersectionIndex = 0;
     int counter = 0;
@@ -84,6 +85,10 @@ double Room::getRefractiveIndex(){
 
 glm::dvec3 Room::getIntersectionNormal(){
     return intersectionNormal;
+}
+
+bool Room::getTransparency(){
+    return false;
 }
 /*glm::dvec3 getIntersectionNormal(){
     return glm::dvec3(0.0f, 0.0f, 0.0f);

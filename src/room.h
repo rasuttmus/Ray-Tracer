@@ -23,7 +23,7 @@ public:
 
     //methods
     void initRectangles();
-    glm::dvec3 calculateIntersections(glm::dvec3 direction, glm::dvec3 startingPoint);
+    glm::dvec3 calculateIntersections(Ray *);
     void computeChildrenRays(Ray *);
     void addWall(Rectangle *);
    // glm::dvec3 getIntersectionNormal();
@@ -38,6 +38,8 @@ public:
     double getRefractiveIndex();
 
     glm::dvec3 getIntersectionNormal();
+
+    bool getTransparency();
 
 private:
     int wallIntersectionIndex;

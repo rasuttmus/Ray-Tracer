@@ -19,7 +19,7 @@ void Pixel::shootingRays(int numOfRays) {
         direction.z = 1.0;
 
         glm::dvec3 tmpDir = glm::dvec3(0.0, 0.0, 1.0);
-        glm::dvec3 tmpPos = glm::dvec3(0.3, 0.5, -0.5);
+        glm::dvec3 tmpPos = glm::dvec3(0.51, 0.5, -2.0);
 
         r = new Ray(glm::normalize(direction), cameraPos);
         r->setImportance(1 / numberOfRays);
@@ -40,7 +40,7 @@ void Pixel::shootingRays(int numOfRays) {
     int wallIntersectionIndex = 0;
 
     
-
+    
     for(std::vector<Ray *>::iterator rayIt = rays.begin(); rayIt != rays.end(); ++rayIt){
         intersectionPoint = glm::dvec3(-2.0, -2.0, 2.0);
         for(std::vector<Shape *>::iterator shapeIt = shapes.begin(); shapeIt != shapes.end(); ++shapeIt){
@@ -52,8 +52,8 @@ void Pixel::shootingRays(int numOfRays) {
             //std::cout << std::endl << "lengthSTD: " << glm::length(glm::dvec3(-2.0, -2.0, 2.0) - (*rayIt)->getStartingPoint()) << std::endl;
             
 
-            if(glm::length(intersectionPoint - (*rayIt)->getStartingPoint()) > glm::length((*shapeIt)->calculateIntersections((*rayIt)->getDirection(), (*rayIt)->getStartingPoint()) - (*rayIt)->getStartingPoint())){
-                intersectionPoint = (*shapeIt)->calculateIntersections((*rayIt)->getDirection(), (*rayIt)->getStartingPoint());
+            if(glm::length(intersectionPoint - (*rayIt)->getStartingPoint()) > glm::length((*shapeIt)->calculateIntersections(*rayIt) - (*rayIt)->getStartingPoint())){
+                intersectionPoint = (*shapeIt)->calculateIntersections(*rayIt);
                 //std::cout << std::endl << "lengthNEW: " << glm::length(intersectionPoint - (*rayIt)->getStartingPoint()) << std::endl;
                 type = (*shapeIt)->getType();
                 id = counter;
@@ -62,46 +62,51 @@ void Pixel::shootingRays(int numOfRays) {
             }
             counter++;
         }
+        //std::cout << std::endl << std::endl << std::endl;
         (*rayIt)->setIntersectionPoint(intersectionPoint);
         (*rayIt)->setIntersectionType(type);
         (*rayIt)->setIntersectionNormal(shapes.at(id)->getIntersectionNormal());
-
-        glm::dvec3 shadowRay = (*rayIt)->calculateShadowRay(intersectionPoint, shapes.at(0)->randomPosition());
+        
+        Ray *shadowRay = new Ray(glm::normalize((*rayIt)->calculateShadowRay(intersectionPoint, shapes.at(0)->randomPosition())), intersectionPoint);
         glm::dvec3 shadowRayIntersection(-2.0, -2.0, 2.0);
         int shadowRayType = 0;
         //std::cout << std::endl << "shadowRayDir: (" << glm::normalize(shadowRay).x << ", " << glm::normalize(shadowRay).y << ", " << glm::normalize(shadowRay).z << ")" << std::endl;
-
+        
         for(std::vector<Shape *>::iterator shapeIt = shapes.begin(); shapeIt != shapes.end(); ++shapeIt){
-            if(glm::length(shadowRayIntersection - intersectionPoint) > glm::length((*shapeIt)->calculateIntersections(glm::normalize(shadowRay), intersectionPoint) - intersectionPoint)){
-                shadowRayIntersection = (*shapeIt)->calculateIntersections(glm::normalize(shadowRay), intersectionPoint);
+            if(glm::length(shadowRayIntersection - intersectionPoint) > glm::length((*shapeIt)->calculateIntersections(shadowRay) - intersectionPoint)){
+                shadowRayIntersection = (*shapeIt)->calculateIntersections(shadowRay);
                 shadowRayType = (*shapeIt)->getType();
             }
         }
 
-        /*if(shadowRayType == 3)
+        //if(shadowRayType == 3)
             (*rayIt)->setColor(shapes.at(id)->getColor(wallIntersectionIndex));
-        else
-            (*rayIt)->setColor(shapes.at(id)->getColor(wallIntersectionIndex)*0.1);
-
+        //else
+          //  (*rayIt)->setColor(shapes.at(id)->getColor(wallIntersectionIndex)*0.1);
+            
         if((int)round(intersectionPoint.x) == -2)
             (*rayIt)->setColor(glm::dvec3(0.0, 0.0, 0.0));
 
         if(type == 3)
             (*rayIt)->setColor(shapes.at(id)->getColor(wallIntersectionIndex));
-*/
+        
         
         counter = 0;
         
-       
         if(type != 2 || type != 3){
             shapes.at(id)->computeChildrenRays((*rayIt));
-            (*rayIt)->calculateImportance(shapes.at(id)->getRefractiveIndex());
+            (*rayIt)->calculateImportance(shapes.at(id)->getRefractiveIndex(), shapes.at(id)->getTransparency());
             //std::cout << std::endl << "id: " << id << std::endl;
             //std::cout << std::endl << "startpos reflection: " << "(" << (*rayIt)->reflectionRay->getStartingPoint().x << ", " << (*rayIt)->reflectionRay->getStartingPoint().y << ", " << (*rayIt)->reflectionRay->getStartingPoint().z << ")" << std::endl;
             //std::cout << std::endl << "reflection direction: " << "(" << (*rayIt)->reflectionRay->getDirection().x << ", " << (*rayIt)->reflectionRay->getDirection().y << ", " << (*rayIt)->reflectionRay->getDirection().z << ")" << std::endl;
 
+
+           // std::cout << std::endl << "startpos refraction: " << "(" << (*rayIt)->refractionRay->getStartingPoint().x << ", " << (*rayIt)->refractionRay->getStartingPoint().y << ", " << (*rayIt)->refractionRay->getStartingPoint().z << ")" << std::endl;
+            //std::cout << std::endl << "refraction direction: " << "(" << (*rayIt)->refractionRay->getDirection().x << ", " << (*rayIt)->refractionRay->getDirection().y << ", " << (*rayIt)->refractionRay->getDirection().z << ")" << std::endl;
             if((*rayIt)->reflectionRay != NULL && (*rayIt)->refractionRay != NULL){
                 //RÄKNA NÅNTING
+                (*rayIt)->reflectionRay->setImportance((*rayIt)->getImportance());
+                (*rayIt)->refractionRay->setImportance((*rayIt)->getImportance());
                 shootChildrenRays((*rayIt)->reflectionRay, 1);
                 shootChildrenRays((*rayIt)->refractionRay, 1);
             }
@@ -115,23 +120,22 @@ void Pixel::shootingRays(int numOfRays) {
             (*rayIt)->setFinalNode(true);
             (*rayIt)->setColor(shapes.at(id)->getColor(wallIntersectionIndex));
         }
-
         //Here we must calculate the intersections contribution to the image
         (*rayIt)->setColor(glm::dvec3(0.0, 0.0, 0.0));
         (*rayIt)->setColor(shapes.at(id)->getColor(wallIntersectionIndex));
-        //debug
+        
 
-        if(type != 3 && shadowRayType == 3)
-            (*rayIt)->setColor((*rayIt)->calculateColor(shapes.at(0)->randomPosition()));
+        if(type != 3 /*&& shadowRayType == 3*/){
+            
+            (*rayIt)->setColor((*rayIt)->calculateColor(shapes.at(0)->randomPosition(), shadowRayType));
+            
+        }
+        /*if(shadowRayType != 3)
+            (*rayIt)->setColor(shapes.at(id)->getColor(wallIntersectionIndex)*0.2);*/
 
-        if(shadowRayType != 3)
-            (*rayIt)->setColor(shapes.at(id)->getColor(wallIntersectionIndex)*0.2);
 
-        /*if((int)intersectionPoint.x == -2){
-            (*rayIt)->setColor(glm::dvec3(0.0, 0.0, 0.0));
-        }*/
-        //debug
         colorOfPixel += (*rayIt)->getColor();
+        //std::cout << "color of ray: (" << (*rayIt)->getColor().x << ", " << (*rayIt)->getColor().y << ", " << (*rayIt)->getColor().z << ", " << std::endl;
     }
     colorOfPixel /= numOfRays;
 }
@@ -143,12 +147,13 @@ void Pixel::shootChildrenRays(Ray *r, int numOfChildren) {
     int counter = 0;
     int wallIntersectionIndex = 0;
     int type;
-    
+    /*std::cout << std::endl << std::endl << std::endl;
+    std::cout << std::endl << "iterations: " << numOfChildren << std::endl;*/
     glm::dvec3 intersectionPoint(-2.0, -2.0, 2.0);
 
     for(std::vector<Shape *>::iterator it = shapes.begin(); it != shapes.end(); ++it){
-        if(glm::length(intersectionPoint - r->getStartingPoint()) > glm::length((*it)->calculateIntersections(r->getDirection(), r->getStartingPoint()) - r->getStartingPoint())){
-            intersectionPoint = (*it)->calculateIntersections(r->getDirection(), r->getStartingPoint());
+        if(glm::length(intersectionPoint - r->getStartingPoint()) > glm::length((*it)->calculateIntersections(r) - r->getStartingPoint())){
+            intersectionPoint = (*it)->calculateIntersections(r);
             type = (*it)->getType();
             index = counter;
             if(type != 1 || type != 3)
@@ -156,20 +161,30 @@ void Pixel::shootChildrenRays(Ray *r, int numOfChildren) {
         }
         counter++;
     }
-    
+    //std::cout << "intersectionPoint: (" << intersectionPoint.x << ", " << intersectionPoint.y << ", "  << intersectionPoint.z << ")" << std::endl;
     if(type != 2 && type != 3 && (int)round(intersectionPoint.x) != -2){
         shapes.at(index)->computeChildrenRays(r);
-        r->calculateImportance(shapes.at(index)->getRefractiveIndex());
+        r->calculateImportance(shapes.at(index)->getRefractiveIndex(), shapes.at(index)->getTransparency());
     }
-    
-    if(numOfChildren < 10 && type != 2 && type != 3 && (int)round(intersectionPoint.x) != -2){
+    /*if(r->reflectionRay != NULL){
+    std::cout << std::endl << "startpos reflection: " << "(" << r->reflectionRay->getStartingPoint().x << ", " << r->reflectionRay->getStartingPoint().y << ", " << r->reflectionRay->getStartingPoint().z << ")" << std::endl;
+    std::cout << std::endl << "reflection direction: " << "(" << r->reflectionRay->getDirection().x << ", " << r->reflectionRay->getDirection().y << ", " << r->reflectionRay->getDirection().z << ")" << std::endl;
+    }
+    if(r->refractionRay != NULL){
+        std::cout << std::endl << "startpos refraction: " << "(" << r->refractionRay->getStartingPoint().x << ", " << r->refractionRay->getStartingPoint().y << ", " << r->refractionRay->getStartingPoint().z << ")" << std::endl;
+        std::cout << std::endl << "refraction direction: " << "(" << r->refractionRay->getDirection().x << ", " << r->refractionRay->getDirection().y << ", " << r->refractionRay->getDirection().z << ")" << std::endl;
+    }*/
+
+    if(numOfChildren < 10 && type != 2 && type != 3 && (int)round(intersectionPoint.x) != -2 && r->reflectionRay != NULL){
         r->reflectionRay->setImportance(r->getImportance());
         shootChildrenRays(r->reflectionRay, numOfChildren);
         if(r->refractionRay != NULL){
+            //std::cout << "hej" << std::endl;
+            r->refractionRay->setImportance(r->getImportance());
             shootChildrenRays(r->refractionRay, numOfChildren);
         }
     }
-    if(type == 2 || numOfChildren == 9 || type == 3 || r->reflectionRay == NULL || (int)round(intersectionPoint.x) == -2){
+    if(type == 2 || numOfChildren == 10 || type == 3 || r->reflectionRay == NULL || (int)round(intersectionPoint.x) == -2){
         (r)->setFinalNode(true);
         (r)->setColor(shapes.at(index)->getColor(wallIntersectionIndex));
     }

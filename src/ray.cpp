@@ -4,25 +4,33 @@ Ray::Ray(glm::dvec3 d, glm::dvec3 s):
 		 direction(d), startingPoint(s){
 }
 
-glm::dvec3 Ray::calculateColor(glm::dvec3 lightPos) {
-
+glm::dvec3 Ray::calculateColor(glm::dvec3 lightPos, int shadowRayType) {
+    
     double localContributionImportance = 1.0 - importance;
 
 //recursive function thats goes through all child rays. 
 //color = glm::dvec3(0.0, 0.0, 0.0);
-
-    if(finalNode){
-        color = localContributionImportance * calculateLocalContribution(lightPos) * color + importance * color;
-        //color = importance * color;
+    if(finalNode == true){
+        color = localContributionImportance * calculateLocalContribution(lightPos, shadowRayType) + importance * color;
     }
-
-    if(!finalNode && reflectionRay != NULL){
-        color = reflectionRay->calculateColor(lightPos) * importance + color * localContributionImportance * calculateLocalContribution(lightPos);
-
-        //color2 * importance = refractionRay->calculateColor();  
+    else if(finalNode == false && reflectionRay != NULL && refractionRay == NULL){
+        color = reflectionRay->calculateColor(lightPos, shadowRayType) * reflectionRay->reflectedRadiance * color + 
+                localContributionImportance * calculateLocalContribution(lightPos, shadowRayType);
+        //std::cout << std::endl << "color: (" << color.x << ", " << color.y << ", " << color.z << ")" << std::endl;
+    }
+    else if(finalNode == false && reflectionRay != NULL && refractionRay != NULL){
+        color = (reflectionRay->calculateColor(lightPos, shadowRayType) * reflectionRay->reflectedRadiance + 
+                (importance - reflectionRay->reflectedRadiance) * refractionRay->calculateColor(lightPos, shadowRayType)) * color + 
+                localContributionImportance * calculateLocalContribution(lightPos, shadowRayType);
+        //std::cout << std::endl << "color: (" << color.x << ", " << color.y << ", " << color.z << ")" << std::endl;
+        //std::cout << "importance: " << (importance - reflectionRay->reflectedRadiance) << std::endl;
+        //color2 * importance = refractionRay->calculateColor();
         //color = color1 + color2;
     //color *= calculateLocalContribution(lightPos);
+    } else {
+        color = glm::dvec3(0.0, 0.0, 0.0);
     }
+    
     return color;
 }
 
@@ -31,10 +39,10 @@ glm::dvec3 Ray::calculateColor(glm::dvec3 lightPos) {
  * KANSKE MÅSTE MECKA, MEN NU FICK DET RECKA
  *
  */
-glm::dvec3 Ray::calculateLocalContribution(glm::dvec3 lightPos){
+glm::dvec3 Ray::calculateLocalContribution(glm::dvec3 lightPos, int shadowRayType){
     glm::dvec3 localLighting(0.0, 0.0, 0.0);
-    double diffuseConstant = 2.0;
-    double specularConstant = 2.0;
+    double diffuseConstant = 0.5;
+    double specularConstant = 0.5;
     double highlightConstant = 10.0;
     glm::dvec3 lightSourceColor(1.0, 1.0, 1.0);
 
@@ -42,6 +50,9 @@ glm::dvec3 Ray::calculateLocalContribution(glm::dvec3 lightPos){
     glm::dvec3 invShadowRay = glm::normalize(intersectionPoint - lightPos);
     glm::dvec3 shadowRayReflection = glm::normalize(invShadowRay - 2 * (glm::dot(invShadowRay, intersectionNormal)) * intersectionNormal);
     glm::dvec3 viewDirection = glm::normalize(startingPoint - intersectionPoint);
+
+    if(shadowRayType != 3)
+        return glm::dvec3(0.0, 0.0, 0.0);
 
     if(intersectionType == 2)
         localLighting = -(diffuseConstant * (glm::dot(shadowRay, intersectionNormal)) * lightSourceColor);
@@ -57,37 +68,34 @@ glm::dvec3 Ray::calculateLocalContribution(glm::dvec3 lightPos){
     return localLighting;
 }
 
-void Ray::calculateImportance(double refractiveIndex){
+void Ray::calculateImportance(double refractiveIndex, bool transparent){
     double n1 = 1.0;
     double n2 = 1.0;
-    //debug
+    
     if(insideObject)
         n1 = refractiveIndex;
     else 
         n2 = refractiveIndex;
-/*
-    if(refractionRay == NULL){
-        importance = 0.1;
-        transmittedRadiance = 0.0;
+    if(refractionRay == NULL && reflectionRay != NULL){
+        importance = 0.3;
+        reflectionRay->reflectedRadiance = importance;
+        //std::cout << std::endl << "fresnel: " << pow((n1 - n2) / (n1 + n2), 2) * importance << std::endl;
     }
-
-    if(reflectionRay != NULL){
-        importance = 0.1;
-    }*/
-    /*if(reflectionRay != NULL && refractionRay != NULL)
-        reflectionRay->importance = pow((n1 - n2) / (n1 + n2), 2) * importance;
-
-
-    if(reflectionRay != NULL && refractionRay == NULL){
-        debug
-        reflectionRay->importance = 0.1;
+    
+    if(reflectionRay != NULL && refractionRay != NULL && !finalNode && transparent == true){
+        importance = 0.3;
+        reflectionRay->reflectedRadiance = pow((n1 - n2) / (n1 + n2), 2) * importance;
+        //std::cout << std::endl << "fresnel: " << reflectionRay->reflectedRadiance << std::endl;
+        //std::cout << "importance: " << importance << std::endl;
+        refractionRay->transmittedRadiance = importance - reflectionRay->importance;
     }
-
-
-    if(refractionRay != NULL)
-        refractionRay->importance = 1.0 * importance - reflectedRadiance;
-        */
-    importance = 0.8;
+    if(reflectionRay == NULL && refractionRay == NULL){
+        importance = 0.3;
+        reflectedRadiance = importance;
+        transmittedRadiance = importance - reflectedRadiance;
+        //std::cout << std::endl << ""
+    }
+    //importance = 0.3;
 }
 
 glm::dvec3 Ray::calculateShadowRay(glm::dvec3 intersectionPoint, glm::dvec3 lightPos){
