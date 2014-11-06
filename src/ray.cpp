@@ -81,8 +81,9 @@ void Ray::calculateImportance(double refractiveIndex, bool transparent){
     }
     
     if(reflectionRay != NULL && refractionRay != NULL && !finalNode && transparent == true){
+        std::cout << std::endl << "wgsdfk" << std::endl;
         reflectionRay->reflectedRadiance = pow((n1 - n2) / (n1 + n2), 2) * importance;
-        refractionRay->transmittedRadiance =  100.0 * (importance - reflectionRay->importance);
+        refractionRay->transmittedRadiance =  importance - reflectionRay->importance;
     }
     if(reflectionRay == NULL && refractionRay == NULL){
         reflectedRadiance = importance;
