@@ -41,7 +41,7 @@ void calcRays(){
 void createScene() {
 	
 	// Create room
-	Shape *room = new Room(glm::dvec3(0.0, 0.0, 0.0), 1.0, glm::dvec3(1.0, 0.0, 0.0), glm::dvec3(0.8, 0.8, 0.8), glm::dvec3(0.0, 1.0, 0.0), glm::dvec3(0.8, 0.8, 0.8), glm::dvec3(1.0, 1.0, 0.5));
+	Shape *room = new Room(glm::dvec3(0.0, 0.0, 0.0), 1.0, glm::dvec3(1.0, 0.0, 0.0), glm::dvec3(0.8, 0.8, 0.8), glm::dvec3(0.0, 1.0, 0.0), glm::dvec3(0.8, 0.8, 0.8), glm::dvec3(1.0, 0.1, 0.1));
 
 	// Set up viewDirection
 	//glm::dvec2 viewDir;

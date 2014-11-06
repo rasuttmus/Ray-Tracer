@@ -25,7 +25,7 @@ void Pixel::shootingRays(int numOfRays) {
 
         //Create the rays and adds them to a vector  
         r = new Ray(glm::normalize(direction), cameraPos);
-        r->setImportance(1.0 / numberOfRays);
+        r->setImportance(5.0 / numberOfRays);
         addRay(r);
     
     }

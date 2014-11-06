@@ -8,6 +8,11 @@ Ray::Ray(glm::dvec3 d, glm::dvec3 s):
 
 glm::dvec3 Ray::calculateColor(glm::dvec3 lightPos, int shadowRayType) {
     
+
+    /* HÄR MECKAR VI!! SAKER Är BORTMARKERADE FÖR ATT TESTA ATT LOCALCONTRIBUTION ÄR FÖR HÖG OCH REFRACTED CONTRIBUTION ÄR FÖR LÅG!
+    */    
+
+
     double localContributionImportance = 1.0 - importance;
 
     //recursive function thats goes through all child rays. 
@@ -15,13 +20,13 @@ glm::dvec3 Ray::calculateColor(glm::dvec3 lightPos, int shadowRayType) {
         color = color * importance + localContributionImportance * calculateLocalContribution(lightPos, shadowRayType) * color;
     }
     else if(finalNode == false && reflectionRay != NULL && refractionRay == NULL){
-        color = reflectionRay->calculateColor(lightPos, shadowRayType) * reflectionRay->reflectedRadiance * color + 
-                localContributionImportance * calculateLocalContribution(lightPos, shadowRayType) * color;
+        color = reflectionRay->calculateColor(lightPos, shadowRayType) * reflectionRay->reflectedRadiance * color 
+                /* + localContributionImportance * calculateLocalContribution(lightPos, shadowRayType) * color*/;
     }
     else if(finalNode == false && reflectionRay != NULL && refractionRay != NULL){
         color = (reflectionRay->calculateColor(lightPos, shadowRayType) * reflectionRay->reflectedRadiance + 
-                (importance - reflectionRay->reflectedRadiance) * refractionRay->calculateColor(lightPos, shadowRayType)) * color + 
-                localContributionImportance * calculateLocalContribution(lightPos, shadowRayType) * color;
+                (importance - reflectionRay->reflectedRadiance) * refractionRay->calculateColor(lightPos, shadowRayType)) *  color * 2.0
+               /*  + localContributionImportance * calculateLocalContribution(lightPos, shadowRayType) * color*/;
 
         /*if(intersectionType == 1){
             color = (reflectionRay->calculateColor(lightPos, shadowRayType) * reflectionRay->reflectedRadiance + 
@@ -68,8 +73,6 @@ void Ray::calculateImportance(double refractiveIndex, bool transparent){
     double n1 = 1.0;
     double n2 = 1.0;
    
-    if(transparent)
-    importance = 0.9;
 
     if(insideObject)
         n1 = refractiveIndex;
@@ -81,7 +84,6 @@ void Ray::calculateImportance(double refractiveIndex, bool transparent){
     }
     
     if(reflectionRay != NULL && refractionRay != NULL && !finalNode && transparent == true){
-        std::cout << std::endl << "wgsdfk" << std::endl;
         reflectionRay->reflectedRadiance = pow((n1 - n2) / (n1 + n2), 2) * importance;
         refractionRay->transmittedRadiance =  importance - reflectionRay->importance;
     }
