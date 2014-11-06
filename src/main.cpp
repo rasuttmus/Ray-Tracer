@@ -41,7 +41,7 @@ void calcRays(){
 void createScene() {
 	
 	// Create room
-	Shape *room = new Room(glm::dvec3(0.0, 0.0, 0.0), 1.0, glm::dvec3(1.0, 0.0, 0.0), glm::dvec3(0.8, 0.8, 0.8), glm::dvec3(0.0, 1.0, 0.0), glm::dvec3(0.8, 0.8, 0.8), glm::dvec3(0.8, 0.8, 0.8));
+	Shape *room = new Room(glm::dvec3(0.0, 0.0, 0.0), 1.0, glm::dvec3(1.0, 0.0, 0.0), glm::dvec3(0.8, 0.8, 0.8), glm::dvec3(0.0, 1.0, 0.0), glm::dvec3(0.8, 0.8, 0.8), glm::dvec3(1.0, 1.0, 0.5));
 
 	// Set up viewDirection
 	//glm::dvec2 viewDir;
@@ -51,8 +51,8 @@ void createScene() {
 	glm::dvec2 width = glm::dvec2(-0.5, 0.5);
 	glm::dvec2 height = glm::dvec2(-0.5, 0.5);
 
-	int imageResolutionX = 512;
-	int imageResolutionY = 512;
+	int imageResolutionX = 256;
+	int imageResolutionY = 256;
 
 	// Create camera
 	camera = new Camera(glm::dvec3(0.5, 0.5, -2.0), width, height, imageResolutionX, imageResolutionY, 10);
@@ -68,11 +68,11 @@ void createScene() {
 	//camera->addShape(cube1);
 
 	//Create sphere
-	Shape *sphere = new Sphere(glm::dvec3(0.5, 0.5, -0.5), 0.2, true, 1.5, glm::dvec3(1.0, 0.0, 0.7));
+	Shape *sphere = new Sphere(glm::dvec3(0.5, 0.5, -0.4), 0.20, true, 1.5, glm::dvec3(0.5, 0.5, 1.0));
 	camera->addShape(sphere);
 
-	Shape *sphere2 = new Sphere(glm::dvec3(0.75, 0.3, -0.2), 0.15, false, 1.5, glm::dvec3(0.2, 1.0, 1.0));
-	//camera->addShape(sphere2);
+	Shape *sphere2 = new Sphere(glm::dvec3(0.3, 0.5, -0.15), 0.10, false, 1.2, glm::dvec3(0.5, 1.0, 0.5));
+	camera->addShape(sphere2);
 
 	Shape *sphere3 = new Sphere(glm::dvec3(0.2, 0.45, -0.2), 0.12, false, 1.5, glm::dvec3(0.3, 0.6, 0.4));
 	//camera->addShape(sphere3);

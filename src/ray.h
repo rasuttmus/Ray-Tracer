@@ -9,8 +9,8 @@
 class Ray{
 public:
 
-    Ray *reflectionRay;
-    Ray *refractionRay;
+    Ray *reflectionRay = NULL;
+    Ray *refractionRay = NULL;
 
     //constructor
     Ray(glm::dvec3, glm::dvec3);

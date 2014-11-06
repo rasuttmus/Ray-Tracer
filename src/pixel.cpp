@@ -67,9 +67,9 @@ void Pixel::shootingRays(int numOfRays) {
         glm::dvec3 shadowRayIntersection(-2.0, -2.0, 2.0);
         int shadowRayType = 0;
         
-        //Loop through all shapes and check if the shadowrays intersects with any object
+        //Loop through all shapes and check if the shadowrays intersects with any opaque object
         for(std::vector<Shape *>::iterator shapeIt = shapes.begin(); shapeIt != shapes.end(); ++shapeIt){
-            if(glm::length(shadowRayIntersection - intersectionPoint) > glm::length((*shapeIt)->calculateIntersections(shadowRay) - intersectionPoint)){
+            if(glm::length(shadowRayIntersection - intersectionPoint) > glm::length((*shapeIt)->calculateIntersections(shadowRay) - intersectionPoint) && !(*shapeIt)->getTransparency()){
                 shadowRayIntersection = (*shapeIt)->calculateIntersections(shadowRay);
                 shadowRayType = (*shapeIt)->getType();
             }
@@ -179,6 +179,9 @@ void Pixel::shootChildrenRays(Ray *r, int numOfChildren) {
                     }
             }   
     }
+
+     //Set the color of the ray
+        r->setColor(shapes.at(index)->getColor(wallIntersectionIndex));
 
     //If ray hits wall, light or has reach maximum number of children 
     if(type == 2 || type == 3 || numOfChildren == 10 || r->reflectionRay == NULL){
