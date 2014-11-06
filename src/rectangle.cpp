@@ -26,9 +26,6 @@ glm::dvec3 Rectangle::calculateIntersections(glm::dvec3 direction, glm::dvec3 st
 
     double d = glm::dot(corners.at(0) - startingPoint, normal)/glm::dot(direction, normal);
 
-    //std::cout << std::endl << "normal: (" << normal.x << ", " << normal.y << ", " << normal.z << ")" << std::endl;
-    //std::cout << std::endl << "dot(dir, normal): " << glm::dot(direction, normal) << std::endl;
-
 
     if(glm::dot(direction, normal) > 0.00001 || glm::dot(direction, normal) < -0.00001){
 
@@ -38,23 +35,13 @@ glm::dvec3 Rectangle::calculateIntersections(glm::dvec3 direction, glm::dvec3 st
         possibleIntersection.x = std::floor(possibleIntersection.x * 100000000.0) / 100000000.0;
         possibleIntersection.y = std::floor(possibleIntersection.y * 100000000.0) / 100000000.0;
         possibleIntersection.z = std::floor(possibleIntersection.z * 100000000.0) / 100000000.0;
-        //possibleIntersection.x = std::floor(possibleIntersection.x * 100000.0 + 0.5) / 100000.0;
-        //possibleIntersection.y = std::floor(possibleIntersection.y * 100000.0 + 0.5) / 100000.0;
-        //possibleIntersection.z = std::floor(possibleIntersection.z * 100000.0 + 0.5) / 100000.0;
-        //std::cout << std::endl << "possibleIntersection: " << "(" << possibleIntersection.x << ", " << possibleIntersection.y << ", " << possibleIntersection.z << ")" << std::endl;
-        
-        /**
-         *
-         *  IT FUCKING WORKS
-         *
-         **/
+
 
         if(possibleIntersection.x * direction.x >= startingPoint.x * direction.x && possibleIntersection.y * direction.y >= startingPoint.y * direction.y && possibleIntersection.z * direction.z >= startingPoint.z * direction.z){
             
             // FÖR VÄGG 1
             if(possibleIntersection.x >= corners.at(0).x && possibleIntersection.y <= corners.at(0).y && possibleIntersection.z >= corners.at(0).z && possibleIntersection.x >= corners.at(2).x && possibleIntersection.y >= corners.at(2).y && possibleIntersection.z <= corners.at(2).z){
                 if(possibleIntersection.x <= corners.at(0).x + size && possibleIntersection.x <= corners.at(2).x + size){
-                    //std::cout << std::endl << "if1" << std::endl;
                     intersectionPoint = possibleIntersection;
                 }
             }
@@ -62,7 +49,6 @@ glm::dvec3 Rectangle::calculateIntersections(glm::dvec3 direction, glm::dvec3 st
             // FÖR VÄGG 2
             if(possibleIntersection.x >= corners.at(0).x && possibleIntersection.y <= corners.at(0).y && possibleIntersection.z >= corners.at(0).z && possibleIntersection.x <= corners.at(2).x && possibleIntersection.y <= corners.at(2).y && possibleIntersection.z <= corners.at(2).z){
                 if(possibleIntersection.y >= corners.at(0).y - size && possibleIntersection.y >= corners.at(2).y - size){
-                    //std::cout << std::endl << "if2" << std::endl;
                     intersectionPoint = possibleIntersection;
                 }
             }
@@ -70,7 +56,6 @@ glm::dvec3 Rectangle::calculateIntersections(glm::dvec3 direction, glm::dvec3 st
             // FÖR VÄGG 3
             if(possibleIntersection.x <= corners.at(0).x && possibleIntersection.y <= corners.at(0).y && possibleIntersection.z <= corners.at(0).z && possibleIntersection.x <= corners.at(2).x && possibleIntersection.y >= corners.at(2).y && possibleIntersection.z >= corners.at(2).z){
                 if(possibleIntersection.x >= corners.at(0).x - size && possibleIntersection.x >= corners.at(2).x - size){
-                    //std::cout << std::endl << "if3" << std::endl;
                     intersectionPoint = possibleIntersection;
                 }
             }
@@ -78,7 +63,6 @@ glm::dvec3 Rectangle::calculateIntersections(glm::dvec3 direction, glm::dvec3 st
             // FÖR VÄGG 4
             if(possibleIntersection.x >= corners.at(0).x && possibleIntersection.y >= corners.at(0).y && possibleIntersection.z <= corners.at(0).z && possibleIntersection.x <= corners.at(2).x && possibleIntersection.y >= corners.at(2).y && possibleIntersection.z >= corners.at(2).z){
                 if(possibleIntersection.y <= corners.at(0).y + size && possibleIntersection.y <= corners.at(2).y + size){
-                    //std::cout << std::endl << "if4" << std::endl;
                     intersectionPoint = possibleIntersection;
                 }
             }
@@ -87,7 +71,6 @@ glm::dvec3 Rectangle::calculateIntersections(glm::dvec3 direction, glm::dvec3 st
             if(possibleIntersection.x >= corners.at(0).x && possibleIntersection.y <= corners.at(0).y && possibleIntersection.z <= corners.at(0).z && possibleIntersection.x <= corners.at(2).x && possibleIntersection.y >= corners.at(2).y && possibleIntersection.z <= corners.at(2).z){
                 if(possibleIntersection.z >= corners.at(0).z - size && possibleIntersection.z >= corners.at(2).z - size){
                     intersectionPoint = possibleIntersection;
-                    //std::cout << std::endl << "if5" << std::endl;
                 }
             }
 
@@ -95,7 +78,6 @@ glm::dvec3 Rectangle::calculateIntersections(glm::dvec3 direction, glm::dvec3 st
             if(possibleIntersection.x <= corners.at(0).x && possibleIntersection.y <= corners.at(0).y && possibleIntersection.z >= corners.at(0).z-0.00001 && possibleIntersection.x >= corners.at(2).x && possibleIntersection.y >= corners.at(2).y && possibleIntersection.z >= corners.at(2).z-0.00001){
                 if(possibleIntersection.z <= corners.at(0).z + size && possibleIntersection.z <= corners.at(2).z + size){
                     intersectionPoint = possibleIntersection;
-                    //std::cout << std::endl << "if6" << std::endl;
                 }
             }
         }
@@ -107,13 +89,8 @@ glm::dvec3 Rectangle::calculateIntersections(glm::dvec3 direction, glm::dvec3 st
     return intersectionPoint;
 }
 void Rectangle::computeChildrenRays(Ray *ray, glm::dvec3 startingPoint) {
-    // Calc new direction
-    //glm::dvec3 direction = 2 * (glm::dot(normal, glm::dot(glm::normalize(ray->getDirection()), normal) - glm::normalize(ray->getDirection())) );
-
-    //ray->reflectionRay = new Ray(direction, startingPoint);
-
-    //if(ray->)
-        //ray->refractionRay = new Ray();
+    // Computation of children will be done for the objects built of rectangles (Cubes and Room)
+ 
 }
 
 void Rectangle::addCorner(glm::dvec3 c) {

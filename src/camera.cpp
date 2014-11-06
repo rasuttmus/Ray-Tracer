@@ -17,10 +17,7 @@ double Camera::getRaysPerPixel(){
 
 
 void Camera::renderImage() {
-    std::cout << "raysPerPixel: " << raysPerPixel << std::endl;
-    // Loop over all pixels
-    //Liten godbit från SimpleExample.cpp (måste fixas och donas men ska fungera enligt Emma)
-    
+    // Loop over all pixels    
     // Save result to a PPM image (keep these flags if you compile under Windows)
     std::ofstream ofs("./untitled.ppm", std::ios::out | std::ios::binary);
     ofs << "P6\n" << imageResolutionY << " " << imageResolutionX << "\n255\n";
@@ -43,10 +40,8 @@ void Camera::displayImage() {
 void Camera::createPixels(int imgResX, int imgResY){
     for(int i = 0; i < imgResX; i++) {
         for (int j = 0; j < imgResY; j++) {
-            pixels.push_back(new Pixel(raysPerPixel, viewPlaneResolution.y/imgResY, j - imgResY/2, i - imgResY/2, position));
-            
+            pixels.push_back(new Pixel(raysPerPixel, viewPlaneResolution.y/imgResY, j - imgResY/2, i - imgResY/2, position));   
         }
-        //std::cout << "i - imgResX / 2: " << i - imgResX/2 << std::endl;
     }
 }
 

@@ -45,15 +45,6 @@ glm::dvec3 Sphere::calculateIntersections(Ray *r) {
 
     intersectionNormal = glm::normalize(intersectionNormal);
 
-    if(r->getInsideObject()){
-        //intersectionNormal = -intersectionNormal;
-        //std::cout << std::endl << "inside" << std::endl;
-        //std::cout << std::endl << "normal: (" << intersectionNormal.x << ", " << intersectionNormal.y << ", " << intersectionNormal.z << ")" << std::endl;
-    }
-    /*std::cout << "normal: (" << intersectionNormal.x << ", " << intersectionNormal.y << ", " << intersectionNormal.z << ")" << std::endl;
-    std::cout << "intersection: (" << intersectionPoint.x << ", " << intersectionPoint.y << ", " << intersectionPoint.z << ")" << std::endl;*/
-    //std::cout << std::endl << "Sphere Hit!" << "x: " << intersectionPoint.x << "   y: " << intersectionPoint.y << "   z: " << intersectionPoint.z << std::endl;
-	
     //return intersectionPoint + (glm::normalize(intersectionNormal) * 0.0001);
     return intersectionPoint;
 	
@@ -91,10 +82,6 @@ void Sphere::computeChildrenRays(Ray *r) {
 
 		if(sinT2 >= 0.0){
 			refractedDirection = n * inDirection - (n * cosI + (double)sqrt(sinT2)) * intersectionNormal;
-            /*refractedDirection = glm::refract(glm::vec3((float)inDirection.x, (float)inDirection.y, (float)inDirection.z), 
-                                 glm::vec3((float)intersectionNormal.x, (float)intersectionNormal.y, (float)intersectionNormal.z),
-                                 (float)refractiveIndex);*/
-            //std::cout << "refractedDirection: (" << refractedDirection.x << ", " << refractedDirection.y << ", " << refractedDirection.z << ")" << std::endl;
             r->refractionRay = new Ray(refractedDirection, intersectionAt - (intersectionNormal) * 0.0002);
             
 			if(r->getInsideObject() == false){
@@ -110,7 +97,6 @@ void Sphere::computeChildrenRays(Ray *r) {
     
     // Move the starting pos out from the object a bit, to avoid infinite bounces in on point
     r->reflectionRay = new Ray(reflectedDirection, intersectionAt + (intersectionNormal) * 0.00000001);
-    //std::cout << "reflectedDirection: " << reflectedDirection.x << ", " << reflectedDirection.y << ", " << reflectedDirection.z << ")" << std::endl;
     if(r->getInsideObject() == false){
         r->reflectionRay->setInsideObject(false);
         //r->reflectionRay->setInsideObject(false);
@@ -159,7 +145,3 @@ glm::dvec3 Sphere::getIntersectionNormal(){
 bool Sphere::getTransparency(){
     return transparent;
 }
-
-/*glm::dvec3 Sphere::getIntersectionNormal(){
-    return intersectionNormal;
-}*/

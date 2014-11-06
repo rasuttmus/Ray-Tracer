@@ -24,6 +24,7 @@ public:
 
     //construtor
     Camera(glm::dvec3, glm::dvec2, glm::dvec2, int, int, int);
+    
     //Instance methods
     void renderImage();
     void mappingFunction();

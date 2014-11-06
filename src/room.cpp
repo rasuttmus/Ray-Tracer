@@ -22,12 +22,6 @@ position(p), size(s)
 }
 
 void Room::initRectangles() {
-    /*
-    addWall(new Rectangle(glm::dvec3(0.0f, 1.0f, -1.0f), glm::dvec3(0.0f, 1.0f, 0.0f), glm::dvec3(0.0f, 0.0f, 0.0f), glm::dvec3(0.0f, 0.0f, -1.0f)));
-    addWall(new Rectangle(glm::dvec3(0.0f, 1.0f, -1.0f), glm::dvec3(1.0f, 1.0f, -1.0f), glm::dvec3(1.0f, 1.0f, 0.0f), glm::dvec3(0.0f, 1.0f, 0.0f)));
-    addWall(new Rectangle(glm::dvec3(1.0f, 1.0f, 0.0f), glm::dvec3(1.0f, 1.0f, -1.0f), glm::dvec3(1.0f, 0.0f, -1.0f), glm::dvec3(1.0f, 0.0f, 0.0f)));
-    addWall(new Rectangle(glm::dvec3(0.0f, 0.0f, 0.0f), glm::dvec3(1.0f, 0.0f, 0.0f), glm::dvec3(1.0f, 0.0f, -1.0f), glm::dvec3(0.0f, 0.0f, -1.0f)));
-    addWall(new Rectangle(glm::dvec3(0.0f, 1.0f, 0.0f), glm::dvec3(1.0f, 1.0f, 0.0f), glm::dvec3(1.0f, 0.0f, 0.0f), glm::dvec3(0.0f, 0.0f, 0.0f)));*/
     addWall(new Rectangle(glm::dvec3(0.0, 1.0, -1.0), glm::dvec3(0.0, 1.0, 0.0), glm::dvec3(0.0, 0.0, 0.0), glm::dvec3(0.0, 0.0, -1.0)));
     addWall(new Rectangle(glm::dvec3(0.0, 1.0, -1.0), glm::dvec3(1.0, 1.0, -1.0), glm::dvec3(1.0, 1.0, 0.0), glm::dvec3(0.0, 1.0, 0.0)));
     addWall(new Rectangle(glm::dvec3(1.0, 1.0, 0.0), glm::dvec3(1.0, 1.0, -1.0), glm::dvec3(1.0, 0.0, -1.0), glm::dvec3(1.0, 0.0, 0.0)));
@@ -50,7 +44,6 @@ glm::dvec3 Room::calculateIntersections(Ray *r) {
         }
         counter++;
     }
-    //std::cout << std::endl << "Room Hit!" << "  x: " << intersectionPoint.x << "   y: " << intersectionPoint.y << "   z: " << intersectionPoint.z << std::endl;
 
     return intersectionPoint + intersectionNormal * -0.00000001;
 }
@@ -90,6 +83,3 @@ glm::dvec3 Room::getIntersectionNormal(){
 bool Room::getTransparency(){
     return false;
 }
-/*glm::dvec3 getIntersectionNormal(){
-    return glm::dvec3(0.0f, 0.0f, 0.0f);
-}*/

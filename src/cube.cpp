@@ -28,7 +28,6 @@ void Cube::initRectangleObjects(){
     addRectangle(new Rectangle(glm::dvec3(1.0, 1.0, 0.0), glm::dvec3(1.0, 1.0, -1.0), glm::dvec3(1.0, 0.0, -1.0), glm::dvec3(1.0, 0.0, 0.0)));
     addRectangle(new Rectangle(glm::dvec3(0.0, 0.0, 0.0), glm::dvec3(1.0, 0.0, 0.0), glm::dvec3(1.0, 0.0, -1.0), glm::dvec3(0.0, 0.0, -1.0)));
     addRectangle(new Rectangle(glm::dvec3(0.0, 1.0, 0.0), glm::dvec3(1.0, 1.0, 0.0), glm::dvec3(1.0, 0.0, 0.0), glm::dvec3(0.0, 0.0, 0.0)));
-    //addRectangle(new Rectangle(glm::dvec3(0.0, 1.0, -1.0), glm::dvec3(1.0, 1.0, -1.0), glm::dvec3(1.0, 0.0, -1.0), glm::dvec3(0.0, 0.0, -1.0)));
     addRectangle(new Rectangle(glm::dvec3(1.0, 1.0, -1.0), glm::dvec3(0.0, 1.0, -1.0), glm::dvec3(0.0, 0.0, -1.0), glm::dvec3(1.0, 0.0, -1.0)));
     
     for(std::vector<Rectangle *>::iterator it = rectangles.begin(); it != rectangles.end(); ++it){
@@ -38,11 +37,6 @@ void Cube::initRectangleObjects(){
             (*it2).z = ((*it2).z * size) + position.z;
         }
     }
-
-    std::cout << std::endl << "wall6 pos: " << "(" << rectangles.at(5)->corners.at(0).x << ", " << rectangles.at(5)->corners.at(0).y << ", " << rectangles.at(5)->corners.at(0).z << ")" << std::endl;
-    std::cout << std::endl << "wall6 pos: " << "(" << rectangles.at(5)->corners.at(1).x << ", " << rectangles.at(5)->corners.at(1).y << ", " << rectangles.at(5)->corners.at(1).z << ")" << std::endl;
-    std::cout << std::endl << "wall6 pos: " << "(" << rectangles.at(5)->corners.at(2).x << ", " << rectangles.at(5)->corners.at(2).y << ", " << rectangles.at(5)->corners.at(2).z << ")" << std::endl;
-    std::cout << std::endl << "wall6 pos: " << "(" << rectangles.at(5)->corners.at(3).x << ", " << rectangles.at(5)->corners.at(3).y << ", " << rectangles.at(5)->corners.at(3).z << ")" << std::endl;
 }
 
 glm::dvec3 Cube::calculateIntersections(Ray *r){
@@ -52,7 +46,6 @@ glm::dvec3 Cube::calculateIntersections(Ray *r){
 
     wallIntersectionIndex = 0;
     int counter = 0;
-    //int id = 0;
     for(std::vector<Rectangle *>::iterator it = rectangles.begin(); it != rectangles.end(); ++it){
 
         if(glm::length(intersectionPoint - startingPoint) > glm::length((*it)->calculateIntersections(direction, startingPoint, size) - startingPoint)){
@@ -62,8 +55,6 @@ glm::dvec3 Cube::calculateIntersections(Ray *r){
         }
         counter++;
     }
-    //intersectionNormal = rectangles
-    //std::cout << std::endl << "Cube Hit!" << "   x: " << intersectionPoint.x << "   y: " << intersectionPoint.y << "   z: " << intersectionPoint.z << std::endl;
     return intersectionPoint + intersectionNormal * 0.00000001;
 }
 
@@ -76,8 +67,6 @@ void Cube::computeChildrenRays(Ray *r){
     glm::dvec3 refractedDirection = glm::dvec3(0.0, 0.0, 0.0);
     
     glm::dvec3 reflectedDirection = -1.0 * (2.0 * (glm::dot(intersectionNormal,inDirection) * intersectionNormal) - inDirection);
-    
-    //std::cout << std::endl << "normal dir: " << "(" << intersectionNormal.x << ", "<< intersectionNormal.y << ", "<< intersectionNormal.z << ")"<< std::endl;
     
     r->reflectionRay = new Ray(reflectedDirection, intersectionAt + (intersectionNormal * 0.001));
 
@@ -146,6 +135,3 @@ glm::dvec3 Cube::getIntersectionNormal(){
 bool Cube::getTransparency(){
     return transparent;
 }
-/*glm::dvec3 Cube::getIntersectionNormal(){
-    return intersectionNormal;
-}*/

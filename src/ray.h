@@ -46,7 +46,7 @@ public:
     glm::dvec3 getIntersectionPoint();
 
     void setIntersectionType(int);
-    int getIntersectinType();
+    int getIntersectionType();
 
     void setIntersectionNormal(glm::dvec3);
 
