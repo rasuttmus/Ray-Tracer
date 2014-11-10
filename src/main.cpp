@@ -68,10 +68,10 @@ void createScene() {
 	//camera->addShape(cube1);
 
 	//Create sphere
-	Shape *sphere = new Sphere(glm::dvec3(0.5, 0.5, -0.4), 0.20, true, 1.5, glm::dvec3(0.5, 0.5, 1.0));
+	Shape *sphere = new Sphere(glm::dvec3(0.7, 0.4, -0.2), 0.20, true, 1.5, glm::dvec3(0.5, 0.5, 1.0));
 	camera->addShape(sphere);
 
-	Shape *sphere2 = new Sphere(glm::dvec3(0.3, 0.5, -0.15), 0.10, false, 1.2, glm::dvec3(0.5, 1.0, 0.5));
+	Shape *sphere2 = new Sphere(glm::dvec3(0.35, 0.5, -0.15), 0.10, false, 1.2, glm::dvec3(0.5, 1.0, 0.5));
 	camera->addShape(sphere2);
 
 	Shape *sphere3 = new Sphere(glm::dvec3(0.2, 0.45, -0.2), 0.12, false, 1.5, glm::dvec3(0.3, 0.6, 0.4));

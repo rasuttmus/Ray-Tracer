@@ -9,9 +9,14 @@ Ray::Ray(glm::dvec3 d, glm::dvec3 s):
 glm::dvec3 Ray::calculateColor(glm::dvec3 lightPos, int shadowRayType) {
     
 
-    /* HÄR MECKAR VI!! SAKER Är BORTMARKERADE FÖR ATT TESTA ATT LOCALCONTRIBUTION ÄR FÖR HÖG OCH REFRACTED CONTRIBUTION ÄR FÖR LÅG!
+    /* HÄR MECKAR VI!! SAKER Är BORTMARKERADE FÖR ATT TESTA ATT LOCALCONTRIBUTION ÄR FEL SAMT FÖR HÖG OCH REFRACTED CONTRIBUTION ÄR FÖR LÅG! (DÄRAV MÄRKLIGA KONSTATNER SOM SENARE SKA TAS BORT)
+    ** KAN OCCKSÅ KONSTATERA ATT REFRAKTIONEN INTE ÄR KORREKT! MÅSTE SES ÖVER
+    ** REFLECTED RADIANCE ÄR TOKIG! BLIR PYTTELITEN!
+    ** LOCALCONTRIBUTION BLI FEL NÄR DET RÖR SIG OM ETT TRANSPARENT OBJEKT. FELET KAN KANSKE DÄRFÖR LIGGA I ATT DEN SAKNAR SHADOWRAY?
+    ** GRYNIGHETEN HOS OGENOMSKINLIGA OBJEKT ORSAKAS AV SHADOWRAYSEN
+    ** IMPORTANSEN VID GENOMSKINLIGA OBJEKT GÖR ATT REFLEKTIONEN BLIT JÄTTELITEN!
     */    
-
+    //importance = 0.9;
 
     double localContributionImportance = 1.0 - importance;
 
@@ -20,20 +25,14 @@ glm::dvec3 Ray::calculateColor(glm::dvec3 lightPos, int shadowRayType) {
         color = color * importance + localContributionImportance * calculateLocalContribution(lightPos, shadowRayType) * color;
     }
     else if(finalNode == false && reflectionRay != NULL && refractionRay == NULL){
-        color = reflectionRay->calculateColor(lightPos, shadowRayType) * reflectionRay->reflectedRadiance * color 
-                /* + localContributionImportance * calculateLocalContribution(lightPos, shadowRayType) * color*/;
+        color = reflectionRay->calculateColor(lightPos, shadowRayType) * reflectionRay->getImportance() * color * 10.0
+                 +  localContributionImportance * calculateLocalContribution(lightPos, shadowRayType) * color;
     }
     else if(finalNode == false && reflectionRay != NULL && refractionRay != NULL){
-        color = (reflectionRay->calculateColor(lightPos, shadowRayType) * reflectionRay->reflectedRadiance + 
-                (importance - reflectionRay->reflectedRadiance) * refractionRay->calculateColor(lightPos, shadowRayType)) *  color * 2.0
-               /*  + localContributionImportance * calculateLocalContribution(lightPos, shadowRayType) * color*/;
-
-        /*if(intersectionType == 1){
-            color = (reflectionRay->calculateColor(lightPos, shadowRayType) * reflectionRay->reflectedRadiance + 
-                (importance - reflectionRay->reflectedRadiance) * refractionRay->calculateColor(lightPos, shadowRayType)) * color;
-         } */
-    
-    
+       // std::cout << std::endl << "Reflected RADIANCE: " << reflectionRay->reflectedRadiance << std::endl;
+        color = reflectionRay->calculateColor(lightPos, shadowRayType) * reflectionRay->getImportance() * color * 10.0
+                + refractionRay->calculateColor(lightPos, shadowRayType) * refractionRay->getImportance() * color * 20.0
+                /*+ localContributionImportance * calculateLocalContribution(lightPos, shadowRayType) * color*/;    
     }
     return color;
 }
@@ -41,8 +40,8 @@ glm::dvec3 Ray::calculateColor(glm::dvec3 lightPos, int shadowRayType) {
 glm::dvec3 Ray::calculateLocalContribution(glm::dvec3 lightPos, int shadowRayType){
     glm::dvec3 localLighting(0.0, 0.0, 0.0);
     double diffuseConstant = 1.0;
-    double specularConstant = 5.0;
-    double highlightConstant = 10.0;
+    double specularConstant = 1.8;
+    double highlightConstant = 2.0; // <-- VERKAR SOM DENNA MÅSTE VARA HELTAL FÖR ATT FUNKA?
     glm::dvec3 lightSourceColor(1.0, 1.0, 1.0);
 
     glm::dvec3 shadowRay = glm::normalize(lightPos - intersectionPoint);
@@ -52,7 +51,7 @@ glm::dvec3 Ray::calculateLocalContribution(glm::dvec3 lightPos, int shadowRayTyp
 
     //if shadowray does not intersect with lightsource
     if(shadowRayType != 3){
-        return glm::dvec3(0.0,0.0,0.0);
+        //return glm::dvec3(0.0,0.0,0.0);
     }
 
     //calculate diffuse phong shading
@@ -63,6 +62,7 @@ glm::dvec3 Ray::calculateLocalContribution(glm::dvec3 lightPos, int shadowRayTyp
 
     //If object is specular, add specular phong shading
     if(intersectionType == 0 || intersectionType == 1){
+        //std::cout << std::endl << "intersectionType =" << intersectionType << std::endl;
         localLighting += specularConstant * pow(glm::dot(shadowRayReflection, viewDirection), highlightConstant) * lightSourceColor;
     }
 
@@ -80,16 +80,20 @@ void Ray::calculateImportance(double refractiveIndex, bool transparent){
         n2 = refractiveIndex;
     
     if(refractionRay == NULL && reflectionRay != NULL){
-        reflectionRay->reflectedRadiance = importance;
+        reflectionRay->setImportance(importance);
+        //reflectedRadiance = importance;
     }
     
     if(reflectionRay != NULL && refractionRay != NULL && !finalNode && transparent == true){
-        reflectionRay->reflectedRadiance = pow((n1 - n2) / (n1 + n2), 2) * importance;
-        refractionRay->transmittedRadiance =  importance - reflectionRay->importance;
+
+        reflectionRay->setImportance(pow((n1 - n2) / (n1 + n2), 2) * importance);
+
+        refractionRay->setImportance(importance - reflectionRay->getImportance());
+
     }
     if(reflectionRay == NULL && refractionRay == NULL){
-        reflectedRadiance = importance;
-        transmittedRadiance = importance - reflectedRadiance;
+        //reflectedRadiance = importance;
+        //transmittedRadiance = importance - reflectedRadiance;
     }
 }
 

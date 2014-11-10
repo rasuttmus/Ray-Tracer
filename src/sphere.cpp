@@ -64,9 +64,9 @@ void Sphere::computeChildrenRays(Ray *r) {
     intersectionNormal.y = std::floor(intersectionNormal.y * 100000000.0) / 100000000.0;
     intersectionNormal.z = std::floor(intersectionNormal.z * 100000000.0) / 100000000.0;
 
-
+	//Refraction calculation
 	if(transparent == true){
-		//Refraction
+		
 		double n1 = 1.0;
         double n2 = refractiveIndex;
         
@@ -74,35 +74,36 @@ void Sphere::computeChildrenRays(Ray *r) {
             n1 = refractiveIndex;
             n2 = 1.0;
             intersectionNormal = -intersectionNormal;
-        }
+        } 
 
 		double n = n1/n2;
 		double cosI = glm::dot(intersectionNormal, inDirection);
 		double sinT2 = 1.0 - n * n * (1.0 - cosI * cosI);
 
 		if(sinT2 >= 0.0){
-			refractedDirection = n * inDirection - (n * cosI + (double)sqrt(sinT2)) * intersectionNormal;
-            r->refractionRay = new Ray(refractedDirection, intersectionAt - (intersectionNormal) * 0.0002);
+			//refractedDirection = n * inDirection - (n * cosI + (double)sqrt(sinT2)) * intersectionNormal;
+            //TESTAR NY REFRACTION-UTRÄKNING! FUNKAR OK, men fasen inte rätt! :(
+
+            refractedDirection = -n*r->getDirection() + intersectionNormal * (n * cosI - sqrt(1.0 - (n * n) * (1.0 - (cosI * cosI))));
+
+            r->refractionRay = new Ray(refractedDirection, intersectionAt - (intersectionNormal) * -0.00000001);
             
 			if(r->getInsideObject() == false){
                 r->refractionRay->setInsideObject(true);
-                //r->reflectionRay->setInsideObject(false);
             }else{
                 r->refractionRay->setInsideObject(false);
-                //r->reflectionRay->setInsideObject(true);
             }
 		}
 	}
-    glm::dvec3 reflectedDirection = -1.0 * (2.0 * (glm::dot(intersectionNormal,inDirection) * intersectionNormal) - inDirection);
     
+    glm::dvec3 reflectedDirection = -1.0 * (2.0 * (glm::dot(intersectionNormal,inDirection) * intersectionNormal) - inDirection);
+   
     // Move the starting pos out from the object a bit, to avoid infinite bounces in on point
     r->reflectionRay = new Ray(reflectedDirection, intersectionAt + (intersectionNormal) * 0.00000001);
     if(r->getInsideObject() == false){
         r->reflectionRay->setInsideObject(false);
-        //r->reflectionRay->setInsideObject(false);
     }else{
         r->reflectionRay->setInsideObject(true);
-        //r->reflectionRay->setInsideObject(true);
     }
 }
 

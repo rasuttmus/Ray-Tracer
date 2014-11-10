@@ -25,7 +25,7 @@ void Pixel::shootingRays(int numOfRays) {
 
         //Create the rays and adds them to a vector  
         r = new Ray(glm::normalize(direction), cameraPos);
-        r->setImportance(5.0 / numberOfRays);
+        r->setImportance(1.0 / numberOfRays);
         addRay(r);
     
     }
@@ -105,8 +105,9 @@ void Pixel::shootingRays(int numOfRays) {
         (*rayIt)->setColor(shapes.at(id)->getColor(wallIntersectionIndex));
        
         //if ray hits object
-        if(type == 0 || type == 1) 
-            (*rayIt)->setColor((*rayIt)->calculateColor(shapes.at(0)->randomPosition(), shadowRayType));
+        if(type == 0 || type == 1) {
+             (*rayIt)->setColor((*rayIt)->calculateColor(shapes.at(0)->randomPosition(), shadowRayType));
+        }
 
         //if first ray hits walls
         if(type == 2){
@@ -123,6 +124,7 @@ void Pixel::shootingRays(int numOfRays) {
 
         //Add upp the rays contribution to pixel
         colorOfPixel += (*rayIt)->getColor();
+
     }
     colorOfPixel /= numOfRays;
 }
@@ -150,6 +152,11 @@ void Pixel::shootChildrenRays(Ray *r, int numOfChildren) {
         counter++;
     }
 
+
+    r->setIntersectionPoint(intersectionPoint);
+    r->setIntersectionType(type);
+    r->setIntersectionNormal(shapes.at(index)->getIntersectionNormal());
+
     //Create shadowray
     Ray *shadowRay = new Ray(glm::normalize(r->calculateShadowRay(intersectionPoint, shapes.at(0)->randomPosition())), intersectionPoint);
     glm::dvec3 shadowRayIntersection(-2.0, -2.0, 2.0);
@@ -170,11 +177,11 @@ void Pixel::shootChildrenRays(Ray *r, int numOfChildren) {
 
             //If its not a final node, shoot new children
             if(numOfChildren < 10 && r->reflectionRay != NULL){
-                    r->reflectionRay->setImportance(r->getImportance());
+                    //r->reflectionRay->setImportance(r->getImportance());
                     shootChildrenRays(r->reflectionRay, numOfChildren);
                     
                     if(r->refractionRay != NULL){
-                        r->refractionRay->setImportance(r->getImportance());
+                       // r->refractionRay->setImportance(r->getImportance());
                         shootChildrenRays(r->refractionRay, numOfChildren);
                     }
             }   
