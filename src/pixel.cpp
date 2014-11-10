@@ -25,7 +25,7 @@ void Pixel::shootingRays(int numOfRays) {
 
         //Create the rays and adds them to a vector  
         r = new Ray(glm::normalize(direction), cameraPos);
-        r->setImportance(5.0 / numberOfRays);
+        r->setImportance(1.0 / numberOfRays);
         addRay(r);
     
     }
@@ -47,7 +47,7 @@ void Pixel::shootingRays(int numOfRays) {
         for(std::vector<Shape *>::iterator shapeIt = shapes.begin(); shapeIt != shapes.end(); ++shapeIt){
 
             // if the distance to this collision is the shortest so far, then use it instead
-            if(glm::length(intersectionPoint - (*rayIt)->getStartingPoint()) > glm::length((*shapeIt)->calculateIntersections(*rayIt) - (*rayIt)->getStartingPoint())){
+            if(round(glm::length(intersectionPoint - (*rayIt)->getStartingPoint()) * 10.0) / 10.0 > round(glm::length((*shapeIt)->calculateIntersections(*rayIt) - (*rayIt)->getStartingPoint()) * 10.0) / 10.0){
                 intersectionPoint = (*shapeIt)->calculateIntersections(*rayIt);
                 type = (*shapeIt)->getType();
                 id = counter;
@@ -69,7 +69,7 @@ void Pixel::shootingRays(int numOfRays) {
         
         //Loop through all shapes and check if the shadowrays intersects with any opaque object
         for(std::vector<Shape *>::iterator shapeIt = shapes.begin(); shapeIt != shapes.end(); ++shapeIt){
-            if(glm::length(shadowRayIntersection - intersectionPoint) > glm::length((*shapeIt)->calculateIntersections(shadowRay) - intersectionPoint) && !(*shapeIt)->getTransparency()){
+            if(round(glm::length(shadowRayIntersection - intersectionPoint) * 10.0) / 10.0 > round(glm::length((*shapeIt)->calculateIntersections(shadowRay) - intersectionPoint) * 10.0) / 10.0 && !(*shapeIt)->getTransparency()){
                 shadowRayIntersection = (*shapeIt)->calculateIntersections(shadowRay);
                 shadowRayType = (*shapeIt)->getType();
             }
@@ -90,16 +90,18 @@ void Pixel::shootingRays(int numOfRays) {
 
             //If the intersected object is transparent it will result in a reflected and a refracted ray. Else there will only be reflection
             if(shapes.at(id)->getTransparency()){
-                (*rayIt)->reflectionRay->setImportance((*rayIt)->getImportance());
-                (*rayIt)->refractionRay->setImportance((*rayIt)->getImportance());
+                //(*rayIt)->reflectionRay->setImportance((*rayIt)->getImportance());
+                //(*rayIt)->refractionRay->setImportance((*rayIt)->getImportance());
                 shootChildrenRays((*rayIt)->reflectionRay, 1);
                 shootChildrenRays((*rayIt)->refractionRay, 1);
             }
             else{
-                (*rayIt)->reflectionRay->setImportance((*rayIt)->getImportance());
+                //(*rayIt)->reflectionRay->setImportance((*rayIt)->getImportance());
                 shootChildrenRays((*rayIt)->reflectionRay, 1);
             }   
         }
+
+        if(shadowRayType == 0 || shadowRayType == 1)
 
         //Set the color of the ray
         (*rayIt)->setColor(shapes.at(id)->getColor(wallIntersectionIndex));
@@ -121,6 +123,9 @@ void Pixel::shootingRays(int numOfRays) {
             (*rayIt)->setColor(glm::dvec3(1.0, 1.0, 1.0));
         }
 
+        if(shadowRayType == 0 || shadowRayType == 1 || shadowRayType == 2){
+            (*rayIt)->setColor((*rayIt)->getColor()*0.2);
+        }
         //Add upp the rays contribution to pixel
         colorOfPixel += (*rayIt)->getColor();
     }
@@ -140,7 +145,7 @@ void Pixel::shootChildrenRays(Ray *r, int numOfChildren) {
 
     //check what object child ray intersects with
     for(std::vector<Shape *>::iterator it = shapes.begin(); it != shapes.end(); ++it){
-        if(glm::length(intersectionPoint - r->getStartingPoint()) > glm::length((*it)->calculateIntersections(r) - r->getStartingPoint())){
+        if(round(glm::length(intersectionPoint - r->getStartingPoint()) * 10.0) / 10.0 > round(glm::length((*it)->calculateIntersections(r) - r->getStartingPoint()) * 10.0) / 10.0){
             intersectionPoint = (*it)->calculateIntersections(r);
             type = (*it)->getType();
             index = counter;
@@ -150,6 +155,10 @@ void Pixel::shootChildrenRays(Ray *r, int numOfChildren) {
         counter++;
     }
 
+    r->setIntersectionPoint(intersectionPoint);
+    r->setIntersectionType(type);
+    r->setIntersectionNormal(shapes.at(index)->getIntersectionNormal());
+
     //Create shadowray
     Ray *shadowRay = new Ray(glm::normalize(r->calculateShadowRay(intersectionPoint, shapes.at(0)->randomPosition())), intersectionPoint);
     glm::dvec3 shadowRayIntersection(-2.0, -2.0, 2.0);
@@ -157,7 +166,7 @@ void Pixel::shootChildrenRays(Ray *r, int numOfChildren) {
     
     //Loop through all shapes and check if the shadowrays intersects with any object
     for(std::vector<Shape *>::iterator shapeIt = shapes.begin(); shapeIt != shapes.end(); ++shapeIt){
-        if(glm::length(shadowRayIntersection - intersectionPoint) > glm::length((*shapeIt)->calculateIntersections(shadowRay) - intersectionPoint)){
+        if(round(glm::length(shadowRayIntersection - intersectionPoint) * 10.0) / 10.0 > round(glm::length((*shapeIt)->calculateIntersections(shadowRay) - intersectionPoint) * 10.0) / 10.0){
             shadowRayIntersection = (*shapeIt)->calculateIntersections(shadowRay);
             shadowRayType = (*shapeIt)->getType();
         }
@@ -168,20 +177,20 @@ void Pixel::shootChildrenRays(Ray *r, int numOfChildren) {
         shapes.at(index)->computeChildrenRays(r);
         r->calculateImportance(shapes.at(index)->getRefractiveIndex(), shapes.at(index)->getTransparency());
 
-            //If its not a final node, shoot new children
-            if(numOfChildren < 10 && r->reflectionRay != NULL){
-                    r->reflectionRay->setImportance(r->getImportance());
-                    shootChildrenRays(r->reflectionRay, numOfChildren);
-                    
-                    if(r->refractionRay != NULL){
-                        r->refractionRay->setImportance(r->getImportance());
-                        shootChildrenRays(r->refractionRay, numOfChildren);
-                    }
-            }   
+        //If its not a final node, shoot new children
+        if(numOfChildren < 10 && r->reflectionRay != NULL){
+            //r->reflectionRay->setImportance(r->getImportance());
+            shootChildrenRays(r->reflectionRay, numOfChildren);
+            
+            if(r->refractionRay != NULL){
+                //r->refractionRay->setImportance(r->getImportance());
+                shootChildrenRays(r->refractionRay, numOfChildren);
+            }
+        }   
     }
 
-     //Set the color of the ray
-        r->setColor(shapes.at(index)->getColor(wallIntersectionIndex));
+    //Set the color of the ray
+    r->setColor(shapes.at(index)->getColor(wallIntersectionIndex));
 
     //If ray hits wall, light or has reach maximum number of children 
     if(type == 2 || type == 3 || numOfChildren == 10 || r->reflectionRay == NULL){

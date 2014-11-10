@@ -21,7 +21,7 @@ void Camera::renderImage() {
     // Save result to a PPM image (keep these flags if you compile under Windows)
     std::ofstream ofs("./untitled.ppm", std::ios::out | std::ios::binary);
     ofs << "P6\n" << imageResolutionY << " " << imageResolutionX << "\n255\n";
-    for (std::vector<Pixel *>::iterator it = pixels.begin(); it != pixels.end(); ++it) {
+    for (std::vector<Pixel *>::iterator it = pixels.end(); it != pixels.begin(); --it) {
         ofs << (unsigned char)(std::min(1.0, (*it)->getColorOfPixel().x) * 255) << 
         (unsigned char)(std::min(1.0, (*it)->getColorOfPixel().y) * 255) <<
         (unsigned char)(std::min(1.0, (*it)->getColorOfPixel().z) * 255); 
