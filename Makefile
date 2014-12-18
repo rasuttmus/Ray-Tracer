@@ -2,7 +2,8 @@
 #CPP=gcc
 #CPP=g++
 CPP=clang++
-#CPPFLAGS=-O3 -fopenmp       # Use this for gcc >= 4.2
+#CPPFLAGS=-O3 -fopenmp       
+# Use this for gcc >= 4.2
 #CPPFLAGS=-O3               # Use this for gcc <  4.2
 
 ifdef DEBUG

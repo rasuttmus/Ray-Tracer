@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cmath>
+#include "math.h"
 #include "glm/glm.hpp"
 #include "debug.h"
 

@@ -78,6 +78,7 @@ void Cube::computeChildrenRays(Ray *r){
         if(r->getInsideObject() == true){
             n1 = refractiveIndex;
             n2 = 1.0;
+            intersectionNormal = -intersectionNormal;
         }
         
         double n = n1/n2;

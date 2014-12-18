@@ -11,6 +11,7 @@ public:
     //Instance variables
     std::vector<Ray *> rays;
     std::vector<Shape *> shapes;
+    std::vector<Ray *> shadowRays;
     double pixelSize;
     int pixelPosX;
     int pixelPosY;
@@ -19,7 +20,7 @@ public:
     //constructor
     Pixel(int, double, int, int, glm::dvec3);
     //Instance methods
-    void shootingRays(int);
+    void shootingRays();
     void shootChildrenRays(Ray *, int);
     void addRay(Ray *);
 

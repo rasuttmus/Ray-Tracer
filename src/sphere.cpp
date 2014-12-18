@@ -4,8 +4,8 @@
 Sphere::Sphere(glm::dvec3 p, double r, bool t, double ref, glm::dvec3 c): 
 position(p), radius(r), transparent(t), refractiveIndex(ref), color(c)
 { 
-	Ray *roy = new Ray(glm::dvec3(0.0,0.0,1.0), glm::dvec3(0.0,0.0,-1.0));
-	computeChildrenRays(roy);
+	//Ray *roy = new Ray(glm::dvec3(0.0,0.0,1.0), glm::dvec3(0.0,0.0,-1.0));
+	//computeChildrenRays(roy);
 }
 
 glm::dvec3 Sphere::calculateIntersections(Ray *r) {
@@ -84,7 +84,7 @@ void Sphere::computeChildrenRays(Ray *r) {
 			//refractedDirection = n * inDirection - (n * cosI + (double)sqrt(sinT2)) * intersectionNormal;
             refractedDirection = -n * r->getDirection() + intersectionNormal * (n * cosI - sqrt(1.0 - (n * n) * (1.0 - (cosI * cosI))));
             //r->refractionRay = new Ray(refractedDirection, intersectionAt - (intersectionNormal) * 0.0002);
-            r->refractionRay = new Ray(refractedDirection, intersectionAt - (intersectionNormal) * 0.2);
+            r->refractionRay = new Ray(refractedDirection, intersectionAt - (intersectionNormal) * 0.1);
             
 			if(r->getInsideObject() == false){
                 r->refractionRay->setInsideObject(true);
@@ -100,9 +100,9 @@ void Sphere::computeChildrenRays(Ray *r) {
     // Move the starting pos out from the object a bit, to avoid infinite bounces in on point
     //r->reflectionRay = new Ray(reflectedDirection, intersectionAt + (intersectionNormal) * 0.00000001);
     if(transparent == true)
-        r->reflectionRay = new Ray(reflectedDirection, intersectionAt + (intersectionNormal) * 0.1);
+        r->reflectionRay = new Ray(reflectedDirection, intersectionAt + (intersectionNormal) * 0.10);
     else
-        r->reflectionRay = new Ray(reflectedDirection, intersectionAt + (intersectionNormal) * 0.01);
+        r->reflectionRay = new Ray(reflectedDirection, intersectionAt + (intersectionNormal) * 0.10);
 
     if(r->getInsideObject() == false){
         r->reflectionRay->setInsideObject(false);
