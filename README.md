@@ -5,9 +5,9 @@ A Whitted ray tracer developed during the course Globla Illumination and Renderi
 
 ## Supported Geometries
 
-Rectangles
-Boxes
-Spheres
+- Rectangles
+- Boxes
+- Spheres
 
 ## Renderings
 
