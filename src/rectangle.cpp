@@ -17,6 +17,7 @@ glm::dvec3 Rectangle::getNormal(){
     return glm::dvec3(normal.x, normal.y, normal.z);
 }
 
+// THIS FUNCTION NEEDS TO BE REFACTORED, LIKE A LOT REALLY
 glm::dvec3 Rectangle::calculateIntersections(glm::dvec3 direction, glm::dvec3 startingPoint, double size) {
     calcRectNormal();
     direction = glm::normalize(direction);

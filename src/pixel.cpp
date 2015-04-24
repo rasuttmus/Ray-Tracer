@@ -3,21 +3,6 @@
 Pixel::Pixel(int n, double s, int x,  int y, glm::dvec3 c):
 numberOfRays(n), pixelSize(s), pixelPosX(x), pixelPosY(y), cameraPos(c){}
 
-/*
-Pixel::~Pixel() {
-    for(std::vector<Ray*>::iterator it = rays.begin(); it != rays.end(); ) {
-        std::cout << "hej" << std::endl;
-        if(*it != NULL) {
-            std::cout << "inne" << std::endl;
-            std::cout << (*it)->getDirection().x << std::endl;
-            delete (*it);
-            std::cout << "deleted obj" << std::endl;
-            it = rays.erase(it);
-            std::cout << "iter deref" << std::endl;
-        }       
-    }
-}
-*/
 
 void Pixel::shootingRays() {
     glm::dvec3 direction;

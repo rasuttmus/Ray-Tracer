@@ -4,24 +4,6 @@ Ray::Ray(glm::dvec3 d, glm::dvec3 s):
 		 direction(d), startingPoint(s){
 }
 
-/*Ray::~Ray() {
-    //Ray *temp;
-    std::cout << "börja delete rays" << std::endl;
-    if(reflectionRay != NULL) {
-        //temp = reflectionRay;
-        std::cout << "börja delete reflectionRay" << std::endl;
-        delete reflectionRay;
-        std::cout << "klar delete reflectionRay" << std::endl;
-    }
-
-    if(refractionRay != NULL) {
-        std::cout << "börja delete refractionRay" << std::endl;
-        delete refractionRay;
-        std::cout << "klar delete refractionRay" << std::endl;
-    }
-    std::cout << "börja delete rays" << std::endl;
-}*/
-
 glm::dvec3 Ray::calculateColor(glm::dvec3 lightPos, int shadowRayType) {  
 
     double localContributionImportance = 1.0 - importance;

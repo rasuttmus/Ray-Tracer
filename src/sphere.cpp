@@ -90,10 +90,6 @@ void Sphere::computeChildrenRays(Ray *r) {
 		}
 	}
     glm::dvec3 reflectedDirection = -1.0 * (2.0 * (glm::dot(intersectionNormal,inDirection) * intersectionNormal) - inDirection);
-    
-    /*if(transparent == true)
-        r->reflectionRay = new Ray(reflectedDirection, intersectionAt + (intersectionNormal) * 0.10);
-    else*/
 
     r->reflectionRay = new Ray(reflectedDirection, intersectionAt + (intersectionNormal) * 0.000000001);
 

@@ -57,8 +57,6 @@ void calcRays(){
 
 void createScene() {
     
-    /* CHECK WHY THE ROOF IS GETTING SO DARK */
-
     // Create room
     Shape *room = new Room(glm::dvec3(0.8, 0.8, 0.8), 1.0, glm::dvec3(0.6, 0.6, 1.0), glm::dvec3(0.8, 0.8, 0.8), glm::dvec3(1.0, 0.6, 0.6), glm::dvec3(0.8, 0.8, 0.8), glm::dvec3(0.8, 0.8, 0.8));
 
@@ -70,10 +68,6 @@ void createScene() {
     int imageResolutionY = 640;
     int imageResolutionX = 360;
 
-    // 1:1 resolution
-    //int imageResolutionX = 512;
-    //int imageResolutionY = 512;
-
     // Create camera
     camera = new Camera(glm::dvec3(0.5, 0.2824858757, -2.0), cam_width, cam_height, imageResolutionX, imageResolutionY, 80);
 
@@ -83,26 +77,9 @@ void createScene() {
 
     camera->addShape(room);
 
-    //Create cube
-    //Shape *cube1 = new Cube(glm::dvec3(0.18, 0.17, -0.5), 0.2, false, glm::dvec3(0.6, 0.2, 1.0), 1.5);
-    //camera->addShape(cube1);
-
-    //Shape *sphere2 = new Sphere(glm::dvec3(0.4, 0.1, -0.6), 0.1, true, 1.5, glm::dvec3(1.0, 1.0, 1.0));
-    //camera->addShape(sphere2);
-
-    //Shape *sphere3 = new Sphere(glm::dvec3(0.3, 0.1, -0.4), 0.1, true, 1.5, glm::dvec3(1.0, 1.0, 1.0));
-    //camera->addShape(sphere3);
-
-    //Shape *sphere4 = new Sphere(glm::dvec3(0.5, 0.1, -0.4), 0.1, true, 1.5, glm::dvec3(1.0, 1.0, 1.0));
-    //camera->addShape(sphere4);
-
-    //Shape *sphere5 = new Sphere(glm::dvec3(0.7, 0.1, -0.4), 0.1, true, 1.5, glm::dvec3(1.0, 1.0, 1.0));
-    //camera->addShape(sphere5);
-
     Shape *sphere6 = new Sphere(glm::dvec3(0.7, 0.2, -0.5), 0.1, true, 1.5, glm::dvec3(1.0, 1.0, 1.0));
     camera->addShape(sphere6);
 
     Shape *sphere7 = new Sphere(glm::dvec3(0.3, 0.3, -0.4), 0.07, false, 1.5, glm::dvec3(1.0, 1.0, 1.0));
     camera->addShape(sphere7);
-
 }
