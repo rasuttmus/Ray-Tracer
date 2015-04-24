@@ -26,7 +26,6 @@ public:
     glm::dvec3 calculateIntersections(Ray *);
     void computeChildrenRays(Ray *);
     void addWall(Rectangle *);
-   // glm::dvec3 getIntersectionNormal();
 
     int getType();
     glm::dvec3 getColor(int);

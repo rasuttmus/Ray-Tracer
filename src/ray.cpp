@@ -4,36 +4,39 @@ Ray::Ray(glm::dvec3 d, glm::dvec3 s):
 		 direction(d), startingPoint(s){
 }
 
+/*Ray::~Ray() {
+    //Ray *temp;
+    std::cout << "börja delete rays" << std::endl;
+    if(reflectionRay != NULL) {
+        //temp = reflectionRay;
+        std::cout << "börja delete reflectionRay" << std::endl;
+        delete reflectionRay;
+        std::cout << "klar delete reflectionRay" << std::endl;
+    }
 
+    if(refractionRay != NULL) {
+        std::cout << "börja delete refractionRay" << std::endl;
+        delete refractionRay;
+        std::cout << "klar delete refractionRay" << std::endl;
+    }
+    std::cout << "börja delete rays" << std::endl;
+}*/
 
-glm::dvec3 Ray::calculateColor(glm::dvec3 lightPos, int shadowRayType) {
-    
+glm::dvec3 Ray::calculateColor(glm::dvec3 lightPos, int shadowRayType) {  
 
-    /* HÄR MECKAR VI!! SAKER Är BORTMARKERADE FÖR ATT TESTA ATT LOCALCONTRIBUTION ÄR FÖR HÖG OCH REFRACTED CONTRIBUTION ÄR FÖR LÅG!
-    */    
-
-    //debug
     double localContributionImportance = 1.0 - importance;
 
-    //recursive function thats goes through all child rays. 
     if(finalNode == true){
         color = importance * color + localContributionImportance * calculateLocalContribution(lightPos, shadowRayType) * color;
     }
     else if(finalNode == false && reflectionRay != NULL && refractionRay == NULL){
-        color = reflectionRay->calculateColor(lightPos, shadowRayType) * reflectionRay->importance * color * 80.0
+        color = reflectionRay->calculateColor(lightPos, shadowRayType) * reflectionRay->importance * color * 40.0
                  + localContributionImportance * calculateLocalContribution(lightPos, shadowRayType) * color;
     }
-    else if(finalNode == false && reflectionRay != NULL && refractionRay != NULL && !finalNode/*&& calculateLocalContribution(lightPos, shadowRayType).x > 0.0*/){
-        color = (reflectionRay->calculateColor(lightPos, shadowRayType) * reflectionRay->getImportance() * 80.0 + 
-                (refractionRay->getImportance()) * refractionRay->calculateColor(lightPos, shadowRayType) * 80.0) * color
+    else if(finalNode == false && reflectionRay != NULL && refractionRay != NULL && !finalNode){
+        color = (reflectionRay->calculateColor(lightPos, shadowRayType) * reflectionRay->getImportance() * 40.0 + 
+                (refractionRay->getImportance()) * refractionRay->calculateColor(lightPos, shadowRayType) * 40.0) * color
                 + localContributionImportance * calculateLocalContribution(lightPos, shadowRayType) * color;
-        //std::cout << "color (" << color.x << ", " << color.y << ", " << color.z << ")" << std::endl;
-        /*if(intersectionType == 1){
-            color = (reflectionRay->calculateColor(lightPos, shadowRayType) * reflectionRay->reflectedRadiance + 
-                (importance - reflectionRay->reflectedRadiance) * refractionRay->calculateColor(lightPos, shadowRayType)) * color;
-         } */
-    
-    //debug
     }
 
     return color;
@@ -50,16 +53,6 @@ glm::dvec3 Ray::calculateLocalContribution(glm::dvec3 lightPos, int shadowRayTyp
     glm::dvec3 invShadowRay = glm::normalize(intersectionPoint - lightPos);
     glm::dvec3 shadowRayReflection = glm::normalize(invShadowRay - 2 * (glm::dot(invShadowRay, intersectionNormal)) * intersectionNormal);
     glm::dvec3 viewDirection = glm::normalize(startingPoint - intersectionPoint);
-
-    //if shadowray does not intersect with lightsource
-    /*if(shadowRayType != 3){
-        return glm::dvec3(0.05, 0.05, 0.05);
-    }*/
-
-    /*if(acos(glm::dot(shadowRay, intersectionNormal)) < 3.14 / 2.0){
-        //std::cout << "theta: " << acos(glm::dot(shadowRay, intersectionNormal)) << std::endl;
-        return glm::dvec3(0.05, 0.05, 0.05);
-    }*/
 
     //calculate diffuse phong shading
     if(intersectionType == 2)

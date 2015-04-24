@@ -19,6 +19,7 @@ public:
     glm::dvec2 viewPlaneResolution;
     int raysPerPixel;
     std::vector<Pixel*> pixels;
+    std::vector<glm::dvec3> pixelColors;
     int imageResolutionX;
     int imageResolutionY;
 

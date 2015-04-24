@@ -11,8 +11,8 @@ CPPFLAGS=-g
 endif
 
 MKDIR = mkdir -p bin
-LIBFOLD = -L"/usr/lib"
-INCFOLD = -I"/usr/include"
+LIBFOLD = -L"/usr/local/lib"
+INCFOLD = -I"/usr/local/include"
 
 BINFOLD = bin/
 

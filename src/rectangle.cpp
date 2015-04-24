@@ -27,7 +27,7 @@ glm::dvec3 Rectangle::calculateIntersections(glm::dvec3 direction, glm::dvec3 st
     double d = glm::dot(corners.at(0) - startingPoint, normal)/glm::dot(direction, normal);
 
 
-    if(glm::dot(direction, normal) > 0.00001 || glm::dot(direction, normal) < -0.00001){
+    if(glm::dot(direction, normal) > 0.000000001 || glm::dot(direction, normal) < -0.000000001){
 
         possibleIntersection = d * direction + startingPoint;
 
@@ -89,8 +89,7 @@ glm::dvec3 Rectangle::calculateIntersections(glm::dvec3 direction, glm::dvec3 st
     return intersectionPoint;
 }
 void Rectangle::computeChildrenRays(Ray *ray, glm::dvec3 startingPoint) {
-    // Computation of children will be done for the objects built of rectangles (Cubes and Room)
- 
+    // Computation of children will be done for the objects built of rectangles (Cubes and Room) 
 }
 
 void Rectangle::addCorner(glm::dvec3 c) {

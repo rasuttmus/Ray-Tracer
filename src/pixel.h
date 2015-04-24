@@ -19,6 +19,8 @@ public:
 
     //constructor
     Pixel(int, double, int, int, glm::dvec3);
+   // ~Pixel();
+
     //Instance methods
     void shootingRays();
     void shootChildrenRays(Ray *, int);

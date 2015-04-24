@@ -12,8 +12,6 @@
 #define SPHERE_SHAPE 1
 #define ROOM_SHAPE 2
 
-//# define M_PI 3.14159265358979323846  /* pi */
-
 class Rectangle;
 
 class Cube: public Shape{

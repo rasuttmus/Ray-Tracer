@@ -13,8 +13,9 @@ public:
     Ray *reflectionRay = NULL;
     Ray *refractionRay = NULL;
 
-    //constructor
+    // Constructor
     Ray(glm::dvec3, glm::dvec3);
+    //~Ray();
     
     //Instance methods  
     glm::dvec3 calculateColor(glm::dvec3, int);

@@ -22,11 +22,11 @@ position(p), size(s)
 }
 
 void Room::initRectangles() {
-    addWall(new Rectangle(glm::dvec3(0.0, 1.0, -1.0), glm::dvec3(0.0, 1.0, 0.0), glm::dvec3(0.0, 0.0, 0.0), glm::dvec3(0.0, 0.0, -1.0)));
-    addWall(new Rectangle(glm::dvec3(0.0, 1.0, -1.0), glm::dvec3(1.0, 1.0, -1.0), glm::dvec3(1.0, 1.0, 0.0), glm::dvec3(0.0, 1.0, 0.0)));
-    addWall(new Rectangle(glm::dvec3(1.0, 1.0, 0.0), glm::dvec3(1.0, 1.0, -1.0), glm::dvec3(1.0, 0.0, -1.0), glm::dvec3(1.0, 0.0, 0.0)));
+    addWall(new Rectangle(glm::dvec3(0.0, 0.5649717514, -1.0), glm::dvec3(0.0, 0.5649717514, 0.0), glm::dvec3(0.0, 0.0, 0.0), glm::dvec3(0.0, 0.0, -1.0)));
+    addWall(new Rectangle(glm::dvec3(0.0, 0.5649717514, -1.0), glm::dvec3(1.0, 0.5649717514, -1.0), glm::dvec3(1.0, 0.5649717514, 0.0), glm::dvec3(0.0, 0.5649717514, 0.0)));
+    addWall(new Rectangle(glm::dvec3(1.0, 0.5649717514, 0.0), glm::dvec3(1.0, 0.5649717514, -1.0), glm::dvec3(1.0, 0.0, -1.0), glm::dvec3(1.0, 0.0, 0.0)));
     addWall(new Rectangle(glm::dvec3(0.0, 0.0, 0.0), glm::dvec3(1.0, 0.0, 0.0), glm::dvec3(1.0, 0.0, -1.0), glm::dvec3(0.0, 0.0, -1.0)));
-    addWall(new Rectangle(glm::dvec3(0.0, 1.0, 0.0), glm::dvec3(1.0, 1.0, 0.0), glm::dvec3(1.0, 0.0, 0.0), glm::dvec3(0.0, 0.0, 0.0)));
+    addWall(new Rectangle(glm::dvec3(0.0, 0.5649717514, 0.0), glm::dvec3(1.0, 0.5649717514, 0.0), glm::dvec3(1.0, 0.0, 0.0), glm::dvec3(0.0, 0.0, 0.0)));
 }
 
 glm::dvec3 Room::calculateIntersections(Ray *r) {
