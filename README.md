@@ -11,13 +11,13 @@ A Whitted ray tracer developed during the course Globla Illumination and Renderi
 
 ## Renderings
 
-If you cant to look at some renderings produced by this program. Go ahead and navigate to the ``renderings`` directory, where some .ppm files are located. These can be opened using, for example, photoshop.
+If you want to look at some renderings produced by this program. Go ahead and navigate to the ``renderings`` directory, where some .ppm files are located. These can be opened using, for example, photoshop.
 
 ## Building
 
 ### Compiling and running
 
-If you for some reason wants to run the program and have alot of spare time. The included Makefile only supports Mac OSX.
+The included Makefile only supports Mac OSX. If you for some reason wants to run the program and have alot of spare time.
 
 ``make && make run``
 
