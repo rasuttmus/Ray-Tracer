@@ -1,7 +1,7 @@
 Ray-Tracer
 ==========
 
-A Whitted ray tracer developed during the course Globla Illumination and Rendering (TNCG15) at Linköping University, written in C++. The computations are done on the CPU.
+A Whitted ray tracer developed during the course Global Illumination and Rendering (TNCG15) at Linköping University, written in C++. The computations are done on the CPU.
 
 ## Supported Geometries
 
@@ -11,7 +11,7 @@ A Whitted ray tracer developed during the course Globla Illumination and Renderi
 
 ## Renderings
 
-If you want to look at some renderings produced by this program. Go ahead and navigate to the ``renderings`` directory, where some .ppm files are located. These can be opened using, for example, photoshop.
+If you want to look at some renderings produced by this program. Go ahead and navigate to the ``renderings`` directory, where some .ppm files are located. These can be opened using for example photoshop.
 
 ## Building
 
@@ -39,6 +39,7 @@ Yes, we still try to develop this thing on our spare time
 - Add ray-polygon intersection support, enabling more creative geometries
 - Add support for multiple light sources
 - Add support for diffrent types of light sources
+- Parallelice the shooting rays loop
 - Extend to Monte-Carlo framework (this is the main objective)
 
 
